@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Clients | SmarTech Solutions</title>
+    <meta name="description" content="See the trusted clients and businesses that SmarTech Solutions has partnered with across India.">
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #f4f9f4;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .top-contact {
+            background-color: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 3rem 3rem 3rem 2rem;
+        }
+
+        .page-header {
+            max-width: 1200px;
+            margin: 2rem auto 2rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 3rem;
+            color: var(--green-dark);
+        }
+
+        .page-header p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-top: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* --- Clients Grid --- */
+        .clients-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 3rem 2rem;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .client-card {
+            background-color: #f9fbf9;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+            cursor: pointer;
+        }
+
+        .client-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(34, 139, 34, 0.15);
+        }
+
+        .client-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 3px solid var(--green-light);
+        }
+
+        .client-card-info {
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+        }
+
+        .client-card-info h3 {
+            font-size: 1.1rem;
+            color: var(--green-dark);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* --- Image Lightbox --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 3000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3rem;
+            color: #fff;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+            z-index: 3001;
+        }
+
+        .lightbox-close:hover {
+            color: var(--green-light);
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            object-fit: contain;
+        }
+
+        .lightbox-caption {
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-top: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 2rem;
+            margin-left: 250px;
+        }
+
+        footer p {
+            margin: 0.4rem 0;
+            opacity: 0.85;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+            header {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                top: auto;
+                bottom: auto;
+                height: auto;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.7rem;
+            }
+
+            nav ul li a {
+                width: auto;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.4rem;
+            }
+
+            .clients-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1.2rem;
+            }
+
+            .client-card-img {
+                height: 150px;
+            }
+
+            .client-card-info {
+                padding: 0.8rem 1rem;
+            }
+
+            .client-card-info h3 {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div hx-get="partials/top-contact.html" hx-trigger="load" hx-swap="outerHTML"></div> -->
+
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Our Clients</h1>
+            <div class="subtitle">TRUSTED BY BUSINESSES ACROSS INDIA</div>
+            <p>We take immense pride in our long-standing relationships with clients from diverse industries. Here are some of the businesses we've had the privilege of working with.</p>
+        </div>
+
+        <section class="clients-section">
+            <div class="clients-grid" id="clientsGrid">
+                <!-- Client cards will be generated dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox overlay -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightboxImg" src="" alt="Client">
+        <div id="lightboxCaption" class="lightbox-caption"></div>
+    </div>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        // Highlight active nav link after HTMX loads header
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+            if (evt.detail.target.tagName.toLowerCase() === 'header') {
+                const navLinks = document.querySelectorAll('header nav ul li a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === 'clients.html' || link.getAttribute('data-nav') === 'clients') {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // Client data — each entry has an image path and a display name
+        const clientsData = [
+            { img: "assets/clientspage/Teleline_Telecom.png", name: "Teleline Telecom" },
+            { img: "assets/clientspage/Suchi_Engineers.png", name: "Suchi Engineers" },
+            { img: "assets/clientspage/Suru09.png", name: "Suru09 Business Services" },
+            { img: "assets/clientspage/Maharashtra_Handball_Association.png", name: "Maharashtra Handball Association" },
+            { img: "assets/clientspage/Ideal_Institute_of_Technology.png", name: "Ideal Institute of Technology" },
+            { img: "assets/clientspage/Ideal_Institute_of_Architecture.png", name: "Ideal Institute of Architecture" },
+            { img: "assets/clientspage/ACSC_College_Wada.png", name: "ACSC College Wada" },
+            { img: "assets/clientspage/Arts_Commerce_Science_College_Onde.png", name: "Arts Commerce Science College Onde" },
+            { img: "assets/clientspage/Alphacom.png", name: "Alphacom" },
+            { img: "assets/clientspage/Ambhai_Farm_House.png", name: "Ambhai Farm House" },
+            { img: "assets/clientspage/Cafe_Mogambo.png", name: "Cafe Mogambo" },
+            { img: "assets/clientspage/Easy_Secure_System.png", name: "Easy Secure System" },
+            { img: "assets/clientspage/Evigo_Charge.png", name: "Evigo Charge" },
+            { img: "assets/clientspage/GS_Telecom.png", name: "GS Telecom" },
+            { img: "assets/clientspage/Hardrock_Trading_Services.png", name: "Hardrock Trading Services" },
+            { img: "assets/clientspage/Hill_View_Village.png", name: "Hill View Village" },
+            { img: "assets/clientspage/Industrial_Developers.png", name: "Industrial Developers" },
+            { img: "assets/clientspage/Ishaan_Dream_Holidays.png", name: "Ishaan Dream Holidays" },
+            { img: "assets/clientspage/Kidz_Urbania.png", name: "Kidz Urbania" },
+            { img: "assets/clientspage/Mauli_Project.png", name: "Mauli Project" },
+            { img: "assets/clientspage/Pratyam.png", name: "Pratyam" },
+            { img: "assets/clientspage/Rocktech_Engineers.png", name: "Rocktech Engineers" },
+            { img: "assets/clientspage/Unique_Engineers.png", name: "Unique Engineers" },
+            { img: "assets/clientspage/Client_26.png", name: "Client 26" },
+            { img: "assets/clientspage/Client_27.png", name: "Client 27" },
+            { img: "assets/clientspage/Client_28.png", name: "Client 28" },
+            { img: "assets/clientspage/Client_29.png", name: "Client 29" },
+            { img: "assets/clientspage/Client_30.png", name: "Client 30" },
+            { img: "assets/clientspage/Client_31.png", name: "Client 31" },
+            { img: "assets/clientspage/Client_32.png", name: "Client 32" },
+            { img: "assets/clientspage/Client_33.png", name: "Client 33" }
+        ];
+
+        // Dynamically generate client cards
+        const grid = document.getElementById('clientsGrid');
+        clientsData.forEach((client, index) => {
+            const cardHTML = `
+                <div class="client-card" onclick="openLightbox('${client.img}', '${client.name}')">
+                    <img class="client-card-img" src="${client.img}" alt="${client.name}">
+                    <div class="client-card-info">
+                        <h3>${client.name}</h3>
+                    </div>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', cardHTML);
+        });
+
+        // Lightbox functions
+        const lightbox = document.getElementById('lightbox');
+
+        function openLightbox(imgSrc, name) {
+            document.getElementById('lightboxImg').src = imgSrc;
+            document.getElementById('lightboxCaption').innerText = name;
+            lightbox.classList.add('show');
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+        }
+
+        // Close on clicking outside image
+        lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html>

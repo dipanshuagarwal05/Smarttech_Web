@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Grampanchayat | SmarTech Solutions</title>
+    <meta name="description" content="Digital Grampanchayat details and project information from SmarTech Solutions.">
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #f4f9f4;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .top-contact {
+            background-color: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 5rem 3rem 3rem 2rem;
+        }
+
+        .page-header {
+            max-width: 840px;
+            margin: 3rem auto 1.5rem 0;
+            padding: 0;
+            text-align: left;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 3rem;
+            color: var(--green-dark);
+        }
+
+        .page-header p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-top: 1rem;
+        }
+
+        .grampanchayat {
+            padding: 3rem 5%;
+            max-width: 1200px;
+            margin: auto;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .grampanchayat-grid {
+            display: grid;
+            grid-template-columns: 380px minmax(0, 1fr);
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .grampanchayat-image {
+            text-align: center;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(34, 139, 34, 0.12);
+            padding: 1rem;
+            background-color: #f7fff6;
+        }
+
+        .grampanchayat-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .grampanchayat-content {
+            color: #444;
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .grampanchayat-content p {
+            margin-bottom: 1.4rem;
+            text-align: justify;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 0.9rem 1.6rem;
+            background-color: var(--green-light);
+            color: var(--white);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        footer {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 2rem;
+            margin-left: 250px;
+        }
+
+        footer p {
+            margin: 0.4rem 0;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 992px) {
+            header {
+                position: static;
+                width: 100%;
+                box-shadow: none;
+                top: auto;
+                bottom: auto;
+                height: auto;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.7rem;
+            }
+
+            nav ul li a {
+                width: auto;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 8rem 1.5rem 2rem;
+            }
+
+            .grampanchayat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.4rem;
+            }
+
+            .grampanchayat {
+                padding: 2rem 2rem;
+            }
+
+            .contact {
+                padding: 2rem 2rem;
+            }
+
+            .top-contact {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div hx-get="partials/top-contact.html" hx-trigger="load" hx-swap="outerHTML"></div> -->
+
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <div class="page-header">
+            <h1>Digital Grampanchayat</h1>
+            <p>Digital Grampanchayat प्रकल्प ग्रामपंचायतींच्या डिजिटल रूपांतरणासाठी तयार केला आहे. या पेजवर तुम्हाला
+                प्रकल्पाची मुख्य सेवा आणि उद्दिष्टे स्पष्टपणे सापडतील.</p>
+        </div>
+
+        <section class="grampanchayat">
+            <div class="grampanchayat-grid">
+                <div class="grampanchayat-image">
+                    <img src="assets/grampanchayat/digital-grampanchayat.jpg" alt="Digital Grampanchayat">
+                    <a href="assets/grampanchayat/digital-grampanchayat.pdf" class="btn-secondary" download>Download
+                        Project PDF</a>
+                </div>
+                <div class="grampanchayat-content" id="grampanchayat-content-container">
+                    <p>Loading content...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        // Set active state for HTMX header
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+            if (evt.detail.target.tagName.toLowerCase() === 'header') {
+                const navLinks = document.querySelectorAll('header nav ul li a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === 'grampanchayat.html') {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // Dynamically load and format text content
+        fetch('digital_grampanchayat_marathi.txt')
+            .then(response => response.text())
+            .then(text => {
+                const lines = text.split('\n');
+                let html = '';
+                let inList = false;
+
+                for (let line of lines) {
+                    line = line.trim();
+                    if (!line) continue;
+
+                    if (line.startsWith('- ')) {
+                        if (!inList) {
+                            html += '<ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">';
+                            inList = true;
+                        }
+                        html += `<li style="margin-bottom: 0.5rem;">${line.substring(2)}</li>`;
+                    } else {
+                        if (inList) {
+                            html += '</ul>';
+                            inList = false;
+                        }
+
+                        if (line.includes(' : ')) {
+                            const parts = line.split(' : ');
+                            html += `<p><strong>${parts[0]} :</strong> ${parts[1]}</p>`;
+                        } else if (line.includes(': ')) {
+                            const parts = line.split(': ');
+                            html += `<p><strong>${parts[0]} :</strong> ${parts[1]}</p>`;
+                        } else {
+                            html += `<p>${line}</p>`;
+                        }
+                    }
+                }
+                if (inList) html += '</ul>';
+
+                document.getElementById('grampanchayat-content-container').innerHTML = html;
+            })
+            .catch(error => {
+                document.getElementById('grampanchayat-content-container').innerHTML = '<p>Error loading content.</p>';
+            });
+    </script>
+</body>
+
+</html>

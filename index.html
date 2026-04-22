@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmarTech Solutions | Web & App Development</title>
+    <meta name="description"
+        content="We are a Website Designing, Web Development, Digital Marketing Company. We provide many services like Web designing, Digital Marketing, Website development, Mobile app development.">
+    <style>
+        /* Green Color Palette Variants */
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --bg-light: #f4f9f4;
+        }
+
+        /* Base Styles */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(76, 187, 23, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 15px 15px rgba(76, 187, 23, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(76, 187, 23, 0);
+            }
+        }
+
+        /* --- Top Contact Bar --- */
+        .top-contact {
+            background-color: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+
+        .top-contact strong {
+            font-weight: 700;
+        }
+
+        /* --- Navbar / Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 2rem 1.5rem;
+            gap: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.98rem;
+            padding: 0.85rem 1rem;
+            border-radius: 16px;
+            background-color: #f2fbf2;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 6rem 3rem 3rem 2rem;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            padding: 0.9rem 1.6rem;
+            background-color: var(--green-light);
+            color: var(--white);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6rem 5%;
+            max-width: 1200px;
+            margin: auto;
+            background: linear-gradient(135deg, var(--green-accent) 0%, var(--bg-light) 100%);
+            border-radius: 20px;
+            margin-top: 2rem;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 3rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            color: var(--green-dark);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        .btn-main {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--green-main);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            animation: pulseGlow 2s infinite;
+        }
+
+        .btn-main:hover {
+            background-color: var(--green-dark);
+            transform: translateY(-3px);
+        }
+
+        .hero-img-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-slide {
+            display: none;
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(15, 56, 28, 0.2);
+            transform: scale(1.05);
+            transition: transform 0.5s ease;
+        }
+
+        .hero-slide.active {
+            display: block;
+            animation: fadeSlide 1.5s;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0.4
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        .hero-slide:hover {
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .slide-dots {
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 4px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .dot.active,
+        .dot:hover {
+            background-color: var(--green-main);
+        }
+
+        /* --- About Us Section (NEW) --- */
+        .about {
+            padding: 5rem 5%;
+            max-width: 1000px;
+            margin: 4rem auto;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+            animation: fadeInUp 1s ease-out 0.4s both;
+            border-top: 6px solid var(--green-main);
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .about-header h2 {
+            font-size: 2.8rem;
+            color: var(--green-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .about-header .subtitle {
+            color: var(--green-light);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            font-size: 1.1rem;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .about-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* --- Services Section --- */
+        .services {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .services-header h2 {
+            font-size: 2.5rem;
+            color: var(--green-dark);
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .services-header h2::after {
+            content: '';
+            width: 50%;
+            height: 4px;
+            background-color: var(--green-light);
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 5px solid var(--green-light);
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 40px rgba(34, 139, 34, 0.2);
+            background-color: var(--green-main);
+            color: var(--white);
+        }
+
+        .service-card:hover h3,
+        .service-card:hover p {
+            color: var(--white);
+        }
+
+        .service-card img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover img {
+            transform: scale(1.2);
+            filter: brightness(0) invert(1);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--green-dark);
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .service-card {
+            cursor: pointer;
+        }
+
+        .btn-view-more {
+            margin-top: 1.5rem;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--green-light);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-view-more:hover {
+            background-color: var(--green-main);
+        }
+
+        /* --- Service Modal --- */
+        .service-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .service-modal-content {
+            background-color: var(--white);
+            padding: 3rem;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 90%;
+            position: relative;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .service-modal.show .service-modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 2.5rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .service-modal-img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-modal-title {
+            font-size: 2rem;
+            color: var(--green-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-modal-desc {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .modal-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            border-top: 1px solid #eee;
+            padding-top: 2rem;
+        }
+
+        .modal-page-count {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #888;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .modal-nav-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--bg-light);
+            color: var(--green-dark);
+            border: 1px solid var(--green-light);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-nav-btn:hover {
+            background-color: var(--green-main);
+            color: var(--white);
+        }
+
+        /* --- Testimonials / Clients --- */
+        .clients {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 4rem auto;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .clients-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .clients-header h2 {
+            font-size: 2.8rem;
+            color: var(--green-dark);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .clients-header .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: #f9fbf9;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--green-main);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(34, 139, 34, 0.15);
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--green-light);
+        }
+
+        .testimonial-author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--green-dark);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-company {
+            color: var(--green-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .quote-icon {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 3rem;
+            color: rgba(34, 139, 34, 0.1);
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .footer-content p {
+            margin: 0.4rem 0;
+            opacity: 0.95;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 4rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+            margin-left: 250px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* --- Responsive Behavior --- */
+        @media (max-width: 992px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            .grampanchayat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 4rem 2rem;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 3rem;
+            }
+
+            .grampanchayat {
+                padding: 3rem 2rem;
+            }
+
+            .grampanchayat-image {
+                padding: 0.8rem;
+            }
+
+            .top-contact {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <div hx-get="partials/top-contact.html" hx-trigger="load" hx-swap="outerHTML"></div> -->
+
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-text">
+                <h1>Elevate Your Digital Presence</h1>
+                <p>We are a premier Website Designing, Web Development, and Digital Marketing Company. Let us transform
+                    your ideas into exceptional digital experiences.</p>
+                <a href="#contact" class="btn-main">Start Your Project</a>
+            </div>
+            <div class="hero-img-wrapper">
+                <img class="hero-slide active" src="assets/homesection/slide2.jpg" alt="Tech Team Collaborating">
+                <img class="hero-slide" src="assets/homesection/slide3.jpg" alt="Web Development">
+                <img class="hero-slide" src="assets/homesection/slide4.jpg" alt="Digital Services">
+                <img class="hero-slide" src="assets/homesection/slide5.jpg" alt="Tech Solutions">
+                <img class="hero-slide" src="assets/homesection/slide6.jpg" alt="Business Growth">
+                <div class="slide-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                    <span class="dot" onclick="currentSlide(5)"></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <div class="about-header">
+                <h2>About Us</h2>
+                <div class="subtitle">TRUSTED NAME FOR WEBSITE DEVELOPMENT</div>
+            </div>
+            <div class="about-content">
+                <p>We are an innovative company, based in India that provides a series of Web-based software
+                    applications that have helped customers create successful online initiatives. We provide all the
+                    services that a company needs to get online, from web designing to web hosting and above all website
+                    promotion in Google/Yahoo/MSN and other search engines.</p>
+                <p>We provide full featured web services including B2B & B2C E-Commerce Solutions. We acts as an
+                    offshore development center for overseas development firms. We take pride in providing a striking
+                    visual as well as communicative platform, which enables our esteemed customers to present their
+                    business profitably and effectively.</p>
+                <p>With thorough understanding of your business needs, and with innovative use of web-based
+                    technologies, SmarTech SoluTions becomes the best platform for the companies who wish to highlight
+                    their business presence on the web. Through our web services we are partner with you in generating
+                    more business, facilitating commercial activities on the web, developing new markets and reaching
+                    out to customers around the globe.</p>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="services-header">
+                <h2>Our Services</h2>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Service cards will be loaded here dynamically via JavaScript -->
+            </div>
+        </section>
+
+        <section id="clients" class="clients">
+            <div class="clients-header">
+                <h2>What Our Client Say's</h2>
+                <div class="subtitle">TESTIMONIALS</div>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">I have worked with Smartech Solutions for a little more than 1 year and
+                        am very pleased with their performance.</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Vithoba_Mahadik.jpg" alt="Vithoba Mahadik"
+                            class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Vithoba Mahadik</div>
+                            <div class="testimonial-company">Teleline Telecom</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">When it comes Software Services we always preferred Smartech Solutions.
+                        Working with Smartech Solutions feels like family.</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Santosh_Patil.jpg" alt="Santosh Patil" class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Santosh Patil</div>
+                            <div class="testimonial-company">Suchi Engineers</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">We are happy with Smartech Solutions worked. Excellent support and
+                        undoubtedly availability.</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Dr_Gautam.jpg" alt="Dr. Gautam" class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Dr. Gautam</div>
+                            <div class="testimonial-company">Perfect Smile Multispeciality Clinic</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">Our experience with Smartech Solutions was quite satisfactory and I
+                        would definitely recommend them for their offshore software development services.</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Mr_Sanjay_Nikam.jpg" alt="Mr. Sanjay Nikam"
+                            class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Mr. Sanjay Nikam</div>
+                            <div class="testimonial-company">Suru09 Business Services</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">We have been closely working with Smartech Solutions for our website
+                        development. It is great and comfortable working their team.</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Mr_Rakesh_Thakre.jpg" alt="Mr. Rakesh Thakre"
+                            class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Mr. Rakesh Thakre</div>
+                            <div class="testimonial-company">Handball Association Palghar</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">Everyone at Smartech Solutions has been wonderful to work with and our
+                        website is a million times better than it was. I would recommend Smartech Solutions to anyone!
+                    </p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Mr_Gopal_Bose.png" alt="Mr. Gopal Bose" class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Mr. Gopal Bose</div>
+                            <div class="testimonial-company">Yug Consultancy</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="quote-icon">"</span>
+                    <p class="testimonial-text">We brought Smartech solutions in to fix issues left by a previous
+                        developer, and they did an amazing job cleaning things up. Now our system runs smoothly, and
+                        they've also added new features with zero downtime. Very dependable!</p>
+                    <div class="testimonial-author-wrapper">
+                        <img src="assets/whatclientsay/Mr_Prashant_Kale.jpg" alt="Mr. Prashant Kale"
+                            class="testimonial-img">
+                        <div class="testimonial-author-info">
+                            <div class="testimonial-author">Mr. Prashant Kale</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Modal overlay -->
+        <div id="serviceModal" class="service-modal">
+            <div class="service-modal-content">
+                <span class="modal-close" onclick="closeServiceModal()">&times;</span>
+                <img id="modalIcon" class="service-modal-img" src="" alt="Service Icon">
+                <h2 id="modalTitle" class="service-modal-title"></h2>
+                <p id="modalDesc" class="service-modal-desc">We provide a complete website design and development which
+                    is accessed by users over a network such as the Internet or an intranet. It is a true form of art.
+                    The most important segment of web design is ascertaining the layout of the website. Our Expert
+                    designers have worked with numerous industries and have delivered 500 websites all over India which
+                    have been appreciated for creativity and uniqueness. Our designers integrate into development teams
+                    to create designs that anticipate and adapt to change. Get the best results from the latest
+                    technologies used.</p>
+                <div class="modal-nav">
+                    <button class="modal-nav-btn" onclick="changeServiceModal(-1)">&#10094; Previous</button>
+                    <div id="modalPageCount" class="modal-page-count"></div>
+                    <button class="modal-nav-btn" onclick="changeServiceModal(1)">Next &#10095;</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        // Update active class on nav links after HTMX load
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+            if (evt.detail.target.tagName.toLowerCase() === 'header') {
+                const navLinks = document.querySelectorAll('header nav ul li a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === 'index.html#home' || link.getAttribute('href') === '#home') {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        // Slideshow functionality
+        let slideIndex = 0;
+        let slideTimeout;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlides() {
+            if (slides.length === 0) return;
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove("active");
+                if (dots[i]) dots[i].classList.remove("active");
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }
+            slides[slideIndex - 1].classList.add("active");
+            if (dots[slideIndex - 1]) dots[slideIndex - 1].classList.add("active");
+            slideTimeout = setTimeout(showSlides, 3500); // Change image every 3.5 seconds
+        }
+
+        function currentSlide(n) {
+            clearTimeout(slideTimeout);
+            if (slides.length === 0) return;
+            slideIndex = n - 1;
+            showSlides();
+        }
+
+        showSlides();
+
+        // Service Modal Logic
+        let servicesData = [];
+
+        fetch('assets/data/services.json')
+            .then(response => response.json())
+            .then(data => {
+                servicesData = data;
+
+                // Generate outer cards dynamically from JSON
+                const grid = document.getElementById('servicesGrid');
+                grid.innerHTML = '';
+
+                data.forEach((service, index) => {
+                    const cardHTML = `
+                        <div class="service-card" onclick="openServiceModal(${index})">
+                            <img src="${service.icon}" alt="${service.title}">
+                            <h3>${service.title}</h3>
+                            <p>${service.shortDescription}</p>
+                            <button class="btn-view-more">View More</button>
+                        </div>
+                    `;
+                    grid.insertAdjacentHTML('beforeend', cardHTML);
+                });
+            })
+            .catch(error => console.error('Error loading services data:', error));
+
+        let currentModalIndex = 0;
+        const modal = document.getElementById("serviceModal");
+
+        function openServiceModal(index) {
+            if (servicesData.length === 0) return; // Wait until data is loaded
+            currentModalIndex = index;
+            updateModalContent();
+            modal.classList.add("show");
+        }
+
+        function closeServiceModal() {
+            modal.classList.remove("show");
+        }
+
+        function changeServiceModal(direction) {
+            currentModalIndex += direction;
+            if (currentModalIndex < 0) currentModalIndex = servicesData.length - 1;
+            if (currentModalIndex >= servicesData.length) currentModalIndex = 0;
+            updateModalContent();
+        }
+
+        function updateModalContent() {
+            const data = servicesData[currentModalIndex];
+            document.getElementById("modalIcon").src = data.icon;
+            document.getElementById("modalTitle").innerText = data.title;
+            document.getElementById("modalDesc").innerText = data.description;
+            document.getElementById("modalPageCount").innerText = `${currentModalIndex + 1} / ${servicesData.length}`;
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                closeServiceModal();
+            }
+        }
+    </script>
+</body>
+
+</html>
