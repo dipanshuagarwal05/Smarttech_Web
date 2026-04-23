@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System | SmarTech Solutions</title>
+    <meta name="description"
+        content="Complete School Management System Android app with Parent, Teacher, Admin Dashboard, Fees Collection and Notice Board features.">
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --sun-yellow: #f7c948;
+            --white: #ffffff;
+            --text-dark: #293235;
+            --text-soft: #5f6c72;
+            --bg-light: #f4f9f4;
+            --card-shadow: 0 16px 34px rgba(15, 56, 28, 0.1);
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 88% 8%, rgba(247, 201, 72, 0.16), transparent 30%),
+                radial-gradient(circle at 8% 22%, rgba(76, 187, 23, 0.14), transparent 25%),
+                linear-gradient(180deg, #f6fff3 0%, #f4f9f4 100%);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .top-contact {
+            background-color: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 6rem 2rem 3rem;
+            position: relative;
+        }
+
+        .page-wrap {
+            max-width: 1220px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .sms-hero {
+            position: relative;
+            border-radius: 24px;
+            background: linear-gradient(145deg, #f5fff5 0%, #ebf8eb 52%, #f8ffef 100%);
+            box-shadow: var(--card-shadow);
+            padding: 2.6rem 2.4rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+            gap: 1.8rem;
+            border: 1px solid rgba(34, 139, 34, 0.12);
+            overflow: hidden;
+        }
+
+        .sms-hero::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -84px;
+            top: -92px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76, 187, 23, 0.24), rgba(76, 187, 23, 0));
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            padding: 0.45rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(34, 139, 34, 0.12);
+        }
+
+        .hero-eyebrow .pulse-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: var(--green-main);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        .sms-hero h1 {
+            margin: 1rem 0 0.75rem;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            color: var(--green-dark);
+        }
+
+        .sms-hero p {
+            margin: 0;
+            color: var(--text-soft);
+            line-height: 1.7;
+            font-size: 1.04rem;
+            max-width: 62ch;
+        }
+
+        .hero-chip-row {
+            margin-top: 1.25rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+
+        .hero-chip {
+            border-radius: 999px;
+            padding: 0.55rem 0.9rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #315246;
+            background: #eaffea;
+            border: 1px solid rgba(34, 139, 34, 0.22);
+        }
+
+        .hero-visual {
+            border-radius: 20px;
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(230, 248, 230, 0.8));
+            border: 1px solid rgba(76, 187, 23, 0.2);
+            min-height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual::before,
+        .hero-visual::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .hero-visual::before {
+            width: 150px;
+            height: 150px;
+            background: rgba(247, 201, 72, 0.2);
+            right: -35px;
+            top: -35px;
+        }
+
+        .hero-visual::after {
+            width: 110px;
+            height: 110px;
+            background: rgba(34, 139, 34, 0.15);
+            left: -30px;
+            bottom: -40px;
+        }
+
+        .hero-visual svg {
+            width: min(100%, 320px);
+            height: auto;
+            position: relative;
+            z-index: 1;
+            animation: floatY 4.5s ease-in-out infinite;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 18px;
+            border: 1px solid rgba(34, 139, 34, 0.1);
+            padding: 1.2rem 1rem;
+            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 30px rgba(15, 56, 28, 0.13);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .stat-icon svg {
+            width: 21px;
+            height: 21px;
+            fill: currentColor;
+        }
+
+        .stat-title {
+            margin: 0;
+            color: var(--green-dark);
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            margin: 0;
+            color: var(--text-soft);
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .modules {
+            display: grid;
+            gap: 1.1rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .module-card {
+            border-radius: 20px;
+            padding: 1.25rem 1.2rem 1.25rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f9fff9 100%);
+            border: 1px solid rgba(34, 139, 34, 0.11);
+            box-shadow: 0 10px 28px rgba(15, 56, 28, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(130deg, rgba(76, 187, 23, 0.08), transparent 52%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .module-card:hover::before {
+            opacity: 1;
+        }
+
+        .module-head {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .module-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: var(--white);
+            background: linear-gradient(145deg, var(--green-dark), var(--green-main));
+            box-shadow: 0 7px 14px rgba(15, 56, 28, 0.22);
+            flex-shrink: 0;
+        }
+
+        .module-icon svg {
+            width: 23px;
+            height: 23px;
+            fill: currentColor;
+        }
+
+        .module-card h2 {
+            margin: 0;
+            font-size: 1.18rem;
+            color: var(--green-dark);
+            line-height: 1.35;
+        }
+
+        .module-card ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .module-card li {
+            position: relative;
+            padding-left: 1.45rem;
+            color: #3f4f56;
+            font-size: 0.93rem;
+            line-height: 1.55;
+        }
+
+        .module-card li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-main), var(--sun-yellow));
+            box-shadow: 0 0 0 3px rgba(76, 187, 23, 0.17);
+        }
+
+        .notice-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .notice-card {
+            border-radius: 20px;
+            padding: 1.25rem 1.2rem;
+            background: #ffffff;
+            border: 1px solid rgba(34, 139, 34, 0.13);
+            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.07);
+        }
+
+        .notice-card h3 {
+            margin: 0 0 0.65rem;
+            font-size: 1.08rem;
+            color: var(--green-dark);
+        }
+
+        .notice-card p {
+            margin: 0;
+            color: var(--text-soft);
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .notice-card ul {
+            margin: 0;
+            padding-left: 1rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 2rem;
+            margin-left: 250px;
+        }
+
+        footer p {
+            margin: 0.35rem 0;
+            opacity: 0.9;
+        }
+
+        @keyframes floatY {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(34, 139, 34, 0.4);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 8px rgba(34, 139, 34, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(34, 139, 34, 0);
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .quick-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 992px) {
+            header {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1005;
+            }
+
+            header.open {
+                transform: translateX(0);
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-header {
+                display: flex !important;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem 1.5rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0.7rem;
+            }
+
+            nav ul li a {
+                width: 100%;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 6rem 1.2rem 2rem;
+            }
+
+            .sms-hero {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.35rem;
+            }
+
+            .hero-visual {
+                min-height: 220px;
+            }
+
+            .modules {
+                grid-template-columns: 1fr;
+            }
+
+            .notice-row {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card,
+            .module-card,
+            .notice-card {
+                border-radius: 16px;
+            }
+
+            .sms-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div hx-get="partials/top-contact.html" hx-trigger="load" hx-swap="outerHTML"></div> -->
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <div class="page-wrap">
+            <section class="sms-hero reveal">
+                <div>
+                    <span class="hero-eyebrow">
+                        <span class="pulse-dot"></span>
+                        SmarTech Solutions
+                    </span>
+                    <h1>School Management System Android Application</h1>
+                    <p>
+                        A complete digital school platform with dedicated parent login, teacher login, admin dashboard,
+                        fees collection and notice board features. Every module is designed to make school communication,
+                        fees visibility, and record management faster and easier.
+                    </p>
+                    <div class="hero-chip-row">
+                        <span class="hero-chip">Parents Login</span>
+                        <span class="hero-chip">Teachers Login</span>
+                        <span class="hero-chip">Admin Dashboard</span>
+                        <span class="hero-chip">Fees Collection</span>
+                        <span class="hero-chip">Notice Board</span>
+                    </div>
+                </div>
+
+                <div class="hero-visual" aria-hidden="true">
+                    <svg viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="24" y="54" width="176" height="140" rx="16" fill="#ffffff" stroke="#228b22" stroke-width="4" />
+                        <rect x="42" y="76" width="140" height="14" rx="7" fill="#a3e4d7" />
+                        <rect x="42" y="102" width="120" height="10" rx="5" fill="#d9f2dd" />
+                        <rect x="42" y="120" width="105" height="10" rx="5" fill="#d9f2dd" />
+                        <rect x="42" y="138" width="116" height="10" rx="5" fill="#d9f2dd" />
+                        <circle cx="162" cy="162" r="22" fill="#4cbb17" />
+                        <path d="M152 161l7 7 13-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"
+                            stroke-linejoin="round" />
+
+                        <rect x="206" y="26" width="132" height="206" rx="20" fill="#0f381c" />
+                        <rect x="214" y="40" width="116" height="168" rx="14" fill="#f5fff5" />
+                        <rect x="232" y="62" width="80" height="50" rx="8" fill="#228b22" />
+                        <path d="M250 80h44M250 94h30" stroke="#fff" stroke-width="5" stroke-linecap="round" />
+                        <rect x="228" y="124" width="88" height="10" rx="5" fill="#c9eecf" />
+                        <rect x="228" y="140" width="78" height="10" rx="5" fill="#c9eecf" />
+                        <rect x="228" y="156" width="66" height="10" rx="5" fill="#c9eecf" />
+                        <circle cx="272" cy="194" r="8" fill="#f7c948" />
+                    </svg>
+                </div>
+            </section>
+
+            <section class="quick-stats">
+                <article class="stat-card reveal">
+                    <div class="stat-top">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.98 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                            </svg>
+                        </div>
+                        <h2 class="stat-title">Parents Module</h2>
+                    </div>
+                    <p class="stat-value">14 key features from attendance to transport details.</p>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-top">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm0 13L5 12.18v4.5l7 3.82 7-3.82v-4.5L12 16z" />
+                            </svg>
+                        </div>
+                        <h2 class="stat-title">Teachers Module</h2>
+                    </div>
+                    <p class="stat-value">Classroom, profile, attendance, results and timetable tools.</p>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-top">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                            </svg>
+                        </div>
+                        <h2 class="stat-title">Admin Dashboard</h2>
+                    </div>
+                    <p class="stat-value">Full control over records, notifications, events and operations.</p>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-top">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M21 6h-2V4c0-1.1-.9-2-2-2H3C1.9 2 1 2.9 1 4v13c0 1.1.9 2 2 2h2v2h14c1.1 0 2-.9 2-2V6zM3 17V4h14v13H3zm16 2H5v-1h12c1.1 0 2-.9 2-2V7h1v12zM5 8h10v2H5V8zm0 4h10v2H5v-2z" />
+                            </svg>
+                        </div>
+                        <h2 class="stat-title">Fees Collection</h2>
+                    </div>
+                    <p class="stat-value">Gateway payments, receipts, reminders and complete fee reports.</p>
+                </article>
+            </section>
+
+            <section class="modules">
+                <article class="module-card reveal">
+                    <div class="module-head">
+                        <div class="module-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z" />
+                            </svg>
+                        </div>
+                        <h2>A) Parents Login</h2>
+                    </div>
+                    <ul>
+                        <li>Login through application.</li>
+                        <li>Student attendance.</li>
+                        <li>Student fees with details.</li>
+                        <li>Chart and graph analysis of fees.</li>
+                        <li>View school gallery photos.</li>
+                        <li>View school event details.</li>
+                        <li>View school notification details.</li>
+                        <li>Parent notifications.</li>
+                        <li>View student report card.</li>
+                        <li>View student reports.</li>
+                        <li>View student remarks.</li>
+                        <li>View student complaints.</li>
+                        <li>View student homework.</li>
+                        <li>School transport with all details.</li>
+                    </ul>
+                </article>
+
+                <article class="module-card reveal">
+                    <div class="module-head">
+                        <div class="module-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zm-7 9.18v4.5L12 20.5l7-3.82v-4.5L12 16l-7-3.82z" />
+                            </svg>
+                        </div>
+                        <h2>B) Teachers Login</h2>
+                    </div>
+                    <ul>
+                        <li>Login details.</li>
+                        <li>Student profile system.</li>
+                        <li>View classroom details.</li>
+                        <li>View student fee structure.</li>
+                        <li>View student attendance.</li>
+                        <li>Upload student results.</li>
+                        <li>Give student complaints.</li>
+                        <li>Add student homework.</li>
+                        <li>Exam schedule.</li>
+                        <li>Class timetable.</li>
+                    </ul>
+                </article>
+
+                <article class="module-card reveal">
+                    <div class="module-head">
+                        <div class="module-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" />
+                            </svg>
+                        </div>
+                        <h2>C) Admin Dashboard</h2>
+                    </div>
+                    <ul>
+                        <li>Admin login.</li>
+                        <li>View student records.</li>
+                        <li>Provide login details to parents and teachers.</li>
+                        <li>Add or delete student fee structure.</li>
+                        <li>Add or delete student notifications.</li>
+                        <li>Add or delete school gallery images.</li>
+                        <li>Add or delete school notifications.</li>
+                        <li>Add or delete school events.</li>
+                        <li>Add or delete school teachers.</li>
+                        <li>Add or delete student and parent details.</li>
+                        <li>Print option for all records.</li>
+                        <li>Search students.</li>
+                        <li>School expenses management.</li>
+                        <li>School transport with all details.</li>
+                        <li>Chart and graph analysis of fees.</li>
+                    </ul>
+                </article>
+
+                <article class="module-card reveal">
+                    <div class="module-head">
+                        <div class="module-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M12 1a7 7 0 100 14 7 7 0 000-14zm1 7V4h-2v5h4V8h-2zm-7 9h12v2H6v-2z" />
+                            </svg>
+                        </div>
+                        <h2>D) Fees Collection</h2>
+                    </div>
+                    <ul>
+                        <li>Fees collection through parents.</li>
+                        <li>Fees notifications to all or individual parents.</li>
+                        <li>Payment gateway support.</li>
+                        <li>Fees receipt.</li>
+                        <li>Fees details.</li>
+                        <li>Print option for all records.</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section class="notice-row">
+                <article class="notice-card reveal">
+                    <h3>Others</h3>
+                    <p>General notice support for all parents and other school notifications.</p>
+                </article>
+                <article class="notice-card reveal">
+                    <h3>Notice Board</h3>
+                    <ul>
+                        <li>General notice to all.</li>
+                        <li>Notice for parents.</li>
+                        <li>Notice for teachers.</li>
+                    </ul>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        // Set active nav link after HTMX header load
+        document.body.addEventListener("htmx:afterSwap", function (evt) {
+            if (evt.detail.target.tagName.toLowerCase() !== "header") return;
+            const navLinks = document.querySelectorAll("header nav ul li a");
+            navLinks.forEach(function (link) {
+                if (link.getAttribute("data-nav") === "sms" || link.getAttribute("href") === "school-management-system.html") {
+                    link.classList.add("active");
+                }
+            });
+        });
+
+        // Lightweight reveal effect for cards and sections
+        const revealItems = document.querySelectorAll(".reveal");
+        const observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.14 });
+
+        revealItems.forEach(function (item) {
+            observer.observe(item);
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+SmarTech Solutions
+SCHOOL MANAGEMENT SYSTEM ANDROID APPLICATION.
+FOLLOWING LOGIN WILL PROVIDED TO:
+A) PARENTS:
+a. Login through application
+b. Students attendance
+c. Student’s fees with details
+d. Chart and graph analysis of fees
+e) view school gallery photo
+f) View school event details
+g) View school notification details
+h) parent notification
+i) view student report card
+j) view students report
+k) view student remark
+l) View student complaints
+m) View student home work
+n) school transport with all details
+
+B)TEACHERS:
+a. Login details
+b. student profile system
+c. View classroom details
+d. view student Fee structure
+e. View student attendance
+f. Upload student result
+g. To give student complaints
+h. Add student home work
+i. Exam scheduled
+j. class timetable
+
+C).ADMIN DASHBOARD:
+a. Admin login
+b. View student record
+c. Give login details to parents and teachers
+d. Add/delete student fee structure
+e. Add/delete student notification
+f. Add/delete school gallery image
+g. Add/delete school notification
+h. Add/delete school events
+i. Add/delete school teachers
+j. add/delete student/parents details
+k. print option for all records
+L. search students
+m. school expenses
+n. school transport with all details
+o. chart and graph analysis of fees
+
+D.FEES COLLECTION:
+a)Fees collection through parents
+b) fees notification to all/individual
+c)payment gateway
+4. Fees receipt
+5. Fees details
+6. print option for all records
+OTHERS: general notice to all parents and other notifications.
+NOTICE BOARD:
+a. General notice to all
+b. Notice for parents
+c. Notice for teachers
+Thanks
