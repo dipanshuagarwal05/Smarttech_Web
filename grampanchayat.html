@@ -435,6 +435,42 @@
             }
         }
 
+        /* --- Translate Button (Fixed) --- */
+        .translate-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green-main);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            padding: 0.65rem 1.1rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(34, 139, 34, 0.35);
+            transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+            text-decoration: none;
+        }
+
+        .translate-fab:hover {
+            background: var(--green-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(15, 56, 28, 0.4);
+        }
+
+        .translate-fab svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
     </style>
 </head>
 
@@ -521,6 +557,16 @@
 
     <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
+    <!-- Fixed Translate Button -->
+    <a id="translateFab" class="translate-fab" href="#" title="Translate page">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+        </svg>
+        <span id="translateLabel">Translate</span>
+    </a>
+
+    <div id="google_translate_element" style="display:none;"></div>
+
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script>
         // Set active state for HTMX header
@@ -534,6 +580,56 @@
                 });
             }
         });
+
+        // Translate FAB toggle
+        (function () {
+            var translated = false;
+            var fab = document.getElementById('translateFab');
+            var label = document.getElementById('translateLabel');
+
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'mr',
+                    includedLanguages: 'en,mr',
+                    autoDisplay: false
+                }, 'google_translate_element');
+            }
+            window.googleTranslateElementInit = googleTranslateElementInit;
+
+            function loadGoogleTranslate(cb) {
+                if (document.querySelector('script[src*="translate.google.com"]')) { cb && cb(); return; }
+                var s = document.createElement('script');
+                s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                s.async = true;
+                s.onload = cb;
+                document.body.appendChild(s);
+            }
+
+            function triggerTranslation(lang) {
+                var select = document.querySelector('.goog-te-combo');
+                if (select) {
+                    select.value = lang;
+                    select.dispatchEvent(new Event('change'));
+                }
+            }
+
+            fab.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (!translated) {
+                    loadGoogleTranslate(function () {
+                        setTimeout(function () { triggerTranslation('en'); }, 800);
+                    });
+                    label.textContent = 'Show Marathi';
+                    fab.style.background = 'var(--green-dark)';
+                    translated = true;
+                } else {
+                    triggerTranslation('mr');
+                    label.textContent = 'Translate';
+                    fab.style.background = '';
+                    translated = false;
+                }
+            });
+        })();
 
     </script>
 </body>
