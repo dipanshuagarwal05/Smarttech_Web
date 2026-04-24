@@ -1,0 +1,22 @@
+[
+    { "name": "Company 1", "dir": "assets/companies/client_images/c1.jpg", "link": "" },
+    { "name": "Company 2", "dir": "assets/companies/client_images/c2.jpg", "link": "" },
+    { "name": "Company 3", "dir": "assets/companies/client_images/c3.png", "link": "" },
+    { "name": "Company 4", "dir": "assets/companies/client_images/c4.png", "link": "" },
+    { "name": "Company 5", "dir": "assets/companies/client_images/c5.jpg", "link": "" },
+    { "name": "Company 6", "dir": "assets/companies/client_images/c6.png", "link": "" },
+    { "name": "Company 7", "dir": "assets/companies/client_images/c7.png", "link": "" },
+    { "name": "Company 9", "dir": "assets/companies/client_images/c9.png", "link": "" },
+    { "name": "Company 10", "dir": "assets/companies/client_images/c10.png", "link": "" },
+    { "name": "Company 11", "dir": "assets/companies/client_images/c11.png", "link": "" },
+    { "name": "Company 12", "dir": "assets/companies/client_images/c12.png", "link": "" },
+    { "name": "Company 13", "dir": "assets/companies/client_images/c13.jpeg", "link": "" },
+    { "name": "Company 14", "dir": "assets/companies/client_images/c14.png", "link": "" },
+    { "name": "Company 15", "dir": "assets/companies/client_images/c15.jpg", "link": "" },
+    { "name": "Company 16", "dir": "assets/companies/client_images/c16.jpg", "link": "" },
+    { "name": "Company 17", "dir": "assets/companies/client_images/c17.png", "link": "" },
+    { "name": "Company 18", "dir": "assets/companies/client_images/c18.jpg", "link": "" },
+    { "name": "Company 19", "dir": "assets/companies/client_images/c19.jpg", "link": "" },
+    { "name": "Company 20", "dir": "assets/companies/client_images/c20.png", "link": "" },
+    { "name": "Company 21", "dir": "assets/companies/client_images/c21.jpg", "link": "" }
+]
