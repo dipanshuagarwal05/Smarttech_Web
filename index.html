@@ -626,7 +626,10 @@
             background-color: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            overflow-y: auto;
+            padding: 2rem 0;
+            box-sizing: border-box;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -647,6 +650,7 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
             transform: scale(0.9);
             transition: transform 0.3s ease;
+            align-self: center;
         }
 
         .service-modal.show .service-modal-content {
@@ -662,6 +666,7 @@
             cursor: pointer;
             transition: color 0.3s;
             line-height: 1;
+            z-index: 10;
         }
 
         .modal-close:hover {
@@ -671,7 +676,7 @@
         .service-modal-img {
             width: 80px;
             height: 80px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .service-modal-title {
@@ -905,6 +910,7 @@
             place-items: center;
             cursor: pointer;
             transition: transform 0.25s ease, box-shadow 0.25s ease;
+            overflow: hidden;
         }
 
         .company-item:hover,
@@ -942,8 +948,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            overflow-y: auto;
-            padding: 2rem 0;
+            /* overflow intentionally omitted – viewer is fullscreen; card handles its own scroll */
             opacity: 0;
             transition: opacity 0.25s ease;
         }
@@ -961,13 +966,14 @@
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            margin-top: 1rem;
             padding: 0 1rem;
             box-sizing: border-box;
+            overflow-y: auto;
+            max-height: calc(100vh - 4rem);
         }
 
         .company-viewer-close {
-            position: fixed;
+            position: absolute;
             top: 20px;
             right: 30px;
             border: 0;
@@ -991,18 +997,26 @@
             flex-shrink: 0;
         }
 
-        .company-viewer-actions {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            width: 100%;
-            margin-top: 1rem;
+        .company-viewer-link {
+            display: inline-block;
+            margin-top: 0.25rem;
+            padding: 0.6rem 1.5rem;
+            background-color: var(--green-light);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .company-viewer-link:hover {
+            background-color: var(--green-main);
+            transform: translateY(-2px);
         }
 
         .company-viewer-nav {
-            position: fixed;
+            position: absolute;
             top: 50%;
             transform: translateY(-50%);
             font-size: 3rem;
@@ -1043,24 +1057,6 @@
             font-size: 1.05rem;
             letter-spacing: 1px;
             margin: 0;
-        }
-
-        .company-viewer-link {
-            display: inline-block;
-            margin-top: 0.25rem;
-            padding: 0.6rem 1.5rem;
-            background-color: var(--green-light);
-            color: var(--white);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .company-viewer-link:hover {
-            background-color: var(--green-main);
-            transform: translateY(-2px);
         }
 
         /* --- Career Section --- */
@@ -1468,11 +1464,6 @@
                 padding: 0.5rem 0.9rem;
             }
 
-            .company-viewer-actions {
-                margin-top: 0.5rem;
-                gap: 1.25rem;
-            }
-
             .company-viewer-close {
                 top: 12px;
                 right: 16px;
@@ -1502,6 +1493,23 @@
             opacity: 1;
         }
 
+        @keyframes contactBounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.65) translateY(-40px);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.04) translateY(0);
+            }
+            80% {
+                transform: scale(0.97);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
         .contact-modal-content {
             background-color: var(--white);
             padding: 2.5rem 3rem;
@@ -1515,7 +1523,7 @@
         }
 
         .contact-modal.show .contact-modal-content {
-            transform: scale(1);
+            animation: contactBounceIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
         .contact-modal-close {
@@ -1912,16 +1920,14 @@
         </div>
 
         <div id="companyViewer" class="company-viewer" aria-hidden="true">
+            <button type="button" class="company-viewer-close" id="companyViewerClose" aria-label="Close viewer">&times;</button>
+            <button type="button" class="company-viewer-nav prev" id="companyViewerPrev">&#10094;</button>
+            <button type="button" class="company-viewer-nav next" id="companyViewerNext">&#10095;</button>
             <div class="company-viewer-card" role="dialog" aria-modal="true" aria-label="Company image viewer">
-                <button type="button" class="company-viewer-close" id="companyViewerClose" aria-label="Close viewer">&times;</button>
                 <img id="companyViewerImage" class="company-viewer-image" src="" alt="">
                 <p id="companyViewerCaption" class="company-viewer-caption"></p>
                 <div id="companyViewerCount" class="company-viewer-count"></div>
                 <a id="companyViewerLink" class="company-viewer-link" href="#" target="_blank" rel="noopener noreferrer">Visit Website</a>
-                <div class="company-viewer-actions">
-                    <button type="button" class="company-viewer-nav prev" id="companyViewerPrev">&#10094;</button>
-                    <button type="button" class="company-viewer-nav next" id="companyViewerNext">&#10095;</button>
-                </div>
             </div>
         </div>
     </main>
