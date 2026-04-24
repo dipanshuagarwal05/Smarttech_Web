@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Journey | SmarTech Solutions</title>
+    <meta name="description"
+        content="Explore the career journey of SmarTech Solutions, from website projects to Android apps, digital marketing, and ERP solutions.">
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #293235;
+            --text-soft: #5f6c72;
+            --bg-light: #f4f9f4;
+            --surface: #ffffff;
+            --border: rgba(34, 139, 34, 0.1);
+            --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .top-contact {
+            background-color: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1002;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 3rem 2rem 3rem;
+            position: relative;
+        }
+
+        .page-wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .page-header {
+            max-width: 860px;
+            margin: 2rem auto 0.5rem;
+            text-align: center;
+        }
+
+        .page-header .subtitle {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--green-main);
+            margin-bottom: 0.7rem;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: clamp(2.3rem, 4vw, 3.2rem);
+            color: var(--green-dark);
+        }
+
+        .page-header p {
+            color: var(--text-soft);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: 1rem auto 0;
+            max-width: 760px;
+        }
+
+        .career-hero {
+            position: relative;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(163, 228, 215, 0.18), rgba(255, 255, 255, 0.98));
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 1.5rem;
+            overflow: hidden;
+        }
+
+        .career-hero::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            right: -80px;
+            top: -80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76, 187, 23, 0.16), rgba(76, 187, 23, 0));
+            pointer-events: none;
+        }
+
+        .hero-copy,
+        .hero-side,
+        .panel,
+        .closing-panel {
+            position: relative;
+            z-index: 1;
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 22px rgba(15, 56, 28, 0.06);
+        }
+
+        .hero-copy {
+            padding: 1.5rem;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.6px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(34, 139, 34, 0.12);
+        }
+
+        .hero-copy h2 {
+            margin: 1rem 0 0.75rem;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            line-height: 1.15;
+            color: var(--green-dark);
+        }
+
+        .hero-copy p {
+            margin: 0;
+            color: var(--text-soft);
+            line-height: 1.75;
+            font-size: 1.02rem;
+        }
+
+        .career-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            margin-top: 1.4rem;
+        }
+
+        .btn-main,
+        .btn-secondary {
+            display: inline-block;
+            padding: 0.95rem 1.45rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .btn-main {
+            background-color: var(--green-main);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background-color: #f3fbf4;
+            color: var(--green-dark);
+            border: 1px solid rgba(34, 139, 34, 0.12);
+        }
+
+        .btn-main:hover,
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero-side {
+            padding: 1.2rem;
+        }
+
+        .career-stats {
+            display: grid;
+            gap: 0.95rem;
+        }
+
+        .career-stat {
+            padding: 1rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .career-stat strong {
+            display: block;
+            color: var(--green-dark);
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .career-stat span {
+            display: block;
+            color: var(--text-soft);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .section-card {
+            background: var(--surface);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .section-title {
+            margin: 0 0 1rem;
+            color: var(--green-dark);
+            font-size: 1.55rem;
+        }
+
+        .section-note {
+            margin: 0 0 1.25rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .career-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 1.5rem;
+        }
+
+        .career-timeline {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .career-step {
+            position: relative;
+            padding: 1rem 1rem 1rem 1.15rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .career-step::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            bottom: 1rem;
+            width: 4px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, var(--green-main), var(--green-light));
+        }
+
+        .step-year {
+            display: inline-block;
+            margin-bottom: 0.45rem;
+            color: var(--green-main);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .career-step h3 {
+            margin: 0 0 0.4rem;
+            color: var(--green-dark);
+            font-size: 1.05rem;
+        }
+
+        .career-step p {
+            margin: 0;
+            color: var(--text-soft);
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .career-values {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .career-values li {
+            position: relative;
+            padding-left: 1.45rem;
+            color: #4a5459;
+            line-height: 1.6;
+        }
+
+        .career-values li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+        }
+
+        .career-openings {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .opening-card {
+            padding: 1rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .opening-card h3 {
+            margin: 0 0 0.3rem;
+            color: var(--green-dark);
+            font-size: 1.02rem;
+        }
+
+        .opening-meta {
+            margin: 0 0 0.6rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1.1px;
+        }
+
+        .opening-card p {
+            margin: 0;
+            color: var(--text-soft);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .closing-panel {
+            padding: 1.6rem;
+            text-align: center;
+        }
+
+        .closing-panel h3 {
+            margin: 0 0 0.6rem;
+            color: var(--green-dark);
+            font-size: 1.35rem;
+        }
+
+        .closing-panel p {
+            margin: 0 auto;
+            max-width: 760px;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        footer {
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 4rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+            margin-left: 250px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 992px) {
+            header {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1005;
+            }
+
+            header.open {
+                transform: translateX(0);
+                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .mobile-header {
+                display: flex !important;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 6rem 1.5rem 2rem 1.5rem;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .career-hero,
+            .career-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .career-actions {
+                flex-direction: column;
+            }
+
+            .btn-main,
+            .btn-secondary {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <div class="page-wrap">
+            <div class="page-header">
+                <span class="subtitle">Career</span>
+                <h1>How SmarTech Grew</h1>
+                <p>Sample career content that follows the way the rest of the site is presented. It starts with the
+                    early website work, then moves through growth into mobile apps, digital marketing, and ERP
+                    solutions.</p>
+            </div>
+
+            <section class="career-hero">
+                <div class="hero-copy">
+                    <div class="hero-eyebrow" id="careerEyebrow">Career Journey</div>
+                    <h2 id="careerHeadline">From a small web team to a full digital solutions partner</h2>
+                    <p id="careerIntro">This is sample career content shaped around the services and client base shown
+                        on the site. It reflects how SmarTech Solutions could have started with simple website
+                        projects, then grown into Android apps, digital marketing, ERP solutions, and long-term
+                        support for businesses across multiple industries.</p>
+                    <div class="career-actions">
+                        <a href="index.html#contact" class="btn-main">Talk to Us</a>
+                        <a href="index.html#about" class="btn-secondary">View About Us</a>
+                    </div>
+                </div>
+                <div class="hero-side">
+                    <div class="career-stats" id="careerStats"></div>
+                </div>
+            </section>
+
+            <section class="career-grid">
+                <div class="section-card">
+                    <h2 class="section-title">Our Journey</h2>
+                    <p class="section-note">A simple sample timeline showing how the company could have expanded from
+                        basic web projects into broader digital services.</p>
+                    <div class="career-timeline" id="careerTimeline"></div>
+                </div>
+
+                <div>
+                    <div class="section-card">
+                        <h2 class="section-title">What We Value</h2>
+                        <p class="section-note">A few working values that fit the style of the site and the kind of
+                            client relationships shown in the testimonials.</p>
+                        <ul class="career-values" id="careerValues"></ul>
+                    </div>
+
+                    <div class="section-card" style="margin-top: 1.5rem;">
+                        <h2 class="section-title">Sample Openings</h2>
+                        <p class="section-note">These are placeholder roles for now and can be replaced with actual
+                            openings later.</p>
+                        <div class="career-openings" id="careerOpenings"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="closing-panel">
+                <h3 id="careerClosingTitle">Want to grow with us?</h3>
+                <p id="careerClosingText">This section is sample content for now. When you are ready, it can be
+                    replaced with real openings, an application form, and a hiring process tailored to your team.</p>
+            </section>
+        </div>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function (evt) {
+            if (evt.detail.target.tagName.toLowerCase() === 'header') {
+                const navLinks = document.querySelectorAll('header nav ul li a');
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === 'career.html' || link.getAttribute('data-nav') === 'career') {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+
+        function renderCareer(data) {
+            const eyebrow = document.getElementById('careerEyebrow');
+            const stats = document.getElementById('careerStats');
+            const timeline = document.getElementById('careerTimeline');
+            const values = document.getElementById('careerValues');
+            const openings = document.getElementById('careerOpenings');
+            const headline = document.getElementById('careerHeadline');
+            const intro = document.getElementById('careerIntro');
+            const closingTitle = document.getElementById('careerClosingTitle');
+            const closingText = document.getElementById('careerClosingText');
+
+            if (eyebrow && data.hero && data.hero.eyebrow) eyebrow.textContent = data.hero.eyebrow;
+            if (headline && data.hero && data.hero.title) headline.textContent = data.hero.title;
+            if (intro && data.hero && data.hero.intro) intro.textContent = data.hero.intro;
+            if (closingTitle && data.closing && data.closing.title) closingTitle.textContent = data.closing.title;
+            if (closingText && data.closing && data.closing.text) closingText.textContent = data.closing.text;
+
+            if (stats) {
+                stats.innerHTML = '';
+                (data.stats || []).forEach(item => {
+                    stats.insertAdjacentHTML('beforeend', `
+                        <div class="career-stat">
+                            <strong>${item.value}</strong>
+                            <span>${item.label}</span>
+                        </div>
+                    `);
+                });
+            }
+
+            if (timeline) {
+                timeline.innerHTML = '';
+                (data.journey || []).forEach(item => {
+                    timeline.insertAdjacentHTML('beforeend', `
+                        <div class="career-step">
+                            <span class="step-year">${item.year}</span>
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    `);
+                });
+            }
+
+            if (values) {
+                values.innerHTML = '';
+                (data.values || []).forEach(item => {
+                    values.insertAdjacentHTML('beforeend', `<li>${item}</li>`);
+                });
+            }
+
+            if (openings) {
+                openings.innerHTML = '';
+                (data.openings || []).forEach(item => {
+                    openings.insertAdjacentHTML('beforeend', `
+                        <div class="opening-card">
+                            <h3>${item.title}</h3>
+                            <div class="opening-meta">${item.type} | ${item.location}</div>
+                            <p>${item.description}</p>
+                        </div>
+                    `);
+                });
+            }
+        }
+
+        fetch('assets/data/career.json')
+            .then(response => response.json())
+            .then(renderCareer)
+            .catch(error => console.error('Error loading career data:', error));
+    </script>
+</body>
+
+</html>

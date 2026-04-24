@@ -18,18 +18,18 @@
             --text-dark: #293235;
             --text-soft: #5f6c72;
             --bg-light: #f4f9f4;
-            --card-shadow: 0 16px 34px rgba(15, 56, 28, 0.1);
+            --surface: #ffffff;
+            --surface-alt: #f9fbf9;
+            --border: rgba(34, 139, 34, 0.1);
+            --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
         }
 
         html,
         body {
             margin: 0;
             padding: 0;
-            font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background:
-                radial-gradient(circle at 88% 8%, rgba(247, 201, 72, 0.16), transparent 30%),
-                radial-gradient(circle at 8% 22%, rgba(76, 187, 23, 0.14), transparent 25%),
-                linear-gradient(180deg, #f6fff3 0%, #f4f9f4 100%);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
             color: var(--text-dark);
             overflow-x: hidden;
             scroll-behavior: smooth;
@@ -105,39 +105,39 @@
 
         main {
             margin-left: 250px;
-            padding: 6rem 2rem 3rem;
+            padding: 3rem 2rem 3rem;
             position: relative;
         }
 
         .page-wrap {
-            max-width: 1220px;
+            max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .sms-hero {
             position: relative;
-            border-radius: 24px;
-            background: linear-gradient(145deg, #f5fff5 0%, #ebf8eb 52%, #f8ffef 100%);
+            border-radius: 20px;
+            background: var(--surface);
             box-shadow: var(--card-shadow);
-            padding: 2.6rem 2.4rem;
+            padding: 2.2rem;
             display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
+            grid-template-columns: minmax(0, 1.08fr) minmax(260px, 0.92fr);
             gap: 1.8rem;
-            border: 1px solid rgba(34, 139, 34, 0.12);
+            border: 1px solid var(--border);
             overflow: hidden;
         }
 
         .sms-hero::after {
             content: "";
             position: absolute;
-            width: 220px;
-            height: 220px;
-            right: -84px;
-            top: -92px;
+            width: 180px;
+            height: 180px;
+            right: -64px;
+            top: -64px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(76, 187, 23, 0.24), rgba(76, 187, 23, 0));
+            background: radial-gradient(circle, rgba(76, 187, 23, 0.12), rgba(76, 187, 23, 0));
             pointer-events: none;
         }
 
@@ -191,14 +191,14 @@
             font-size: 0.82rem;
             font-weight: 600;
             color: #315246;
-            background: #eaffea;
-            border: 1px solid rgba(34, 139, 34, 0.22);
+            background: #f3fbf4;
+            border: 1px solid rgba(34, 139, 34, 0.14);
         }
 
         .hero-visual {
             border-radius: 20px;
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(230, 248, 230, 0.8));
-            border: 1px solid rgba(76, 187, 23, 0.2);
+            background: linear-gradient(180deg, #ffffff 0%, #f7fff7 100%);
+            border: 1px solid var(--border);
             min-height: 240px;
             display: flex;
             align-items: center;
@@ -219,7 +219,7 @@
         .hero-visual::before {
             width: 150px;
             height: 150px;
-            background: rgba(247, 201, 72, 0.2);
+            background: rgba(76, 187, 23, 0.12);
             right: -35px;
             top: -35px;
         }
@@ -227,7 +227,7 @@
         .hero-visual::after {
             width: 110px;
             height: 110px;
-            background: rgba(34, 139, 34, 0.15);
+            background: rgba(15, 56, 28, 0.08);
             left: -30px;
             bottom: -40px;
         }
@@ -247,11 +247,11 @@
         }
 
         .stat-card {
-            background: var(--white);
+            background: var(--surface);
             border-radius: 18px;
-            border: 1px solid rgba(34, 139, 34, 0.1);
+            border: 1px solid var(--border);
             padding: 1.2rem 1rem;
-            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.07);
+            box-shadow: 0 10px 22px rgba(15, 56, 28, 0.06);
             transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
@@ -307,9 +307,9 @@
         .module-card {
             border-radius: 20px;
             padding: 1.25rem 1.2rem 1.25rem;
-            background: linear-gradient(180deg, #ffffff 0%, #f9fff9 100%);
-            border: 1px solid rgba(34, 139, 34, 0.11);
-            box-shadow: 0 10px 28px rgba(15, 56, 28, 0.08);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.06);
             position: relative;
             overflow: hidden;
         }
@@ -318,7 +318,7 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: linear-gradient(130deg, rgba(76, 187, 23, 0.08), transparent 52%);
+            background: linear-gradient(130deg, rgba(76, 187, 23, 0.06), transparent 52%);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -385,7 +385,7 @@
             height: 8px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--green-main), var(--sun-yellow));
-            box-shadow: 0 0 0 3px rgba(76, 187, 23, 0.17);
+            box-shadow: 0 0 0 3px rgba(76, 187, 23, 0.12);
         }
 
         .notice-row {
@@ -397,9 +397,9 @@
         .notice-card {
             border-radius: 20px;
             padding: 1.25rem 1.2rem;
-            background: #ffffff;
-            border: 1px solid rgba(34, 139, 34, 0.13);
-            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.07);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.06);
         }
 
         .notice-card h3 {
@@ -515,12 +515,12 @@
 
             main {
                 margin-left: 0;
-                padding: 6rem 1.2rem 2rem;
+                padding: 5rem 1.2rem 2rem;
             }
 
             .sms-hero {
                 grid-template-columns: 1fr;
-                padding: 2rem 1.35rem;
+                padding: 1.6rem;
             }
 
             .hero-visual {
@@ -551,6 +551,10 @@
                 border-radius: 16px;
             }
 
+            .sms-hero {
+                padding: 1.35rem;
+            }
+
             .sms-hero h1 {
                 font-size: 1.8rem;
             }
@@ -566,10 +570,10 @@
         <div class="page-wrap">
             <section class="sms-hero reveal">
                 <div>
-                    <span class="hero-eyebrow">
+                    <!-- <span class="hero-eyebrow">
                         <span class="pulse-dot"></span>
                         SmarTech Solutions
-                    </span>
+                    </span> -->
                     <h1>School Management System Android Application</h1>
                     <p>
                         A complete digital school platform with dedicated parent login, teacher login, admin dashboard,

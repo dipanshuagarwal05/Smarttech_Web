@@ -814,6 +814,271 @@
             font-weight: 600;
         }
 
+        /* --- Career Section --- */
+        .career {
+            position: relative;
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 4rem auto;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 255, 247, 0.98)),
+                linear-gradient(135deg, rgba(163, 228, 215, 0.18), rgba(76, 187, 23, 0.08));
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(34, 139, 34, 0.08);
+            overflow: hidden;
+        }
+
+        .career::before,
+        .career::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .career::before {
+            width: 220px;
+            height: 220px;
+            right: -80px;
+            top: -80px;
+            background: radial-gradient(circle, rgba(76, 187, 23, 0.16), rgba(76, 187, 23, 0));
+        }
+
+        .career::after {
+            width: 160px;
+            height: 160px;
+            left: -60px;
+            bottom: -70px;
+            background: radial-gradient(circle, rgba(15, 56, 28, 0.08), rgba(15, 56, 28, 0));
+        }
+
+        .career-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .career-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .career-header h2 {
+            margin: 0 0 0.75rem;
+            font-size: 2.8rem;
+            color: var(--green-dark);
+        }
+
+        .career-header .subtitle {
+            font-size: 1.05rem;
+            color: var(--green-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .career-header p {
+            margin: 1rem auto 0;
+            max-width: 820px;
+            color: #5b6469;
+            font-size: 1.05rem;
+            line-height: 1.75;
+            text-align: center;
+        }
+
+        .career-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+            gap: 1.5rem;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .career-story,
+        .career-side,
+        .career-panel,
+        .career-closing {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.06);
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .career-story h3,
+        .career-panel h3,
+        .career-closing h3 {
+            margin: 0 0 0.75rem;
+            color: var(--green-dark);
+            font-size: 1.4rem;
+        }
+
+        .career-story p,
+        .career-closing p {
+            margin: 0;
+            color: #5b6469;
+            line-height: 1.75;
+            font-size: 1rem;
+        }
+
+        .career-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            margin-top: 1.5rem;
+        }
+
+        .career-actions .btn-secondary,
+        .career-actions .btn-main {
+            padding-left: 1.35rem;
+            padding-right: 1.35rem;
+        }
+
+        .career-stats {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .career-stat {
+            padding: 1rem 1rem 1.05rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .career-stat strong {
+            display: block;
+            color: var(--green-dark);
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .career-stat span {
+            display: block;
+            color: #5b6469;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .career-content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .career-timeline {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .career-step {
+            position: relative;
+            padding: 1rem 1rem 1rem 1.15rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .career-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            bottom: 1rem;
+            width: 4px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, var(--green-main), var(--green-light));
+        }
+
+        .career-step .step-year {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--green-main);
+            margin-bottom: 0.45rem;
+        }
+
+        .career-step h4 {
+            margin: 0 0 0.45rem;
+            color: var(--green-dark);
+            font-size: 1.08rem;
+        }
+
+        .career-step p {
+            margin: 0;
+            color: #5b6469;
+            line-height: 1.65;
+            font-size: 0.95rem;
+        }
+
+        .career-values {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .career-values li {
+            position: relative;
+            padding-left: 1.45rem;
+            color: #4a5459;
+            line-height: 1.6;
+        }
+
+        .career-values li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+        }
+
+        .career-openings {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .opening-card {
+            padding: 1rem 1rem 1.05rem;
+            border-radius: 16px;
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .opening-card h4 {
+            margin: 0 0 0.3rem;
+            color: var(--green-dark);
+            font-size: 1.05rem;
+        }
+
+        .opening-meta {
+            margin: 0 0 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .opening-card p {
+            margin: 0;
+            color: #5b6469;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .career-closing {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
         .quote-icon {
             position: absolute;
             top: 15px;
@@ -913,6 +1178,15 @@
 
             .top-contact {
                 font-size: 0.9rem;
+            }
+
+            .career-hero,
+            .career-content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .career-header h2 {
+                font-size: 2.2rem;
             }
         }
 
@@ -1266,6 +1540,54 @@
             </div>
         </section>
 
+        <section id="career" class="career">
+            <div class="career-inner">
+                <div class="career-header">
+                    <h2>Career Journey</h2>
+                    <div class="subtitle">HOW WE GREW</div>
+                    <p>Sample career content shaped around the current site. It shows how the team could have grown
+                        from website work into Android apps, digital marketing, ERP solutions, and long-term support
+                        for different kinds of businesses.</p>
+                </div>
+
+                <div class="career-hero">
+                    <div class="career-story">
+                        <h3 id="careerHeadline">Built step by step with practical delivery</h3>
+                        <p id="careerIntro">From a small web-focused team to a broader digital partner, the journey has
+                            been about solving real business needs with clean design, dependable development, and
+                            steady support.</p>
+                        <div class="career-actions">
+                            <a href="career.html" class="btn-secondary">Open Career Page</a>
+                            <a href="#contact" class="btn-main">Start a Project</a>
+                        </div>
+                    </div>
+                    <div class="career-side">
+                        <div class="career-stats" id="careerStats"></div>
+                    </div>
+                </div>
+
+                <div class="career-content-grid">
+                    <div class="career-panel">
+                        <h3>How It Grew</h3>
+                        <div class="career-timeline" id="careerTimeline"></div>
+                    </div>
+                    <div class="career-panel">
+                        <h3>What We Value</h3>
+                        <ul class="career-values" id="careerValues"></ul>
+                        <h3 style="margin-top: 1.5rem;">Sample Openings</h3>
+                        <div class="career-openings" id="careerOpenings"></div>
+                    </div>
+                </div>
+
+                <div class="career-closing">
+                    <h3 id="careerClosingTitle">Want to grow with us?</h3>
+                    <p id="careerClosingText">This section is sample content for now. When you are ready, it can be
+                        replaced with real openings, an application form, and a hiring process tailored to your team.
+                    </p>
+                </div>
+            </div>
+        </section>
+
         <!-- Service Modal overlay -->
         <div id="serviceModal" class="service-modal">
             <div class="service-modal-content">
@@ -1406,6 +1728,75 @@
                 });
             })
             .catch(error => console.error('Error loading services data:', error));
+
+        // Career Journey Data
+        function renderCareerSection(data) {
+            const eyebrow = document.getElementById('careerEyebrow');
+            const headline = document.getElementById('careerHeadline');
+            const intro = document.getElementById('careerIntro');
+            const stats = document.getElementById('careerStats');
+            const timeline = document.getElementById('careerTimeline');
+            const values = document.getElementById('careerValues');
+            const openings = document.getElementById('careerOpenings');
+            const closingTitle = document.getElementById('careerClosingTitle');
+            const closingText = document.getElementById('careerClosingText');
+
+            if (eyebrow && data.hero && data.hero.eyebrow) eyebrow.textContent = data.hero.eyebrow;
+            if (headline && data.hero && data.hero.title) headline.textContent = data.hero.title;
+            if (intro && data.hero && data.hero.intro) intro.textContent = data.hero.intro;
+            if (closingTitle && data.closing && data.closing.title) closingTitle.textContent = data.closing.title;
+            if (closingText && data.closing && data.closing.text) closingText.textContent = data.closing.text;
+
+            if (stats) {
+                stats.innerHTML = '';
+                (data.stats || []).forEach(item => {
+                    stats.insertAdjacentHTML('beforeend', `
+                        <div class="career-stat">
+                            <strong>${item.value}</strong>
+                            <span>${item.label}</span>
+                        </div>
+                    `);
+                });
+            }
+
+            if (timeline) {
+                timeline.innerHTML = '';
+                (data.journey || []).forEach(item => {
+                    timeline.insertAdjacentHTML('beforeend', `
+                        <div class="career-step">
+                            <span class="step-year">${item.year}</span>
+                            <h4>${item.title}</h4>
+                            <p>${item.description}</p>
+                        </div>
+                    `);
+                });
+            }
+
+            if (values) {
+                values.innerHTML = '';
+                (data.values || []).forEach(item => {
+                    values.insertAdjacentHTML('beforeend', `<li>${item}</li>`);
+                });
+            }
+
+            if (openings) {
+                openings.innerHTML = '';
+                (data.openings || []).forEach(item => {
+                    openings.insertAdjacentHTML('beforeend', `
+                        <div class="opening-card">
+                            <h4>${item.title}</h4>
+                            <div class="opening-meta">${item.type} | ${item.location}</div>
+                            <p>${item.description}</p>
+                        </div>
+                    `);
+                });
+            }
+        }
+
+        fetch('assets/data/career.json')
+            .then(response => response.json())
+            .then(renderCareerSection)
+            .catch(error => console.error('Error loading career data:', error));
 
         let currentModalIndex = 0;
         const modal = document.getElementById("serviceModal");

@@ -1,0 +1,82 @@
+{
+  "hero": {
+    "eyebrow": "Career Journey",
+    "title": "From a small web team to a full digital solutions partner",
+    "intro": "This is sample career content shaped around the services and client base shown on the site. It reflects how SmarTech Solutions could have started with simple website projects, then grown into Android apps, digital marketing, ERP solutions, and long-term support for businesses across multiple industries."
+  },
+  "stats": [
+    {
+      "value": "Starting point",
+      "label": "Focused on websites and strong online identity"
+    },
+    {
+      "value": "Growth phase",
+      "label": "Expanded into mobile apps and custom software"
+    },
+    {
+      "value": "Today",
+      "label": "Serving education, telecom, trading, and service brands"
+    },
+    {
+      "value": "Goal",
+      "label": "Build practical digital products that last"
+    }
+  ],
+  "journey": [
+    {
+      "year": "Early Stage",
+      "title": "Started with website development",
+      "description": "The team began by building clean and dependable websites for local businesses that needed a stronger online presence and a simple way to present their services."
+    },
+    {
+      "year": "Next Step",
+      "title": "Moved into custom software",
+      "description": "As client needs became more complex, the team added Android app development and ERP solutions to solve operational problems beyond basic websites."
+    },
+    {
+      "year": "Expansion",
+      "title": "Added digital marketing support",
+      "description": "Digital marketing was introduced to help clients increase visibility, generate enquiries, and connect the website and software work with measurable business growth."
+    },
+    {
+      "year": "Now",
+      "title": "A multi-service delivery team",
+      "description": "Today the company supports organizations across education, telecom, hospitality, trading, and institutions with web, app, marketing, and ERP work."
+    }
+  ],
+  "values": [
+    "We prefer practical solutions over features that look good but do not help the client.",
+    "We value ownership, clear communication, and reliable delivery.",
+    "We work across design, development, marketing, and support as one team."
+  ],
+  "openings": [
+    {
+      "title": "Web Developer",
+      "type": "Full-time",
+      "location": "Thane / Hybrid",
+      "description": "Build responsive client websites, landing pages, and supporting interfaces with attention to speed and usability."
+    },
+    {
+      "title": "Android App Developer",
+      "type": "Full-time",
+      "location": "Thane / Hybrid",
+      "description": "Create Android apps that are stable, intuitive, and ready for real users across business use cases."
+    },
+    {
+      "title": "Digital Marketing Executive",
+      "type": "Full-time",
+      "location": "Thane",
+      "description": "Plan and run SEO, social media, and lead generation campaigns that connect with business goals."
+    },
+    {
+      "title": "ERP Implementation Analyst",
+      "type": "Full-time",
+      "location": "Thane",
+      "description": "Work with clients to map workflows and implement ERP systems that fit how their business actually runs."
+    }
+  ],
+  "closing": {
+    "title": "Want to grow with us?",
+    "text": "This section is sample content for now. When you are ready, it can be replaced with real openings, an application form, and a hiring process tailored to your team."
+  }
+}

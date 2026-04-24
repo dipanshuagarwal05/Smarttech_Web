@@ -13,8 +13,12 @@
             --green-light: #4cbb17;
             --green-accent: #a3e4d7;
             --white: #ffffff;
-            --text-dark: #333333;
+            --text-dark: #293235;
+            --text-soft: #5f6c72;
             --bg-light: #f4f9f4;
+            --surface: #ffffff;
+            --border: rgba(34, 139, 34, 0.1);
+            --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
         }
 
         body,
@@ -112,9 +116,19 @@
 
         .page-header {
             max-width: 840px;
-            margin: 3rem auto 1.5rem 0;
+            margin: 3rem auto 1.5rem;
             padding: 0;
-            text-align: left;
+            text-align: center;
+        }
+
+        .page-header .subtitle {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: var(--green-main);
+            margin-bottom: 0.7rem;
         }
 
         .page-header h1 {
@@ -124,19 +138,56 @@
         }
 
         .page-header p {
-            color: #555;
+            color: var(--text-soft);
             font-size: 1.05rem;
             line-height: 1.7;
             margin-top: 1rem;
+            max-width: 760px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .grampanchayat {
+            position: relative;
             padding: 3rem 5%;
             max-width: 1200px;
             margin: auto;
-            background-color: var(--white);
+            background: var(--surface);
+            background-image:
+                radial-gradient(circle at 18% 18%, rgba(34, 139, 34, 0.05) 0 3px, transparent 3px),
+                radial-gradient(circle at 78% 28%, rgba(76, 187, 23, 0.05) 0 2px, transparent 2px),
+                radial-gradient(circle at 35% 72%, rgba(15, 56, 28, 0.04) 0 2px, transparent 2px),
+                radial-gradient(circle at 88% 82%, rgba(247, 201, 72, 0.05) 0 2px, transparent 2px),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 255, 247, 0.95));
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .grampanchayat::before,
+        .grampanchayat::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .grampanchayat::before {
+            width: 220px;
+            height: 220px;
+            top: -90px;
+            right: -80px;
+            background: radial-gradient(circle, rgba(76, 187, 23, 0.14), rgba(76, 187, 23, 0));
+        }
+
+        .grampanchayat::after {
+            width: 160px;
+            height: 160px;
+            bottom: -70px;
+            left: -60px;
+            background: radial-gradient(circle, rgba(15, 56, 28, 0.08), rgba(15, 56, 28, 0));
         }
 
         .grampanchayat-grid {
@@ -144,15 +195,24 @@
             grid-template-columns: 380px minmax(0, 1fr);
             gap: 2rem;
             align-items: start;
+            position: relative;
+            z-index: 1;
         }
 
         .grampanchayat-image {
             text-align: center;
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(34, 139, 34, 0.12);
+            border: 1px solid var(--border);
             padding: 1rem;
-            background-color: #f7fff6;
+            background: linear-gradient(180deg, #ffffff 0%, #f7fff7 100%);
+            box-shadow: 0 10px 22px rgba(15, 56, 28, 0.06);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .grampanchayat-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 30px rgba(15, 56, 28, 0.12);
         }
 
         .grampanchayat-image img {
@@ -164,7 +224,7 @@
         }
 
         .grampanchayat-content {
-            color: #444;
+            color: var(--text-soft);
             line-height: 1.75;
             font-size: 1rem;
         }
@@ -172,6 +232,122 @@
         .grampanchayat-content p {
             margin-bottom: 1.4rem;
             text-align: justify;
+        }
+
+        .content-block {
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+            border-radius: 18px;
+            padding: 1.25rem 1.25rem 1.1rem;
+            box-shadow: 0 8px 18px rgba(15, 56, 28, 0.04);
+            margin-bottom: 1rem;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .content-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 26px rgba(15, 56, 28, 0.08);
+            border-color: rgba(34, 139, 34, 0.16);
+        }
+
+        .points-block {
+            background: #f9fbf9;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+            border-radius: 18px;
+            padding: 1.25rem 1.25rem 1.35rem;
+            box-shadow: 0 8px 18px rgba(15, 56, 28, 0.04);
+            margin-bottom: 1rem;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .points-block:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 26px rgba(15, 56, 28, 0.08);
+            border-color: rgba(34, 139, 34, 0.16);
+        }
+
+        .content-block h2 {
+            margin: 0 0 0.65rem;
+            font-size: 1.12rem;
+            color: var(--green-dark);
+            line-height: 1.35;
+        }
+
+        .content-block p {
+            margin: 0;
+            text-align: justify;
+        }
+
+        .points-heading {
+            margin: 0 0 0.85rem;
+            color: var(--green-dark);
+            font-size: 1.35rem;
+            line-height: 1.25;
+            text-align: center;
+        }
+
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.9rem;
+        }
+
+        .point-card {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 1rem;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid rgba(34, 139, 34, 0.1);
+            box-shadow: 0 6px 14px rgba(15, 56, 28, 0.04);
+            color: #3f4f56;
+            line-height: 1.55;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .point-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 14px 24px rgba(15, 56, 28, 0.09);
+            border-color: rgba(34, 139, 34, 0.18);
+        }
+
+        .point-card::before {
+            content: "";
+            flex: 0 0 auto;
+            margin-top: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-main), #f7c948);
+            box-shadow: 0 0 0 3px rgba(76, 187, 23, 0.12);
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 0.9rem 0 0;
+            padding: 0;
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .feature-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            color: #3f4f56;
+            line-height: 1.6;
+        }
+
+        .feature-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.56rem;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-main), #f7c948);
+            box-shadow: 0 0 0 3px rgba(76, 187, 23, 0.12);
         }
 
         .btn-secondary {
@@ -250,14 +426,15 @@
                 padding: 2rem 2rem;
             }
 
-            .contact {
-                padding: 2rem 2rem;
+            .points-grid {
+                grid-template-columns: 1fr;
             }
 
             .top-contact {
                 font-size: 0.9rem;
             }
         }
+
     </style>
 </head>
 
@@ -268,6 +445,7 @@
 
     <main>
         <div class="page-header">
+            <span class="subtitle">Digital Project Overview</span>
             <h1>Digital Grampanchayat</h1>
             <p>Digital Grampanchayat प्रकल्प ग्रामपंचायतींच्या डिजिटल रूपांतरणासाठी तयार केला आहे. या पेजवर तुम्हाला
                 प्रकल्पाची मुख्य सेवा आणि उद्दिष्टे स्पष्टपणे सापडतील.</p>
@@ -280,8 +458,62 @@
                     <a href="assets/grampanchayat/digital-grampanchayat.pdf" class="btn-secondary" download>Download
                         Project PDF</a>
                 </div>
-                <div class="grampanchayat-content" id="grampanchayat-content-container">
-                    <p>Loading content...</p>
+                <div class="grampanchayat-content">
+                    <div class="content-block">
+                        <h2>Digital Grampanchayat Project</h2>
+                        <p>
+                            डिजिटल इंडिया अंतर्गत आधुनिक तंत्रज्ञानाद्वारे ग्रामपंचायतींचा विकास होण्यासाठी
+                            'डिजिटल ग्राम' ही संकल्पना अतिशय उपयुक्त आहे. महाराष्ट्र शासनाच्या माहिती व तंत्रज्ञान
+                            विषयक धोरणाचा अवलंब करताना ग्रामपंचायतींची माहिती आणि विविध योजनांची माहिती समाजातील
+                            प्रगत घटकाबरोबरच दुर्बल व शेवटच्या घटकापर्यंत पोहोचवण्यासाठी हा प्रोजेक्ट उपयुक्त आहे.
+                        </p>
+                    </div>
+
+                    <div class="content-block">
+                        <h2>मुख्य उद्दिष्टे</h2>
+                        <p>
+                            Digital Grampanchayat अंतर्गत आपल्या ग्रामपंचायतीमध्ये खालील सेवा ग्रामपंचायत व
+                            ग्रामस्थांना मिळणार आहेत.
+                        </p>
+                        <ul class="feature-list">
+                            <li>ग्रामपंचायत मोबाईल ऐप</li>
+                            <li>गावची दवंडी मोबाईल वर</li>
+                            <li>एस एम एस आणि ई-मेल सुविधा</li>
+                            <li>सर्व करभरणा ऑनलाईन (घरपट्टी, पाणीपट्टी, दिवाबत्ती)</li>
+                            <li>गावाच्या विकास कामांची माहिती</li>
+                            <li>शासकीय योजनांची माहिती</li>
+                            <li>वस्तू खरेदी आणि विक्री करण्याची सुविधा</li>
+                            <li>नोकरीच्या बातम्या</li>
+                            <li>सर्व राज्यस्तरीय व केंद्र स्तरीय योजनांची माहिती</li>
+                            <li>शैक्षणिक, सामाजिक आणि आरोग्य संस्थांची माहिती</li>
+                            <li>शासकीय कार्यक्रमाची माहिती</li>
+                            <li>रोजगाराच्या नव्या संधींची माहिती</li>
+                            <li>ऊर्जा, कृषी, शिक्षण व आरोग्य विषयी योग्य माहिती</li>
+                            <li>वेगवेगळ्या वस्तू आणि सेवा विकण्याची सोय</li>
+                            <li>गावातील उद्योगांची माहिती</li>
+                            <li>इंडिया डिजिटल होत आहे, तुमचं गाव डिजिटल करा</li>
+                        </ul>
+                    </div>
+
+                    <div class="points-block">
+                        <h2 class="points-heading">या ऐप मधून मिळणाऱ्या सुविधा</h2>
+                        <div class="points-grid">
+                            <div class="point-card">गावाविषयी: यामध्ये लोकांना गावचा इतिहास तसेच गावाविषयी मूळ माहिती मिळेल.</div>
+                            <div class="point-card">पदाधिकारी: या मेनू मधून ग्रामपंचायतीचे पदाधिकारी तसेच कर्मचारी यांची पूर्ण माहिती मिळेल.</div>
+                            <div class="point-card">सेवा व योजना: ग्रामपंचायत तसेच राज्य व केंद्र सरकारच्या विविध योजनांची माहिती मिळेल.</div>
+                            <div class="point-card">बाजारभाव: शेतकऱ्यांना दररोज बाजार समितीचे अपडेटेड बाजारभाव मिळतील.</div>
+                            <div class="point-card">ई दवंडी: ग्रामसभा नोटीस व इतर माहिती ग्रामपंचायततर्फे देण्यासाठी हा मेनू महत्त्वाचा आहे.</div>
+                            <div class="point-card">बातम्या: जगभरातील महत्त्वाच्या घडामोडी आणि वृत्तपत्रांच्या बातम्या मिळतील.</div>
+                            <div class="point-card">विकासकामे: गावामध्ये होणार्‍या विकासकामांची माहिती मिळेल.</div>
+                            <div class="point-card">मार्केट: विविध वस्तू व उत्पादने विकण्यासाठी ऑनलाइन जाहिरात करण्याची सोय मिळेल.</div>
+                            <div class="point-card">आरोग्य: गावातील आरोग्यविषयक सुविधांची माहिती मिळेल.</div>
+                            <div class="point-card">शाळा: गावातील शाळा आणि शिक्षणविषयक सुविधांची माहिती मिळेल.</div>
+                            <div class="point-card">नोकरी विषयक: रोजगाराच्या विविध संधींची माहिती सुशिक्षित युवकांना मिळेल.</div>
+                            <div class="point-card">महत्वाचे संपर्क: गावातील सर्व महत्त्वाचे संपर्क क्रमांक घरबसल्या मिळतील.</div>
+                            <div class="point-card">उद्योग: विविध उद्योगधंद्यांची माहिती एका क्लिकवर मिळेल.</div>
+                            <div class="point-card">विकासपिडिया: ऊर्जा, शिक्षण, कृषी विषयक धोरणांची महत्त्वाची माहिती मिळेल.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -303,48 +535,6 @@
             }
         });
 
-        // Dynamically load and format text content
-        fetch('digital_grampanchayat_marathi.txt')
-            .then(response => response.text())
-            .then(text => {
-                const lines = text.split('\n');
-                let html = '';
-                let inList = false;
-
-                for (let line of lines) {
-                    line = line.trim();
-                    if (!line) continue;
-
-                    if (line.startsWith('- ')) {
-                        if (!inList) {
-                            html += '<ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">';
-                            inList = true;
-                        }
-                        html += `<li style="margin-bottom: 0.5rem;">${line.substring(2)}</li>`;
-                    } else {
-                        if (inList) {
-                            html += '</ul>';
-                            inList = false;
-                        }
-
-                        if (line.includes(' : ')) {
-                            const parts = line.split(' : ');
-                            html += `<p><strong>${parts[0]} :</strong> ${parts[1]}</p>`;
-                        } else if (line.includes(': ')) {
-                            const parts = line.split(': ');
-                            html += `<p><strong>${parts[0]} :</strong> ${parts[1]}</p>`;
-                        } else {
-                            html += `<p>${line}</p>`;
-                        }
-                    }
-                }
-                if (inList) html += '</ul>';
-
-                document.getElementById('grampanchayat-content-container').innerHTML = html;
-            })
-            .catch(error => {
-                document.getElementById('grampanchayat-content-container').innerHTML = '<p>Error loading content.</p>';
-            });
     </script>
 </body>
 
