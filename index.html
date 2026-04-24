@@ -1334,7 +1334,7 @@
                 <h1>Elevate Your Digital Presence</h1>
                 <p>We are a premier Website Designing, Web Development, and Digital Marketing Company. Let us transform
                     your ideas into exceptional digital experiences.</p>
-                <a href="#contact" class="btn-main">Start Your Project</a>
+                <a data-contact="true" href="index.html" class="btn-main">Start Your Project</a>
             </div>
             <div class="hero-img-wrapper">
                 <img class="hero-slide active" src="assets/homesection/slide2.jpg" alt="Tech Team Collaborating">
@@ -1558,7 +1558,7 @@
                             steady support.</p>
                         <div class="career-actions">
                             <a href="career.html" class="btn-secondary">Open Career Page</a>
-                            <a href="#contact" class="btn-main">Start a Project</a>
+                            <a data-contact="true" href="index.html" class="btn-main">Start a Project</a>
                         </div>
                     </div>
                     <div class="career-side">
@@ -1849,14 +1849,17 @@
             if (e.target === contactModal) closeContactModal();
         });
 
-        // Intercept Contact nav link clicks
-        document.body.addEventListener('click', function (e) {
-            const link = e.target.closest('a[href*="#contact"]');
-            if (link) {
-                e.preventDefault();
-                openContactModal();
-            }
-        });
+        function openContactFromRequest() {
+            sessionStorage.removeItem('smartechOpenContactModal');
+            openContactModal();
+        }
+
+        if (sessionStorage.getItem('smartechOpenContactModal') === '1') {
+            openContactFromRequest();
+        }
+
+        document.addEventListener('smartech:openContactModal', openContactFromRequest);
+
     </script>
 </body>
 

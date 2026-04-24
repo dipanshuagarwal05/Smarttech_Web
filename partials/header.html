@@ -104,7 +104,7 @@
             <li><a data-nav="sms" href="school-management-system.html">SmartTech School App</a></li>
             <li><a data-nav="grampanchayat" href="grampanchayat.html">Digital Grampanchayat</a></li>
             <li><a data-nav="career" href="career.html">Career</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
+            <li><a data-contact="true" href="index.html">Contact</a></li>
         </ul>
     </nav>
 </header>
@@ -139,6 +139,26 @@
                 link.addEventListener('click', closeNav);
             });
         }
+
+        // Contact should open the modal instead of scrolling to an anchor.
+        document.addEventListener('click', function (e) {
+            const link = e.target.closest('a[data-contact="true"]');
+            if (!link) return;
+            if (e.defaultPrevented) return;
+
+            e.preventDefault();
+            closeNav();
+
+            const isHomePage = window.location.pathname.endsWith('/index.html') || window.location.pathname.endsWith('/');
+
+            if (isHomePage) {
+                document.dispatchEvent(new CustomEvent('smartech:openContactModal'));
+                return;
+            }
+
+            sessionStorage.setItem('smartechOpenContactModal', '1');
+            window.location.href = link.href;
+        });
 
         // Handle responsive display of close button
         function handleResize() {
