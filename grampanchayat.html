@@ -597,12 +597,36 @@
             window.googleTranslateElementInit = googleTranslateElementInit;
 
             function loadGoogleTranslate(cb) {
-                if (document.querySelector('script[src*="translate.google.com"]')) { cb && cb(); return; }
+                var existing = document.querySelector('script[src*="translate.google.com"]');
+                if (existing) {
+                    // Script already added – wait until the TranslateElement API is ready
+                    var tries = 0;
+                    var poll = setInterval(function () {
+                        tries++;
+                        if (window.google && window.google.translate) {
+                            clearInterval(poll);
+                            cb && cb();
+                        } else if (tries > 30) {
+                            clearInterval(poll); // Give up after ~3 seconds
+                        }
+                    }, 100);
+                    return;
+                }
                 var s = document.createElement('script');
                 s.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
                 s.async = true;
-                s.onload = cb;
                 document.body.appendChild(s);
+                // Poll for API readiness after the script loads
+                var tries = 0;
+                var poll = setInterval(function () {
+                    tries++;
+                    if (window.google && window.google.translate) {
+                        clearInterval(poll);
+                        cb && cb();
+                    } else if (tries > 50) {
+                        clearInterval(poll); // Give up after ~5 seconds
+                    }
+                }, 100);
             }
 
             function triggerTranslation(lang) {
@@ -617,7 +641,9 @@
                 e.preventDefault();
                 if (!translated) {
                     loadGoogleTranslate(function () {
-                        setTimeout(function () { triggerTranslation('en'); }, 800);
+                        // Small delay to allow Google Translate widget to fully initialise
+                        // before programmatically selecting the target language.
+                        setTimeout(function () { triggerTranslation('en'); }, 500);
                     });
                     label.textContent = 'Show Marathi';
                     fab.style.background = 'var(--green-dark)';
