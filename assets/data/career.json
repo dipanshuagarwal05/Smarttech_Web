@@ -1,82 +1,84 @@
 {
   "hero": {
-    "eyebrow": "Career Journey",
-    "title": "From a small web team to a full digital solutions partner",
-    "intro": "This is sample career content shaped around the services and client base shown on the site. It reflects how SmarTech Solutions could have started with simple website projects, then grown into Android apps, digital marketing, ERP solutions, and long-term support for businesses across multiple industries."
+    "eyebrow": "Career",
+    "title": "We help students and businesses grow with real digital work",
+    "intro": "SmarTech Solutions is not just about making websites. The website shows a team that builds practical skills, real projects, and useful digital services. Students can learn through internships in web development and Android app development. Businesses can grow with digital marketing and ERP solutions. We also build sites for Grampanchayat, which gives young people exposure to meaningful public-service work."
   },
-  "stats": [
+  "support": [
     {
-      "value": "Starting point",
-      "label": "Focused on websites and strong online identity"
+      "title": "For students",
+      "description": "Internships give hands-on exposure in web development and Android app development so freshers can learn by building real work."
     },
     {
-      "value": "Growth phase",
-      "label": "Expanded into mobile apps and custom software"
+      "title": "For businesses",
+      "description": "Digital marketing and ERP solutions help companies reach more people, work faster, and manage daily operations with less friction."
     },
     {
-      "value": "Today",
-      "label": "Serving education, telecom, trading, and service brands"
-    },
-    {
-      "value": "Goal",
-      "label": "Build practical digital products that last"
+      "title": "For communities",
+      "description": "Grampanchayat websites and public-facing digital projects give young developers experience with useful work that serves local people."
     }
   ],
   "journey": [
     {
-      "year": "Early Stage",
-      "title": "Started with website development",
-      "description": "The team began by building clean and dependable websites for local businesses that needed a stronger online presence and a simple way to present their services."
+      "year": "Step 1",
+      "title": "Learn the basics through real projects",
+      "description": "Students start with websites and app tasks that teach design, layout, logic, and how a professional digital product is actually delivered."
     },
     {
-      "year": "Next Step",
-      "title": "Moved into custom software",
-      "description": "As client needs became more complex, the team added Android app development and ERP solutions to solve operational problems beyond basic websites."
+      "year": "Step 2",
+      "title": "Build Android and web development skills",
+      "description": "Interns can move from simple pages into mobile app screens, forms, dashboards, and user flows that mirror real client needs."
     },
     {
-      "year": "Expansion",
-      "title": "Added digital marketing support",
-      "description": "Digital marketing was introduced to help clients increase visibility, generate enquiries, and connect the website and software work with measurable business growth."
+      "year": "Step 3",
+      "title": "Understand business growth work",
+      "description": "Digital marketing and ERP projects show how technology supports sales, operations, communication, and long-term business growth."
     },
     {
-      "year": "Now",
-      "title": "A multi-service delivery team",
-      "description": "Today the company supports organizations across education, telecom, hospitality, trading, and institutions with web, app, marketing, and ERP work."
+      "year": "Step 4",
+      "title": "Use your skills to help others",
+      "description": "The final goal is not only a job title. It is to help people, businesses, and local institutions reach their future aims through useful digital work."
+    },
+    {
+      "year": "Community",
+      "title": "Grampanchayat Websites",
+      "description": "We provide sites for Grampanchayat."
     }
   ],
   "values": [
-    "We prefer practical solutions over features that look good but do not help the client.",
+    "We prefer practical learning over theory that never reaches real work.",
     "We value ownership, clear communication, and reliable delivery.",
-    "We work across design, development, marketing, and support as one team."
+    "We work across design, development, marketing, and support as one team.",
+    "We believe a career grows faster when the work helps people, not just portfolios."
   ],
   "openings": [
     {
-      "title": "Web Developer",
-      "type": "Full-time",
+      "title": "Web Development Intern",
+      "type": "Internship",
       "location": "Thane / Hybrid",
-      "description": "Build responsive client websites, landing pages, and supporting interfaces with attention to speed and usability."
+      "description": "Work on responsive websites, landing pages, and support screens while learning modern front-end development."
     },
     {
-      "title": "Android App Developer",
-      "type": "Full-time",
+      "title": "Android App Development Intern",
+      "type": "Internship",
       "location": "Thane / Hybrid",
-      "description": "Create Android apps that are stable, intuitive, and ready for real users across business use cases."
+      "description": "Create Android app screens and features that are stable, intuitive, and ready for real users."
     },
     {
-      "title": "Digital Marketing Executive",
-      "type": "Full-time",
+      "title": "Digital Marketing Intern",
+      "type": "Internship",
       "location": "Thane",
-      "description": "Plan and run SEO, social media, and lead generation campaigns that connect with business goals."
+      "description": "Learn SEO, social media, and lead generation while seeing how marketing supports actual business growth."
     },
     {
-      "title": "ERP Implementation Analyst",
-      "type": "Full-time",
+      "title": "ERP Support Intern",
+      "type": "Internship",
       "location": "Thane",
-      "description": "Work with clients to map workflows and implement ERP systems that fit how their business actually runs."
+      "description": "Support workflow mapping, implementation tasks, and client coordination around ERP solutions."
     }
   ],
   "closing": {
-    "title": "Want to grow with us?",
-    "text": "This section is sample content for now. When you are ready, it can be replaced with real openings, an application form, and a hiring process tailored to your team."
+    "title": "Our goal is simple",
+    "text": "Help people reach their future aim through internships, useful project work, business solutions, and digital services that make a real difference."
   }
 }
