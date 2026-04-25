@@ -136,10 +136,6 @@
             box-shadow: var(--card-shadow);
             overflow: hidden;
             padding: 2.2rem;
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
-            gap: 1.5rem;
-            align-items: stretch;
         }
 
         .hero::before {
@@ -155,7 +151,6 @@
         }
 
         .hero-copy,
-        .hero-side,
         .section-card,
         .closing-panel {
             background: var(--surface);
@@ -230,57 +225,6 @@
         .btn-main:hover,
         .btn-secondary:hover {
             transform: translateY(-2px);
-        }
-
-        .hero-side {
-            padding: 1.2rem;
-        }
-
-        .hero-side-inner {
-            height: 100%;
-            display: grid;
-            gap: 0.9rem;
-            align-content: start;
-        }
-
-        .hero-visual {
-            min-height: 160px;
-            border-radius: 18px;
-            background:
-                radial-gradient(circle at 30% 25%, rgba(76, 187, 23, 0.2), transparent 26%),
-                radial-gradient(circle at 80% 80%, rgba(247, 201, 72, 0.16), transparent 24%),
-                linear-gradient(135deg, #0f381c, #1a5b2f);
-            color: var(--white);
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            padding: 1.25rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero-visual::before {
-            content: "";
-            position: absolute;
-            inset: 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-        }
-
-        .hero-visual strong {
-            position: relative;
-            z-index: 1;
-            font-size: 1.2rem;
-            line-height: 1.35;
-        }
-
-        .hero-visual span {
-            position: relative;
-            z-index: 1;
-            margin-top: 0.4rem;
-            color: rgba(255, 255, 255, 0.78);
-            line-height: 1.5;
-            font-size: 0.95rem;
         }
 
         .section-card {
@@ -368,16 +312,6 @@
             background: linear-gradient(180deg, var(--green-main), var(--green-light));
         }
 
-        .step-year {
-            display: inline-block;
-            margin-bottom: 0.45rem;
-            color: var(--green-main);
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-        }
-
         .timeline-step h3 {
             margin: 0 0 0.4rem;
             color: var(--green-dark);
@@ -439,15 +373,6 @@
             margin: 0 0 0.3rem;
             color: var(--green-dark);
             font-size: 1.02rem;
-        }
-
-        .opening-meta {
-            margin: 0 0 0.6rem;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--green-main);
-            text-transform: uppercase;
-            letter-spacing: 1.1px;
         }
 
         .opening-card p {
@@ -557,8 +482,7 @@
                 border-radius: 18px;
             }
 
-            .hero-copy,
-            .hero-side {
+            .hero-copy {
                 padding: 1.15rem;
             }
 
@@ -578,32 +502,21 @@
                 <div class="hero-copy">
                     <div class="hero-eyebrow" id="careerEyebrow">Career & Growth</div>
                     <h1 id="careerHeadline">We help students and businesses grow with real digital work</h1>
-                    <p id="careerIntro">SmarTech Solutions is not just about making websites. The website shows a team
-                        that builds practical skills, real projects, and useful digital services. Students can learn
-                        through internships in web development and Android app development. Businesses can grow with
-                        digital marketing and ERP solutions. We also build sites for Grampanchayat, which gives young
-                        people exposure to meaningful public-service work.</p>
+                    <p id="careerIntro">SmarTech Solutions builds practical skills, real projects, and useful digital
+                        services. Students can learn through internships in web development and Android app
+                        development. Businesses can grow with digital marketing and ERP solutions. We also build sites
+                        for Grampanchayat.</p>
                     <div class="career-actions">
                         <a data-contact="true" href="index.html" class="btn-main">Talk to Us</a>
                         <a href="#what-we-do" class="btn-secondary">What We Do</a>
-                    </div>
-                </div>
-                <div class="hero-side">
-                    <div class="hero-side-inner">
-                        <div class="hero-visual">
-                            <strong>Learn by building useful things</strong>
-                            <span>Internships, client work, community projects, and digital growth services all sit on
-                                the same path.</span>
-                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="section-card" id="how-we-help">
                 <h2 class="section-title">How we help people build a career</h2>
-                <p class="section-note">The whole website points to one idea: grow through useful work. We help
-                    students learn on real projects, help businesses improve their digital presence, and help local
-                    institutions get better online systems.</p>
+                <p class="section-note">Grow through useful work. Students learn on real projects, businesses improve
+                    their digital presence, and local institutions get better online systems.</p>
                 <div class="support-grid" id="careerSupport"></div>
             </section>
 
@@ -689,7 +602,6 @@
                 (data.journey || []).forEach(item => {
                     timeline.insertAdjacentHTML('beforeend', `
                         <div class="timeline-step">
-                            <span class="step-year">${item.year}</span>
                             <h3>${item.title}</h3>
                             <p>${item.description}</p>
                         </div>
@@ -710,7 +622,6 @@
                     openings.insertAdjacentHTML('beforeend', `
                         <div class="opening-card">
                             <h3>${item.title}</h3>
-                            <div class="opening-meta">${item.type} | ${item.location}</div>
                             <p>${item.description}</p>
                         </div>
                     `);

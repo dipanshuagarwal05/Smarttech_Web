@@ -2,7 +2,7 @@
   "hero": {
     "eyebrow": "Career",
     "title": "We help students and businesses grow with real digital work",
-    "intro": "SmarTech Solutions is not just about making websites. The website shows a team that builds practical skills, real projects, and useful digital services. Students can learn through internships in web development and Android app development. Businesses can grow with digital marketing and ERP solutions. We also build sites for Grampanchayat, which gives young people exposure to meaningful public-service work."
+    "intro": "SmarTech Solutions is not just about making websites. Its about a team that builds practical skills, real projects, and useful digital services. Students can learn through internships in web development and Android app development. Businesses can grow with digital marketing and ERP solutions. We also build sites for Grampanchayat, which gives young people exposure to meaningful public-service work."
   },
   "support": [
     {
@@ -20,27 +20,22 @@
   ],
   "journey": [
     {
-      "year": "Step 1",
       "title": "Learn the basics through real projects",
       "description": "Students start with websites and app tasks that teach design, layout, logic, and how a professional digital product is actually delivered."
     },
     {
-      "year": "Step 2",
       "title": "Build Android and web development skills",
       "description": "Interns can move from simple pages into mobile app screens, forms, dashboards, and user flows that mirror real client needs."
     },
     {
-      "year": "Step 3",
       "title": "Understand business growth work",
       "description": "Digital marketing and ERP projects show how technology supports sales, operations, communication, and long-term business growth."
     },
     {
-      "year": "Step 4",
       "title": "Use your skills to help others",
       "description": "The final goal is not only a job title. It is to help people, businesses, and local institutions reach their future aims through useful digital work."
     },
     {
-      "year": "Community",
       "title": "Grampanchayat Websites",
       "description": "We provide sites for Grampanchayat."
     }
@@ -54,26 +49,18 @@
   "openings": [
     {
       "title": "Web Development Intern",
-      "type": "Internship",
-      "location": "Thane / Hybrid",
       "description": "Work on responsive websites, landing pages, and support screens while learning modern front-end development."
     },
     {
       "title": "Android App Development Intern",
-      "type": "Internship",
-      "location": "Thane / Hybrid",
       "description": "Create Android app screens and features that are stable, intuitive, and ready for real users."
     },
     {
       "title": "Digital Marketing Intern",
-      "type": "Internship",
-      "location": "Thane",
       "description": "Learn SEO, social media, and lead generation while seeing how marketing supports actual business growth."
     },
     {
       "title": "ERP Support Intern",
-      "type": "Internship",
-      "location": "Thane",
       "description": "Support workflow mapping, implementation tasks, and client coordination around ERP solutions."
     }
   ],
