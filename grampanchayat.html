@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="mr">
 
 <head>
     <meta charset="UTF-8">
@@ -366,6 +366,55 @@
             opacity: 0.95;
         }
 
+        .translate-switch {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1200;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(34, 139, 34, 0.12);
+            box-shadow: 0 14px 30px rgba(15, 56, 28, 0.16);
+            backdrop-filter: blur(14px);
+        }
+
+        .translate-label {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0 0.35rem 0 0.5rem;
+            white-space: nowrap;
+        }
+
+        .translate-option {
+            border: 0;
+            border-radius: 999px;
+            padding: 0.55rem 0.95rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            background: #eef8ef;
+            cursor: pointer;
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .translate-option:hover {
+            transform: translateY(-1px);
+            background: #e1f3e3;
+        }
+
+        .translate-option.active {
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+            box-shadow: 0 8px 16px rgba(34, 139, 34, 0.2);
+        }
+
         footer {
             background-color: var(--green-dark);
             color: var(--white);
@@ -433,6 +482,22 @@
             .top-contact {
                 font-size: 0.9rem;
             }
+
+            .translate-switch {
+                right: 14px;
+                bottom: 14px;
+                gap: 0.3rem;
+                padding: 0.35rem;
+            }
+
+            .translate-label {
+                display: none;
+            }
+
+            .translate-option {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.82rem;
+            }
         }
 
     </style>
@@ -443,11 +508,17 @@
 
     <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
+    <div class="translate-switch" role="group" aria-label="Translate grampanchayat page">
+        <span class="translate-label">Translate</span>
+        <button type="button" class="translate-option" data-lang="mr">मराठी</button>
+        <button type="button" class="translate-option" data-lang="en">English</button>
+    </div>
+
     <main>
         <div class="page-header">
-            <span class="subtitle">Digital Project Overview</span>
-            <h1>Digital Grampanchayat</h1>
-            <p>Digital Grampanchayat प्रकल्प ग्रामपंचायतींच्या डिजिटल रूपांतरणासाठी तयार केला आहे. या पेजवर तुम्हाला
+            <span class="subtitle" id="gpSubtitle">Digital Project Overview</span>
+            <h1 id="gpTitle">Digital Grampanchayat</h1>
+            <p id="gpIntro">Digital Grampanchayat प्रकल्प ग्रामपंचायतींच्या डिजिटल रूपांतरणासाठी तयार केला आहे. या पेजवर तुम्हाला
                 प्रकल्पाची मुख्य सेवा आणि उद्दिष्टे स्पष्टपणे सापडतील.</p>
         </div>
 
@@ -455,13 +526,12 @@
             <div class="grampanchayat-grid">
                 <div class="grampanchayat-image">
                     <img src="assets/grampanchayat/digital-grampanchayat.jpg" alt="Digital Grampanchayat">
-                    <a href="assets/grampanchayat/digital-grampanchayat.pdf" class="btn-secondary" download>Download
-                        Project PDF</a>
+                    <a href="assets/grampanchayat/digital-grampanchayat.pdf" class="btn-secondary" id="gpDownloadBtn" download>Download Project PDF</a>
                 </div>
                 <div class="grampanchayat-content">
                     <div class="content-block">
-                        <h2>Digital Grampanchayat Project</h2>
-                        <p>
+                        <h2 id="gpProjectTitle">Digital Grampanchayat Project</h2>
+                        <p id="gpProjectDesc">
                             डिजिटल इंडिया अंतर्गत आधुनिक तंत्रज्ञानाद्वारे ग्रामपंचायतींचा विकास होण्यासाठी
                             'डिजिटल ग्राम' ही संकल्पना अतिशय उपयुक्त आहे. महाराष्ट्र शासनाच्या माहिती व तंत्रज्ञान
                             विषयक धोरणाचा अवलंब करताना ग्रामपंचायतींची माहिती आणि विविध योजनांची माहिती समाजातील
@@ -470,12 +540,12 @@
                     </div>
 
                     <div class="content-block">
-                        <h2>मुख्य उद्दिष्टे</h2>
-                        <p>
+                        <h2 id="gpObjectivesTitle">मुख्य उद्दिष्टे</h2>
+                        <p id="gpObjectivesDesc">
                             Digital Grampanchayat अंतर्गत आपल्या ग्रामपंचायतीमध्ये खालील सेवा ग्रामपंचायत व
                             ग्रामस्थांना मिळणार आहेत.
                         </p>
-                        <ul class="feature-list">
+                        <ul class="feature-list" id="gpFeatureList">
                             <li>ग्रामपंचायत मोबाईल ऐप</li>
                             <li>गावची दवंडी मोबाईल वर</li>
                             <li>एस एम एस आणि ई-मेल सुविधा</li>
@@ -496,8 +566,8 @@
                     </div>
 
                     <div class="points-block">
-                        <h2 class="points-heading">या ऐप मधून मिळणाऱ्या सुविधा</h2>
-                        <div class="points-grid">
+                        <h2 class="points-heading" id="gpFeaturesTitle">या ऐप मधून मिळणाऱ्या सुविधा</h2>
+                        <div class="points-grid" id="gpPointsGrid">
                             <div class="point-card">गावाविषयी: यामध्ये लोकांना गावचा इतिहास तसेच गावाविषयी मूळ माहिती मिळेल.</div>
                             <div class="point-card">पदाधिकारी: या मेनू मधून ग्रामपंचायतीचे पदाधिकारी तसेच कर्मचारी यांची पूर्ण माहिती मिळेल.</div>
                             <div class="point-card">सेवा व योजना: ग्रामपंचायत तसेच राज्य व केंद्र सरकारच्या विविध योजनांची माहिती मिळेल.</div>
@@ -534,6 +604,104 @@
                 });
             }
         });
+
+        const gpLanguageDefaults = {
+            subtitle: document.getElementById('gpSubtitle').textContent,
+            title: document.getElementById('gpTitle').textContent,
+            intro: document.getElementById('gpIntro').textContent,
+            download: document.getElementById('gpDownloadBtn').textContent,
+            projectTitle: document.getElementById('gpProjectTitle').textContent,
+            projectDesc: document.getElementById('gpProjectDesc').textContent,
+            objectivesTitle: document.getElementById('gpObjectivesTitle').textContent,
+            objectivesDesc: document.getElementById('gpObjectivesDesc').textContent,
+            featuresTitle: document.getElementById('gpFeaturesTitle').textContent,
+            features: Array.from(document.querySelectorAll('#gpFeatureList li')).map(item => item.textContent),
+            points: Array.from(document.querySelectorAll('#gpPointsGrid .point-card')).map(item => item.textContent)
+        };
+
+        const gpEnglish = {
+            subtitle: 'Digital Project Overview',
+            title: 'Digital Grampanchayat',
+            intro: 'The Digital Grampanchayat project is designed to support the digital transformation of village panchayats. This page clearly presents the core service and goals of the project.',
+            download: 'Download Project PDF',
+            projectTitle: 'Digital Grampanchayat Project',
+            projectDesc: 'Under Digital India, the idea of a digital village is very useful for building modern gram panchayats through technology. While following the Maharashtra government\'s information and technology policy, this project helps deliver gram panchayat information and scheme details to the public, including the weaker and last sections of society.',
+            objectivesTitle: 'Main Objectives',
+            objectivesDesc: 'Under Digital Grampanchayat, your gram panchayat and villagers can access the following services.',
+            featuresTitle: 'Facilities Available in This App',
+            features: [
+                'Gram Panchayat mobile app',
+                'Village announcements on mobile',
+                'SMS and email facility',
+                'All tax payments online (house tax, water tax, street light)',
+                'Information about village development works',
+                'Information about government schemes',
+                'Facility to buy and sell goods',
+                'Job updates',
+                'Information about all state and central government schemes',
+                'Information about educational, social, and health institutions',
+                'Information about government programs',
+                'Updates on new employment opportunities',
+                'Proper information about energy, agriculture, education, and health',
+                'Easy promotion for different goods and services',
+                'Information about village industries',
+                'India is going digital, make your village digital'
+            ],
+            points: [
+                'Village history and basic information about the village.',
+                'Officials: complete details of panchayat officials and staff.',
+                'Services and schemes: information about gram panchayat, state, and central government schemes.',
+                'Market rates: farmers receive updated market rates every day.',
+                'E-dawandi: an important menu for panchayat notices and other updates.',
+                'News: major world updates and newspaper news.',
+                'Development works: information about work happening in the village.',
+                'Marketplace: an online option to advertise and sell products or items.',
+                'Health: information about village health facilities.',
+                'School: information about village schools and education services.',
+                'Jobs: various employment opportunities for educated youth.',
+                'Important contacts: all important village contact numbers in one place.',
+                'Industry: information about different industries and businesses.',
+                'Developmentpedia: important information about energy, education, and agriculture policies.'
+            ]
+        };
+
+        function setGpLanguage(lang) {
+            const isEnglish = lang === 'en';
+            const source = isEnglish ? gpEnglish : gpLanguageDefaults;
+
+            document.documentElement.lang = isEnglish ? 'en' : 'mr';
+            document.getElementById('gpSubtitle').textContent = source.subtitle;
+            document.getElementById('gpTitle').textContent = source.title;
+            document.getElementById('gpIntro').textContent = source.intro;
+            document.getElementById('gpDownloadBtn').textContent = source.download;
+            document.getElementById('gpProjectTitle').textContent = source.projectTitle;
+            document.getElementById('gpProjectDesc').textContent = source.projectDesc;
+            document.getElementById('gpObjectivesTitle').textContent = source.objectivesTitle;
+            document.getElementById('gpObjectivesDesc').textContent = source.objectivesDesc;
+            document.getElementById('gpFeaturesTitle').textContent = source.featuresTitle;
+
+            document.querySelectorAll('#gpFeatureList li').forEach((item, index) => {
+                item.textContent = source.features[index];
+            });
+
+            document.querySelectorAll('#gpPointsGrid .point-card').forEach((item, index) => {
+                item.textContent = source.points[index];
+            });
+
+            document.querySelectorAll('.translate-option').forEach(button => {
+                button.classList.toggle('active', button.dataset.lang === lang);
+            });
+
+            localStorage.setItem('grampanchayatLanguage', lang);
+        }
+
+        document.querySelectorAll('.translate-option').forEach(button => {
+            button.addEventListener('click', function () {
+                setGpLanguage(button.dataset.lang);
+            });
+        });
+
+        setGpLanguage(localStorage.getItem('grampanchayatLanguage') || 'mr');
 
     </script>
 </body>
