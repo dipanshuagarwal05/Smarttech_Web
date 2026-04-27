@@ -310,8 +310,14 @@
             sendButton.title = isBusy ? "Sending..." : "Send message";
         }
 
-        function shouldKeepFocus() {
-            return window.matchMedia("(min-width: 641px)").matches;
+        function shouldBlurOnMobile() {
+            return window.matchMedia("(max-width: 640px) and (pointer: coarse)").matches;
+        }
+
+        function trimChatHistory() {
+            while (messages.length > 4) {
+                messages.shift();
+            }
         }
 
         function addTypingIndicator() {
@@ -327,12 +333,11 @@
 
             const userMessage = { role: "user", content: trimmed, time: formatTime() };
             messages.push({ role: "user", content: trimmed });
+            trimChatHistory();
             renderMessage(userMessage);
             chatInput.value = "";
-            if (shouldKeepFocus()) {
+            if (!shouldBlurOnMobile()) {
                 chatInput.focus();
-            } else {
-                chatInput.blur();
             }
 
             const typing = addTypingIndicator();
@@ -381,6 +386,7 @@
                     time: formatTime()
                 };
                 messages.push({ role: "assistant", content: data.reply });
+                trimChatHistory();
                 renderMessage(assistantMessage);
             } catch (error) {
                 typing.remove();
@@ -391,7 +397,7 @@
                 });
             } finally {
                 setBusy(false);
-                if (shouldKeepFocus()) {
+                if (!shouldBlurOnMobile()) {
                     requestAnimationFrame(() => {
                         chatInput.focus();
                     });

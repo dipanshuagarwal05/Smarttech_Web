@@ -82,6 +82,157 @@ Help people reach their future aim through internships, useful project work, bus
 
 -----
 
+School Management System Android Application
+A complete digital school platform with dedicated parent login, teacher login, admin dashboard, fees collection and notice board features. Every module is designed to make school communication, fees visibility, and record management faster and easier.
+
+Parents Login
+Teachers Login
+Admin Dashboard
+Fees Collection
+Notice Board
+Parents Module
+14 key features from attendance to transport details.
+
+Teachers Module: Classroom, profile, attendance, results and timetable tools.
+
+Admin Dashboard: Full control over records, notifications, events and operations.
+
+Fees Collection: Gateway payments, receipts, reminders and complete fee reports.
+
+A) Parents Login
+Login through application. Student attendance. Student fees with details. Chart and graph analysis of fees. View school gallery photos.
+View school event details.
+View school notification details.
+Parent notifications.
+View student report card.
+View student reports.
+View student remarks.
+View student complaints.
+View student homework.
+School transport with all details.
+B) Teachers Login
+Login details.
+Student profile system.
+View classroom details.
+View student fee structure.
+View student attendance.
+Upload student results.
+Give student complaints.
+Add student homework.
+Exam schedule.
+Class timetable.
+C) Admin Dashboard
+Admin login.
+View student records.
+Provide login details to parents and teachers.
+Add or delete student fee structure.
+Add or delete student notifications.
+Add or delete school gallery images.
+Add or delete school notifications.
+Add or delete school events.
+Add or delete school teachers.
+Add or delete student and parent details.
+Print option for all records.
+Search students.
+School expenses management.
+School transport with all details.
+Chart and graph analysis of fees.
+D) Fees Collection
+Fees collection through parents.
+Fees notifications to all or individual parents.
+Payment gateway support.
+Fees receipt.
+Fees details.
+Print option for all records.
+Others
+General notice support for all parents and other school notifications.
+
+Notice Board
+General notice to all.
+Notice for parents.
+Notice for teachers.
+
+-----
+
+Digital Project Overview
+
+Digital Grampanchayat
+
+The Digital Grampanchayat project is designed to support the digital transformation of village panchayats. This page clearly presents the core service and goals of the project.
+
+Download Project PDF
+
+Digital Grampanchayat Project
+
+Under Digital India, the idea of a digital village is very useful for building modern gram panchayats through technology. While following the Maharashtra government's information and technology policy, this project helps deliver gram panchayat information and scheme details to the public, including the weaker and last sections of society.
+
+Main Objectives
+
+Under Digital Grampanchayat, your gram panchayat and villagers can access the following services.
+
+Facilities Available in This App
+
+* Gram Panchayat mobile app
+
+* Village announcements on mobile
+
+* All tax payments online (house tax, water tax, street light)
+
+* Information about village development works
+
+* Information about government schemes
+
+* Facility to buy and sell goods
+
+* Job updates
+
+* Information about all state and central government schemes
+
+* Information about educational, social, and health institutions
+
+* Information about government programs
+
+* Updates on new employment opportunities
+
+* Proper information about energy, agriculture, education, and health
+
+* Easy promotion for different goods and services
+
+* Information about village industries
+
+* India is going digital, make your village digital
+
+* Village history and basic information about the village.
+
+* Officials: complete details of panchayat officials and staff.
+
+* Services and schemes: information about gram panchayat, state, and central government schemes.
+
+* Market rates: farmers receive updated market rates every day.
+
+* E-dawandi: an important menu for panchayat notices and other updates.
+
+* News: major world updates and newspaper news.
+
+* Development works: information about work happening in the village.
+
+* Marketplace: an online option to advertise and sell products or items.
+
+* Health: information about village health facilities.
+
+* School: information about village schools and education services.
+
+* Jobs: various employment opportunities for educated youth.
+
+* Important contacts: all important village contact numbers in one place.
+
+* Industry: information about different industries and businesses.
+
+* Developmentpedia: important information about energy, education, and agriculture policies.
+
+
+-----
+
 Our Services : 
 
 Website Design & Development
