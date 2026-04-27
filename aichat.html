@@ -115,12 +115,6 @@
             border-bottom-left-radius: 6px;
         }
 
-        .meta {
-            margin-top: 0.45rem;
-            font-size: 0.73rem;
-            opacity: 0.78;
-        }
-
         .composer {
             padding: 0.9rem;
             border-top: 1px solid rgba(34, 139, 34, 0.1);
@@ -229,6 +223,14 @@
             .chat-shell { border-radius: 20px; }
             .composer { padding: 0.8rem; }
             .chat-stream { padding: 0.9rem; }
+            .message { margin-bottom: 0.55rem; }
+            .bubble {
+                padding: 0.72rem 0.85rem;
+                line-height: 1.45;
+            }
+            .meta {
+                display: none;
+            }
             .composer form {
                 flex-direction: row;
                 align-items: center;
@@ -290,18 +292,12 @@
         function renderMessage(message) {
             const row = document.createElement("div");
             row.className = `message ${message.role}`;
-            const label = message.role === "user" ? "You" : "AI";
             const bubble = document.createElement("div");
             bubble.className = "bubble";
 
             const content = document.createElement("div");
             content.textContent = message.content;
-
-            const meta = document.createElement("div");
-            meta.className = "meta";
-            meta.textContent = `${label} • ${message.time || formatTime()}`;
-
-            bubble.append(content, meta);
+            bubble.append(content);
             row.appendChild(bubble);
             chatStream.appendChild(row);
             chatStream.scrollTop = chatStream.scrollHeight;
@@ -312,6 +308,10 @@
             chatInput.disabled = isBusy;
             sendButton.setAttribute("aria-label", isBusy ? "Sending message" : "Send message");
             sendButton.title = isBusy ? "Sending..." : "Send message";
+        }
+
+        function shouldKeepFocus() {
+            return window.matchMedia("(min-width: 641px)").matches;
         }
 
         function addTypingIndicator() {
@@ -329,7 +329,11 @@
             messages.push({ role: "user", content: trimmed });
             renderMessage(userMessage);
             chatInput.value = "";
-            chatInput.focus();
+            if (shouldKeepFocus()) {
+                chatInput.focus();
+            } else {
+                chatInput.blur();
+            }
 
             const typing = addTypingIndicator();
             setBusy(true);
@@ -387,9 +391,13 @@
                 });
             } finally {
                 setBusy(false);
-                requestAnimationFrame(() => {
-                    chatInput.focus();
-                });
+                if (shouldKeepFocus()) {
+                    requestAnimationFrame(() => {
+                        chatInput.focus();
+                    });
+                } else {
+                    chatInput.blur();
+                }
             }
         }
 
