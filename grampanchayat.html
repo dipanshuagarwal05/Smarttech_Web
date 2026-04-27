@@ -382,6 +382,10 @@
             backdrop-filter: blur(14px);
         }
 
+        .aichat-widget {
+            bottom: 92px !important;
+        }
+
         .translate-label {
             font-size: 0.78rem;
             font-weight: 800;
@@ -490,6 +494,10 @@
                 padding: 0.35rem;
             }
 
+            .aichat-widget {
+                bottom: 78px !important;
+            }
+
             .translate-label {
                 display: none;
             }
@@ -587,6 +595,8 @@
             </div>
         </section>
     </main>
+
+    <div hx-get="partials/aichat.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
     <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
 

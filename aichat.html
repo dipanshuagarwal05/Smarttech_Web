@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat | SmarTech Solutions</title>
+    <meta name="description" content="Chat with the SmarTech Solutions AI assistant for company, services, and project details.">
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #23302a;
+            --text-soft: #5e6c66;
+            --bg-light: #f4f9f4;
+            --surface: #ffffff;
+            --surface-alt: #f7fcf7;
+            --border: rgba(34, 139, 34, 0.12);
+            --shadow: 0 18px 40px rgba(15, 56, 28, 0.12);
+            --user-bubble: linear-gradient(135deg, #1b6f33, #2f9a44);
+            --assistant-bubble: #eff8ef;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(76, 187, 23, 0.12), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(15, 56, 28, 0.08), transparent 28%),
+                linear-gradient(180deg, #f8fdf8 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+        }
+
+        body {
+            padding: 1.2rem;
+            box-sizing: border-box;
+            display: flex;
+        }
+
+        .chat-page {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            align-items: stretch;
+            min-height: 100%;
+            height: 100%;
+            flex: 1;
+        }
+
+        .chat-shell {
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .chat-shell {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 2.4rem);
+            height: 100%;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .chat-stream {
+            flex: 1;
+            min-height: 0;
+            padding: 1.1rem;
+            overflow-y: auto;
+            background:
+                radial-gradient(circle at top right, rgba(76, 187, 23, 0.06), transparent 22%),
+                linear-gradient(180deg, #fcfffc 0%, #f7fcf7 100%);
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 0.85rem;
+            animation: rise 0.22s ease-out both;
+        }
+
+        .message.user { justify-content: flex-end; }
+        .message.assistant { justify-content: flex-start; }
+
+        .bubble {
+            max-width: min(86%, 620px);
+            padding: 0.95rem 1rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 20px rgba(15, 56, 28, 0.08);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .message.user .bubble {
+            background: var(--user-bubble);
+            color: var(--white);
+            border-bottom-right-radius: 6px;
+        }
+
+        .message.assistant .bubble {
+            background: var(--assistant-bubble);
+            color: var(--text-dark);
+            border: 1px solid rgba(34, 139, 34, 0.08);
+            border-bottom-left-radius: 6px;
+        }
+
+        .meta {
+            margin-top: 0.45rem;
+            font-size: 0.73rem;
+            opacity: 0.78;
+        }
+
+        .composer {
+            padding: 0.9rem;
+            border-top: 1px solid rgba(34, 139, 34, 0.1);
+            background: #ffffff;
+            margin-top: auto;
+        }
+
+        .composer form {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .composer textarea {
+            flex: 1;
+            min-width: 0;
+            min-height: 54px;
+            max-height: 160px;
+            resize: vertical;
+            border-radius: 18px;
+            border: 1px solid rgba(34, 139, 34, 0.16);
+            padding: 0.92rem 1rem;
+            font: inherit;
+            color: var(--text-dark);
+            background: #fbfffb;
+            outline: none;
+            box-shadow: inset 0 1px 2px rgba(15, 56, 28, 0.04);
+        }
+
+        .composer textarea:focus {
+            border-color: rgba(34, 139, 34, 0.35);
+            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.08);
+        }
+
+        .composer button {
+            border: 0;
+            border-radius: 18px;
+            width: 56px;
+            height: 56px;
+            flex: 0 0 56px;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(34, 139, 34, 0.18);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            display: grid;
+            place-items: center;
+            padding: 0;
+        }
+
+        .composer button:hover {
+            transform: translateY(-2px);
+            opacity: 0.97;
+        }
+
+        .composer button svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            display: block;
+        }
+
+        .composer button:disabled {
+            cursor: wait;
+            opacity: 0.72;
+            transform: none;
+        }
+
+        .typing {
+            display: inline-flex;
+            gap: 0.3rem;
+            align-items: center;
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(15, 56, 28, 0.55);
+            animation: blink 1s infinite ease-in-out;
+        }
+
+        .typing span:nth-child(2) { animation-delay: 0.16s; }
+        .typing span:nth-child(3) { animation-delay: 0.32s; }
+
+        .typing-bubble .bubble {
+            padding: 0.85rem 1rem;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+            0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
+            40% { transform: translateY(-3px); opacity: 1; }
+        }
+
+        @media (max-width: 920px) {
+            .chat-shell { min-height: 100%; }
+        }
+
+        @media (max-width: 640px) {
+            body { padding: 0.75rem; }
+            .chat-shell { border-radius: 20px; }
+            .composer { padding: 0.8rem; }
+            .chat-stream { padding: 0.9rem; }
+            .composer form {
+                flex-direction: row;
+                align-items: center;
+                gap: 0.6rem;
+            }
+            .composer button {
+                width: 52px;
+                height: 52px;
+                flex-basis: 52px;
+                border-radius: 16px;
+            }
+            .bubble { max-width: 92%; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-page">
+        <section class="chat-shell" aria-label="AI chat">
+            <div id="chatStream" class="chat-stream" aria-live="polite" aria-label="Conversation"></div>
+
+            <div class="composer">
+                <form id="chatForm">
+                    <textarea id="chatInput" placeholder="Type your question here..."></textarea>
+                    <button id="sendButton" type="submit" aria-label="Send message" title="Send message">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const chatStream = document.getElementById("chatStream");
+        const chatForm = document.getElementById("chatForm");
+        const chatInput = document.getElementById("chatInput");
+        const sendButton = document.getElementById("sendButton");
+        const messages = [];
+
+        function formatTime(date = new Date()) {
+            return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        }
+
+        function createTypingMessage() {
+            const wrapper = document.createElement("div");
+            wrapper.className = "message assistant typing-bubble";
+            wrapper.innerHTML = `
+                <div class="bubble">
+                    <span class="typing" aria-label="Assistant is typing">
+                        <span></span><span></span><span></span>
+                    </span>
+                </div>
+            `;
+            return wrapper;
+        }
+
+        function renderMessage(message) {
+            const row = document.createElement("div");
+            row.className = `message ${message.role}`;
+            const label = message.role === "user" ? "You" : "AI";
+            const bubble = document.createElement("div");
+            bubble.className = "bubble";
+
+            const content = document.createElement("div");
+            content.textContent = message.content;
+
+            const meta = document.createElement("div");
+            meta.className = "meta";
+            meta.textContent = `${label} • ${message.time || formatTime()}`;
+
+            bubble.append(content, meta);
+            row.appendChild(bubble);
+            chatStream.appendChild(row);
+            chatStream.scrollTop = chatStream.scrollHeight;
+        }
+
+        function setBusy(isBusy) {
+            sendButton.disabled = isBusy;
+            chatInput.disabled = isBusy;
+            sendButton.setAttribute("aria-label", isBusy ? "Sending message" : "Send message");
+            sendButton.title = isBusy ? "Sending..." : "Send message";
+        }
+
+        function addTypingIndicator() {
+            const typing = createTypingMessage();
+            chatStream.appendChild(typing);
+            chatStream.scrollTop = chatStream.scrollHeight;
+            return typing;
+        }
+
+        async function sendMessage(text) {
+            const trimmed = text.trim();
+            if (!trimmed) return;
+
+            const userMessage = { role: "user", content: trimmed, time: formatTime() };
+            messages.push({ role: "user", content: trimmed });
+            renderMessage(userMessage);
+            chatInput.value = "";
+            chatInput.focus();
+
+            const typing = addTypingIndicator();
+            setBusy(true);
+
+            try {
+                if (window.location.protocol === "file:") {
+                    throw new Error("Chat requires the local Node server. Run `npm start` and open http://localhost:3000/");
+                }
+
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ messages })
+                });
+
+                const contentType = response.headers.get("content-type") || "";
+                const responseText = await response.text();
+                typing.remove();
+
+                let data = null;
+                if (contentType.includes("application/json")) {
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch {
+                        throw new Error("The chat server returned invalid JSON.");
+                    }
+                }
+
+                if (!response.ok) {
+                    if (data && data.error) {
+                        throw new Error(data.error);
+                    }
+                    throw new Error("Chat API is unavailable. Start the Node server with `npm start`.");
+                }
+
+                if (!data || typeof data.reply !== "string") {
+                    throw new Error("The chat server returned an unexpected response.");
+                }
+
+                const assistantMessage = {
+                    role: "assistant",
+                    content: data.reply,
+                    time: formatTime()
+                };
+                messages.push({ role: "assistant", content: data.reply });
+                renderMessage(assistantMessage);
+            } catch (error) {
+                typing.remove();
+                renderMessage({
+                    role: "assistant",
+                    content: error instanceof Error ? error.message : "An unexpected error occurred.",
+                    time: formatTime()
+                });
+            } finally {
+                setBusy(false);
+                requestAnimationFrame(() => {
+                    chatInput.focus();
+                });
+            }
+        }
+
+        chatForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            sendMessage(chatInput.value);
+        });
+
+        chatInput.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage(chatInput.value);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

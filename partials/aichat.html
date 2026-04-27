@@ -1,0 +1,147 @@
+<style>
+    .aichat-widget {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 1205;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .aichat-toggle {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .aichat-launcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.85rem 1.1rem;
+        background: linear-gradient(135deg, #0f381c, #228b22);
+        color: #ffffff;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        box-shadow: 0 14px 28px rgba(15, 56, 28, 0.24);
+        user-select: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .aichat-launcher:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 30px rgba(15, 56, 28, 0.3);
+    }
+
+    .aichat-launcher::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #4cbb17;
+        box-shadow: 0 0 0 6px rgba(76, 187, 23, 0.15);
+    }
+
+    .aichat-panel {
+        position: absolute;
+        right: 0;
+        bottom: 64px;
+        width: min(92vw, 420px);
+        height: min(72vh, 640px);
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid rgba(34, 139, 34, 0.12);
+        border-radius: 24px;
+        box-shadow: 0 24px 56px rgba(15, 56, 28, 0.22);
+        overflow: hidden;
+        transform: translateY(14px) scale(0.96);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(14px);
+    }
+
+    .aichat-toggle:checked ~ .aichat-panel {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .aichat-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.9rem 1rem;
+        background: linear-gradient(135deg, rgba(15, 56, 28, 0.96), rgba(34, 139, 34, 0.92));
+        color: #ffffff;
+    }
+
+    .aichat-panel-title {
+        display: grid;
+        gap: 0.15rem;
+    }
+
+    .aichat-panel-title strong {
+        font-size: 1rem;
+    }
+
+    .aichat-panel-title span {
+        font-size: 0.8rem;
+        opacity: 0.88;
+    }
+
+    .aichat-close {
+        cursor: pointer;
+        font-size: 1.8rem;
+        line-height: 1;
+        padding: 0.1rem 0.35rem;
+        user-select: none;
+    }
+
+    .aichat-panel iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #ffffff;
+        flex: 1;
+    }
+
+    @media (max-width: 640px) {
+        .aichat-widget {
+            right: 12px;
+            bottom: 12px;
+            left: 12px;
+        }
+
+        .aichat-launcher {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .aichat-panel {
+            width: 100%;
+            height: min(76vh, 620px);
+            bottom: 60px;
+        }
+    }
+</style>
+
+<div class="aichat-widget">
+    <input class="aichat-toggle" type="checkbox" id="aichat-toggle">
+    <label class="aichat-launcher" for="aichat-toggle">AI Chat</label>
+
+    <div class="aichat-panel" role="dialog" aria-label="AI chat widget">
+        <div class="aichat-panel-header">
+            <div class="aichat-panel-title">
+                <strong>SmarTech AI Chat</strong>
+                <span>Ask about services, projects, and company details</span>
+            </div>
+            <label class="aichat-close" for="aichat-toggle" aria-label="Close AI chat">&times;</label>
+        </div>
+        <iframe src="aichat.html" title="AI Chat"></iframe>
+    </div>
+</div>
