@@ -1,5 +1,20 @@
 [
     {
+        "img": "assets/clientspage/siddhienterprises.png",
+        "name": "Siddhi Enterprises",
+        "link": "https://siddhievents.in/"
+    },
+    {
+        "img": "assets/clientspage/vstarshipping.png",
+        "name": "Vstar Shipping",
+        "link": "https://vstarshipping.com/"
+    },
+    {
+        "img": "assets/clientspage/kmctrustindia.png",
+        "name": "Kailashnath Charitable Trust",
+        "link": "https://kmctrustindia.org/"
+    },
+    {
         "img": "assets/clientspage/Teleline_Telecom.png",
         "name": "Teleline Telecom",
         "link": "https://example.com/teleline"
@@ -116,42 +131,42 @@
     },
     {
         "img": "assets/clientspage/Client_26.png",
-        "name": "Client 26",
+        "name": "Alphacom",
         "link": "https://example.com/client26"
     },
     {
         "img": "assets/clientspage/Client_27.png",
-        "name": "Client 27",
+        "name": "Chanakaya Academy",
         "link": "https://example.com/client27"
     },
     {
         "img": "assets/clientspage/Client_28.png",
-        "name": "Client 28",
+        "name": "Prism Skill Institute Wada",
         "link": "https://example.com/client28"
     },
     {
         "img": "assets/clientspage/Client_29.png",
-        "name": "Client 29",
+        "name": "Shri Instruments",
         "link": "https://example.com/client29"
     },
     {
         "img": "assets/clientspage/Client_30.png",
-        "name": "Client 30",
+        "name": "Adhiraj Instruments Engineering",
         "link": "https://example.com/client30"
     },
     {
         "img": "assets/clientspage/Client_31.png",
-        "name": "Client 31",
+        "name": "Surya Agro Tourism",
         "link": "https://example.com/client31"
     },
     {
         "img": "assets/clientspage/Client_32.png",
-        "name": "Client 32",
+        "name": "Ingenious Engineering Sevices",
         "link": "https://example.com/client32"
     },
     {
         "img": "assets/clientspage/Client_33.png",
-        "name": "Client 33",
+        "name": "Deva Group Foundation",
         "link": "https://example.com/client33"
     }
 ]

@@ -1,0 +1,9 @@
+{
+  "name": "smarttech_web",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "groq-sdk": "^1.1.2"
+  }
+}
