@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 import Groq from "groq-sdk";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -15,6 +16,13 @@ const port = Number(process.env.PORT || 3000);
 
 const client = new Groq({
   apiKey: process.env.GROQ_API_KEY,
+});
+const mailTransporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
+  },
 });
 
 const siteContext = await readFile(path.join(rootDir, "content.txt"), "utf8");
@@ -41,6 +49,19 @@ function sendJson(res, statusCode, payload) {
     "Content-Type": "application/json; charset=utf-8",
   });
   res.end(JSON.stringify(payload));
+}
+
+function normalizeText(value, limit = 2000) {
+  return typeof value === "string" ? value.trim().slice(0, limit) : "";
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
 function buildChatMessages(messages = []) {
@@ -95,6 +116,54 @@ function scheduleKeepAlivePing() {
     request.end();
     scheduleKeepAlivePing();
   }, delay);
+}
+
+async function sendEnquiryEmail(payload) {
+  const name = normalizeText(payload.name, 120);
+  const email = normalizeText(payload.email, 160);
+  const mobile = normalizeText(payload.mobile, 40);
+  const message = normalizeText(payload.message, 4000);
+
+  if (!name || !email || !mobile || !message) {
+    throw new Error("All enquiry fields are required.");
+  }
+
+  const recipient = process.env.ENQUIRY_TO || process.env.GMAIL_USER;
+  if (!recipient) {
+    throw new Error("Missing mail recipient configuration.");
+  }
+
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMobile = escapeHtml(mobile);
+  const safeMessage = escapeHtml(message).replaceAll("\n", "<br>");
+
+  return mailTransporter.sendMail({
+    from: process.env.GMAIL_USER,
+    to: recipient,
+    subject: `Enquiry from ${name}`,
+    text: `Email: ${email}\n\nMobile: ${mobile}\n\nName: ${name}\n\nBodyy: ${message}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #243229; line-height: 1.7;">
+        <p><strong>FROM:</strong> ${safeEmail} ( ${safeName} ) <br><strong>MOBILE:</strong> ${safeMobile}</p>
+        <p><strong>ENQUIRY:</strong><br>${safeMessage}</p>
+      </div>
+    `,
+  });
+}
+
+function queueEnquiryEmail(payload) {
+  setImmediate(async () => {
+    try {
+      await sendEnquiryEmail(payload);
+      console.log(`[enquiry] ${new Date().toISOString()} Email sent successfully`);
+    } catch (error) {
+      console.error(
+        `[enquiry] ${new Date().toISOString()} Email failed:`,
+        error instanceof Error ? error.message : error
+      );
+    }
+  });
 }
 
 async function serveStatic(req, res) {
@@ -171,6 +240,33 @@ const server = http.createServer(async (req, res) => {
     } catch (error) {
       sendJson(res, 500, {
         error: error instanceof Error ? error.message : "Failed to generate response.",
+      });
+    }
+    return;
+  }
+
+  if (requestUrl.pathname === "/api/enquiry" && req.method === "POST") {
+    try {
+      const body = await new Promise((resolve, reject) => {
+        let raw = "";
+        req.on("data", (chunk) => {
+          raw += chunk;
+          if (raw.length > 1_000_000) {
+            reject(new Error("Payload too large"));
+            req.destroy();
+          }
+        });
+        req.on("end", () => resolve(raw));
+        req.on("error", reject);
+      });
+
+      const payload = body ? JSON.parse(body) : {};
+      sendJson(res, 200, { success: true, message: "Enquiry sent successfully." });
+      queueEnquiryEmail(payload);
+    } catch (error) {
+      sendJson(res, 500, {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to send enquiry.",
       });
     }
     return;

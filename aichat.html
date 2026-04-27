@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Chat | SmarTech Solutions</title>
     <meta name="description" content="Chat with the SmarTech Solutions AI assistant for company, services, and project details.">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <style>
         :root {
             --green-dark: #0f381c;
@@ -38,10 +39,76 @@
             color: var(--text-dark);
         }
 
-        body {
-            padding: 1.2rem;
-            box-sizing: border-box;
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
             display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 3rem 2rem 3rem;
         }
 
         .chat-page {
@@ -67,7 +134,7 @@
         .chat-shell {
             display: flex;
             flex-direction: column;
-            min-height: calc(100vh - 2.4rem);
+            min-height: calc(100vh - 4rem);
             height: 100%;
             flex: 1;
             overflow: hidden;
@@ -204,6 +271,31 @@
             padding: 0.85rem 1rem;
         }
 
+        footer {
+            margin-left: 250px;
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 1.5rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .footer-content p {
+            margin: 0.4rem 0;
+            opacity: 0.95;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
         @keyframes rise {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -215,11 +307,20 @@
         }
 
         @media (max-width: 920px) {
+            main {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+
             .chat-shell { min-height: 100%; }
         }
 
         @media (max-width: 640px) {
-            body { padding: 0.75rem; }
+            main { padding: 0.75rem; }
             .chat-shell { border-radius: 20px; }
             .composer { padding: 0.8rem; }
             .chat-stream { padding: 0.9rem; }
@@ -248,22 +349,28 @@
 </head>
 
 <body>
-    <div class="chat-page">
-        <section class="chat-shell" aria-label="AI chat">
-            <div id="chatStream" class="chat-stream" aria-live="polite" aria-label="Conversation"></div>
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
-            <div class="composer">
-                <form id="chatForm">
-                    <textarea id="chatInput" placeholder="Type your question here..."></textarea>
-                    <button id="sendButton" type="submit" aria-label="Send message" title="Send message">
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                        </svg>
-                    </button>
-                </form>
-            </div>
-        </section>
-    </div>
+    <main>
+        <div class="chat-page">
+            <section class="chat-shell" aria-label="AI chat">
+                <div id="chatStream" class="chat-stream" aria-live="polite" aria-label="Conversation"></div>
+
+                <div class="composer">
+                    <form id="chatForm">
+                        <textarea id="chatInput" placeholder="Type your question here..."></textarea>
+                        <button id="sendButton" type="submit" aria-label="Send message" title="Send message">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
     <script>
         const chatStream = document.getElementById("chatStream");

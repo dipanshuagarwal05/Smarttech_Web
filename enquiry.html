@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiry | SmarTech Solutions</title>
+    <meta name="description" content="Send an enquiry to SmarTech Solutions with your name, email, mobile number, and message.">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --green-accent: #a3e4d7;
+            --white: #ffffff;
+            --text-dark: #243229;
+            --text-soft: #5f6f65;
+            --bg-light: #f3faf3;
+            --surface: rgba(255, 255, 255, 0.92);
+            --border: rgba(34, 139, 34, 0.12);
+            --shadow: 0 24px 60px rgba(15, 56, 28, 0.14);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(76, 187, 23, 0.14), transparent 26%),
+                radial-gradient(circle at bottom right, rgba(15, 56, 28, 0.08), transparent 32%),
+                linear-gradient(180deg, #f9fef9 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 2rem 1.25rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.95rem 1.1rem;
+            border-radius: 16px;
+            background-color: #f3fbf4;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            display: block;
+        }
+
+        nav ul li a:hover,
+        nav ul li a:focus,
+        nav ul li a.active {
+            color: var(--white);
+            background-color: var(--green-main);
+            border-color: var(--green-main);
+            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        main {
+            margin-left: 250px;
+            padding: 3rem 2rem 3rem;
+        }
+
+        .enquiry-shell {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding-top: 4.5rem;
+        }
+
+        .hero-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 28px;
+            padding: 2.2rem;
+            background:
+                linear-gradient(135deg, rgba(15, 56, 28, 0.98), rgba(34, 139, 34, 0.94)),
+                radial-gradient(circle at top right, rgba(163, 228, 215, 0.24), transparent 28%);
+            color: var(--white);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.4rem;
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            inset: auto -12% -28% auto;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: rgba(76, 187, 23, 0.16);
+            filter: blur(12px);
+        }
+
+        .hero-card h1 {
+            margin: 0 0 0.6rem;
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-card p {
+            margin: 0;
+            max-width: 760px;
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        .form-card, .info-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 18px 40px rgba(15, 56, 28, 0.1);
+        }
+
+        .form-card {
+            padding: 1.5rem;
+        }
+
+        .form-card h2, .info-card h2 {
+            margin: 0 0 0.75rem;
+            color: var(--green-dark);
+            font-size: 1.5rem;
+        }
+
+        .form-card p, .info-card p, .info-item {
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.25rem;
+        }
+
+        .field {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-weight: 700;
+            color: var(--green-dark);
+            font-size: 0.95rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            border: 1px solid rgba(34, 139, 34, 0.16);
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            font: inherit;
+            color: var(--text-dark);
+            background: #fbfffb;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        input:focus, textarea:focus {
+            border-color: rgba(34, 139, 34, 0.38);
+            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.08);
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-top: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .submit-btn {
+            border: 0;
+            border-radius: 999px;
+            padding: 0.95rem 1.4rem;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 14px 26px rgba(34, 139, 34, 0.18);
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.96;
+        }
+
+        .submit-btn:disabled {
+            cursor: wait;
+            opacity: 0.72;
+            transform: none;
+        }
+
+        .status {
+            min-height: 1.5rem;
+            font-weight: 600;
+        }
+
+        .status.success {
+            color: #1f7a31;
+        }
+
+        .status.error {
+            color: #b42318;
+        }
+
+        .info-card {
+            padding: 1.5rem;
+        }
+
+        .info-list {
+            display: grid;
+            gap: 0.95rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(244, 249, 244, 0.95), rgba(248, 252, 248, 0.95));
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        .info-item strong {
+            display: block;
+            color: var(--green-dark);
+            margin-bottom: 0.2rem;
+        }
+
+        .mini-note {
+            margin-top: 1.25rem;
+            font-size: 0.92rem;
+            color: var(--text-soft);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-top: 1rem;
+            color: var(--green-main);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-left: 250px;
+            background-color: var(--green-dark);
+            color: var(--white);
+            padding: 1.5rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .footer-content p {
+            margin: 0.4rem 0;
+            opacity: 0.95;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 920px) {
+            main {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+
+            .enquiry-shell {
+                padding-top: 5rem;
+            }
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-card {
+                padding: 1.5rem;
+                border-radius: 22px;
+            }
+
+            .form-card, .info-card {
+                padding: 1.2rem;
+                border-radius: 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            textarea {
+                min-height: 160px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <section class="enquiry-shell">
+            <div class="hero-card">
+                <h1>Send an Enquiry</h1>
+                <p>Use this form to send your name, email address, mobile number, and message directly to our inbox.
+                    The email is formatted automatically so our team can review it quickly.</p>
+            </div>
+
+            <div class="layout">
+                <section class="form-card" aria-label="Enquiry form">
+                    <h2>Enquiry Form</h2>
+                    <p>Fill in the details below and submit the form. We will receive the enquiry by email.</p>
+
+                    <form id="enquiryForm">
+                        <div class="grid">
+                            <div class="field">
+                                <label for="name">Name</label>
+                                <input id="name" name="name" type="text" autocomplete="name" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="email">Email ID</label>
+                                <input id="email" name="email" type="email" autocomplete="email" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="mobile">Mobile Number</label>
+                                <input id="mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" required>
+                            </div>
+
+                            <div class="field full">
+                                <label for="message">Message Box</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="actions">
+                            <button class="submit-btn" id="submitBtn" type="submit">Send Enquiry</button>
+                            <div class="status" id="formStatus" aria-live="polite"></div>
+                        </div>
+                    </form>
+                </section>
+
+                <aside class="info-card">
+                    <h2 style="margin-top: 1.75rem;">Contact Information</h2>
+                    <p>These are the same contact details shown in the home page contact modal.</p>
+
+                    <div class="info-list">
+                        <div class="info-item">
+                            <strong>Address</strong>
+                            Ground Floor, Kailash Building, Near Bhave Tower, Thane, Maharashtra 400602
+                        </div>
+                        <div class="info-item">
+                            <strong>Sales Enquiry</strong>
+                            <a href="tel:+919221204466" style="color: inherit; text-decoration: underline;">+91 9221204466</a>
+                        </div>
+                        <div class="info-item">
+                            <strong>Support Enquiry</strong>
+                            <a href="tel:+919221204466" style="color: inherit; text-decoration: underline;">+91 9221204466</a>
+                        </div>
+                        <div class="info-item">
+                            <strong>Email</strong>
+                            <a href="mailto:smartech.009@gmail.com" style="color: inherit; text-decoration: underline;">smartech.009@gmail.com</a>
+                        </div>
+                    </div>
+
+                    <div class="mini-note">
+                        The enquiry page uses the same site header and can be opened from the navigation menu.
+                    </div>
+
+                    <a class="back-link" href="index.html">Return to Home</a>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <script>
+        const enquiryForm = document.getElementById("enquiryForm");
+        const submitBtn = document.getElementById("submitBtn");
+        const formStatus = document.getElementById("formStatus");
+
+        function setStatus(message, type) {
+            formStatus.textContent = message;
+            formStatus.className = `status ${type || ""}`.trim();
+        }
+
+        function setBusy(isBusy) {
+            submitBtn.disabled = isBusy;
+            submitBtn.textContent = isBusy ? "Sending..." : "Send Enquiry";
+        }
+
+        enquiryForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const payload = {
+                name: document.getElementById("name").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                mobile: document.getElementById("mobile").value.trim(),
+                message: document.getElementById("message").value.trim(),
+            };
+
+            setBusy(true);
+            setStatus("", "");
+
+            try {
+                const response = await fetch("/api/enquiry", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await response.json().catch(() => null);
+
+                if (!response.ok) {
+                    throw new Error((data && data.error) || "Failed to send enquiry.");
+                }
+
+                enquiryForm.reset();
+                setStatus("Enquiry sent successfully.", "success");
+            } catch (error) {
+                setStatus(error instanceof Error ? error.message : "Failed to send enquiry.", "error");
+            } finally {
+                setBusy(false);
+            }
+        });
+    </script>
+</body>
+
+</html>
