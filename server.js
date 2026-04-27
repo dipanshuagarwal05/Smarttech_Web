@@ -1,4 +1,5 @@
 import http from "node:http";
+import https from "node:https";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,6 +18,9 @@ const client = new Groq({
 });
 
 const siteContext = await readFile(path.join(rootDir, "content.txt"), "utf8");
+const keepAliveUrl = process.env.KEEPALIVE_URL || "https://smarttech-web.onrender.com";
+const minKeepAliveDelayMs = 1 * 60 * 1000;
+const maxKeepAliveDelayMs = 15 * 60 * 1000;
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -56,6 +60,41 @@ function buildChatMessages(messages = []) {
     },
     ...filtered,
   ];
+}
+
+function scheduleKeepAlivePing() {
+  const delay = Math.floor(
+    minKeepAliveDelayMs + Math.random() * (maxKeepAliveDelayMs - minKeepAliveDelayMs)
+  );
+
+  setTimeout(() => {
+    const target = new URL(keepAliveUrl);
+    const transport = target.protocol === "https:" ? https : http;
+
+    const request = transport.request(
+      {
+        method: "GET",
+        hostname: target.hostname,
+        port: target.port || undefined,
+        path: `${target.pathname}${target.search}`,
+        headers: {
+          "Cache-Control": "no-store",
+          "User-Agent": "SmartTech-KeepAlive/1.0",
+        },
+      },
+      (response) => {
+        response.resume();
+        console.log(`[keepalive] ${new Date().toISOString()} ${response.statusCode} ${keepAliveUrl}`);
+      }
+    );
+
+    request.on("error", (error) => {
+      console.warn(`[keepalive] ${new Date().toISOString()} ${error.message}`);
+    });
+
+    request.end();
+    scheduleKeepAlivePing();
+  }, delay);
 }
 
 async function serveStatic(req, res) {
@@ -148,4 +187,5 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(port, () => {
   console.log(`SmartTech site running at http://localhost:${port}`);
+  scheduleKeepAlivePing();
 });
