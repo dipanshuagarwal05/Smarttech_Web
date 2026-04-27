@@ -35,75 +35,7 @@
             color: var(--text-dark);
         }
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 250px;
-            background-color: var(--white);
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.08);
-            z-index: 1001;
-            overflow-y: auto;
-        }
-
-        nav {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 2rem 1.25rem;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        nav .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--green-main);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.65rem;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--green-dark);
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 0.95rem 1.1rem;
-            border-radius: 16px;
-            background-color: #f3fbf4;
-            transition: all 0.25s ease;
-            border: 1px solid transparent;
-            display: block;
-        }
-
-        nav ul li a:hover,
-        nav ul li a:focus,
-        nav ul li a.active {
-            color: var(--white);
-            background-color: var(--green-main);
-            border-color: var(--green-main);
-            box-shadow: 0 6px 14px rgba(34, 139, 34, 0.12);
-        }
-
-        body {
-            overflow-x: hidden;
-        }
-
         main {
-            margin-left: 250px;
             padding: 3rem 2rem 3rem;
         }
 
@@ -314,39 +246,9 @@
             text-decoration: underline;
         }
 
-        footer {
-            margin-left: 250px;
-            background-color: var(--green-dark);
-            color: var(--white);
-            padding: 1.5rem 2rem 1rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .footer-content p {
-            margin: 0.4rem 0;
-            opacity: 0.95;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 1rem;
-            opacity: 0.8;
-        }
-
         @media (max-width: 920px) {
             main {
-                margin-left: 0;
                 padding: 1rem;
-            }
-
-            footer {
-                margin-left: 0;
             }
 
             .enquiry-shell {
@@ -428,7 +330,6 @@
 
                 <aside class="info-card">
                     <h2 style="margin-top: 1.75rem;">Contact Information</h2>
-                    <p>These are the same contact details shown in the home page contact modal.</p>
 
                     <div class="info-list">
                         <div class="info-item">
@@ -447,10 +348,6 @@
                             <strong>Email</strong>
                             <a href="mailto:smartech.009@gmail.com" style="color: inherit; text-decoration: underline;">smartech.009@gmail.com</a>
                         </div>
-                    </div>
-
-                    <div class="mini-note">
-                        The enquiry page uses the same site header and can be opened from the navigation menu.
                     </div>
 
                     <a class="back-link" href="index.html">Return to Home</a>
