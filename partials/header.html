@@ -12,6 +12,19 @@
         overflow-x: hidden;
     }
 
+    html,
+    body {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
     body {
         min-height: 100vh;
     }
@@ -239,7 +252,6 @@
             <li><a data-nav="grampanchayat" href="grampanchayat.html">Digital Grampanchayat</a></li>
             <li><a data-nav="career" href="career.html">Career</a></li>
             <li><a data-nav="enquiry" href="enquiry.html">Enquiry</a></li>
-            <li><a data-nav="aichat" href="aichat.html">AI Chat</a></li>
             <li><a data-contact="true" href="index.html">Contact</a></li>
         </ul>
         <div class="desktop-whatsapp-wrap">
