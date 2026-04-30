@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order | SmarTech Solutions</title>
-    <meta name="description" content="Place an order with SmarTech Solutions: representative name, order type, date, remarks, email, phone, and an optional file attachment.">
+    <meta name="description" content="Place an order with SmarTech Solutions: representative name, order type, date, remarks, email and phone.">
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <style>
         :root {
@@ -129,126 +129,6 @@
 
         .field.full {
             grid-column: 1 / -1;
-        }
-
-        .field-help {
-            font-size: 0.88rem;
-            color: var(--text-soft);
-        }
-
-        .upload-zone {
-            display: grid;
-            gap: 0.85rem;
-            padding: 1.1rem;
-            border: 1.5px dashed rgba(34, 139, 34, 0.24);
-            border-radius: 18px;
-            background:
-                linear-gradient(180deg, rgba(251, 255, 251, 0.98), rgba(245, 250, 245, 0.98));
-            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
-        }
-
-        .upload-zone:hover {
-            border-color: rgba(34, 139, 34, 0.45);
-            box-shadow: 0 10px 24px rgba(15, 56, 28, 0.08);
-            transform: translateY(-1px);
-        }
-
-        .upload-zone.is-dragover {
-            border-color: var(--green-main);
-            background: linear-gradient(180deg, rgba(224, 246, 224, 0.96), rgba(245, 250, 245, 0.98));
-            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.08);
-        }
-
-        .upload-zone-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .upload-copy {
-            display: grid;
-            gap: 0.2rem;
-        }
-
-        .upload-title {
-            font-weight: 800;
-            color: var(--green-dark);
-        }
-
-        .upload-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-soft);
-        }
-
-        .upload-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border: 0;
-            border-radius: 999px;
-            padding: 0.8rem 1.1rem;
-            background: linear-gradient(135deg, var(--green-main), var(--green-light));
-            color: var(--white);
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 12px 22px rgba(34, 139, 34, 0.18);
-        }
-
-        .upload-button:hover {
-            opacity: 0.96;
-        }
-
-        .upload-input {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        .upload-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-            padding: 0.85rem 1rem;
-            border-radius: 14px;
-            background: rgba(255, 255, 255, 0.72);
-            border: 1px solid rgba(34, 139, 34, 0.1);
-            color: var(--text-soft);
-            font-size: 0.92rem;
-        }
-
-        .upload-name {
-            font-weight: 700;
-            color: var(--text-dark);
-            word-break: break-word;
-        }
-
-        .upload-remove {
-            border: 0;
-            background: transparent;
-            color: var(--green-main);
-            font: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 0;
-        }
-
-        .upload-remove:hover {
-            text-decoration: underline;
-        }
-
-        .upload-hint {
-            font-size: 0.86rem;
-            color: var(--text-soft);
         }
 
         label {
@@ -464,24 +344,6 @@
                                 <label for="remark">Remark</label>
                                 <textarea id="remark" name="remark" placeholder="Salesperson notes, special instructions, etc." required></textarea>
                             </div>
-
-                            <div class="field full">
-                                <label for="attachment">Attach File</label>
-                                <div class="upload-zone" id="attachmentDropzone" role="button" tabindex="0" aria-label="Upload file or press the choose file button">
-                                    <div class="upload-zone-top">
-                                        <div class="upload-copy">
-                                            <div class="upload-title">Drag and drop a file here</div>
-                                            <div class="upload-subtitle">Or use the button to browse. Optional, up to 25 MB.</div>
-                                        </div>
-                                        <label class="upload-button" for="attachment">Choose File</label>
-                                    </div>
-                                    <input class="upload-input" id="attachment" name="attachment" type="file">
-                                    <div class="upload-meta" id="attachmentMeta">
-                                        <span class="upload-name" id="attachmentName">No file selected</span>
-                                        <button class="upload-remove" id="attachmentRemove" type="button" hidden>Remove</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="actions">
@@ -523,29 +385,6 @@
         const orderForm = document.getElementById("orderForm");
         const submitBtn = document.getElementById("submitBtn");
         const formStatus = document.getElementById("formStatus");
-        const attachmentInput = document.getElementById("attachment");
-        const attachmentDropzone = document.getElementById("attachmentDropzone");
-        const attachmentName = document.getElementById("attachmentName");
-        const attachmentRemove = document.getElementById("attachmentRemove");
-        const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
-
-        function formatFileSize(bytes) {
-            if (!Number.isFinite(bytes) || bytes <= 0) {
-                return "0 B";
-            }
-
-            const units = ["B", "KB", "MB", "GB"];
-            let size = bytes;
-            let unitIndex = 0;
-
-            while (size >= 1024 && unitIndex < units.length - 1) {
-                size /= 1024;
-                unitIndex += 1;
-            }
-
-            const precision = unitIndex === 0 ? 0 : size >= 10 ? 1 : 2;
-            return `${size.toFixed(precision)} ${units[unitIndex]}`;
-        }
 
         function setStatus(message, type) {
             formStatus.textContent = message;
@@ -557,106 +396,26 @@
             submitBtn.textContent = isBusy ? "Submitting..." : "Submit Order";
         }
 
-        function setAttachment(file) {
-            if (!file) {
-                attachmentInput.value = "";
-                attachmentName.textContent = "No file selected";
-                attachmentRemove.hidden = true;
-                return;
-            }
-
-            attachmentName.textContent = `${file.name} (${formatFileSize(file.size)})`;
-            attachmentRemove.hidden = false;
-        }
-
-        function handleFiles(files) {
-            const file = files && files[0] ? files[0] : null;
-            if (!file) {
-                return;
-            }
-
-            if (file.size > MAX_ATTACHMENT_BYTES) {
-                setStatus("Please attach a file smaller than 25 MB.", "error");
-                return;
-            }
-
-            setAttachment(file);
-            setStatus("", "");
-        }
-
-        attachmentInput.addEventListener("change", function () {
-            handleFiles(this.files);
-        });
-
-        attachmentRemove.addEventListener("click", function () {
-            setAttachment(null);
-        });
-
-        attachmentDropzone.addEventListener("dragover", function (event) {
-            event.preventDefault();
-            attachmentDropzone.classList.add("is-dragover");
-        });
-
-        attachmentDropzone.addEventListener("dragleave", function () {
-            attachmentDropzone.classList.remove("is-dragover");
-        });
-
-        attachmentDropzone.addEventListener("drop", function (event) {
-            event.preventDefault();
-            attachmentDropzone.classList.remove("is-dragover");
-
-            const files = event.dataTransfer && event.dataTransfer.files ? event.dataTransfer.files : null;
-            if (files && files.length) {
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(files[0]);
-                attachmentInput.files = dataTransfer.files;
-                handleFiles(dataTransfer.files);
-            }
-        });
-
-        attachmentDropzone.addEventListener("click", function (event) {
-            if (event.target.closest("label, button, input")) {
-                return;
-            }
-            attachmentInput.click();
-        });
-
-        attachmentDropzone.addEventListener("keydown", function (event) {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                attachmentInput.click();
-            }
-        });
-
         orderForm.addEventListener("submit", async function (event) {
             event.preventDefault();
+
+            const payload = {
+                representative_name: document.getElementById("repName").value.trim(),
+                order_for: document.getElementById("orderFor").value,
+                date: document.getElementById("date").value,
+                remark: document.getElementById("remark").value.trim(),
+                email: document.getElementById("email").value.trim(),
+                phone: document.getElementById("phone").value.trim(),
+            };
 
             setBusy(true);
             setStatus("", "");
 
             try {
-                const file = attachmentInput.files && attachmentInput.files[0] ? attachmentInput.files[0] : null;
-                if (file) {
-                    if (file.size > MAX_ATTACHMENT_BYTES) {
-                        throw new Error("Please attach a file smaller than 25 MB.");
-                    }
-                }
-
-                const payload = new FormData();
-                payload.append("representative_name", document.getElementById("repName").value.trim());
-                payload.append("order_for", document.getElementById("orderFor").value);
-                payload.append("date", document.getElementById("date").value);
-                payload.append("remark", document.getElementById("remark").value.trim());
-                payload.append("email", document.getElementById("email").value.trim());
-                payload.append("phone", document.getElementById("phone").value.trim());
-
-                if (file) {
-                    payload.append("attachment", file, file.name);
-                }
-
                 const response = await fetch("/api/order", {
                     method: "POST",
-                    body: payload,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
                 });
 
                 const data = await response.json().catch(() => null);
@@ -666,7 +425,6 @@
                 }
 
                 orderForm.reset();
-                setAttachment(null);
                 setStatus("Order submitted successfully.", "success");
             } catch (error) {
                 setStatus(error instanceof Error ? error.message : "Submission failed.", "error");
