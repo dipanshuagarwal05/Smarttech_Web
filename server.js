@@ -118,6 +118,32 @@ function scheduleKeepAlivePing() {
   }, delay);
 }
 
+function readRequestBodyBuffer(req, maxBytes) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    let totalBytes = 0;
+
+    req.on("data", (chunk) => {
+      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+      totalBytes += buffer.length;
+      if (totalBytes > maxBytes) {
+        reject(new Error("Payload too large"));
+        req.destroy();
+        return;
+      }
+      chunks.push(buffer);
+    });
+
+    req.on("end", () => resolve(Buffer.concat(chunks)));
+    req.on("error", reject);
+  });
+}
+
+async function readRequestBody(req, maxBytes) {
+  const buffer = await readRequestBodyBuffer(req, maxBytes);
+  return buffer.toString("utf8");
+}
+
 async function sendEnquiryEmail(payload) {
   const name = normalizeText(payload.name, 120);
   const email = normalizeText(payload.email, 160);
@@ -171,6 +197,129 @@ function normalizeOrderText(value, limit = 2000) {
   return typeof value === "string" ? value.trim().slice(0, limit) : "";
 }
 
+const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
+const ORDER_BODY_MAX_BYTES = 40 * 1024 * 1024;
+
+function parseMultipartHeaders(headerBlock) {
+  const headers = {};
+  const lines = headerBlock.split("\r\n");
+
+  for (const line of lines) {
+    const separatorIndex = line.indexOf(":");
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key = line.slice(0, separatorIndex).trim().toLowerCase();
+    const value = line.slice(separatorIndex + 1).trim();
+    headers[key] = value;
+  }
+
+  return headers;
+}
+
+function parseMultipartFormData(bodyBuffer, contentType) {
+  const boundaryMatch = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
+  const boundary = boundaryMatch && (boundaryMatch[1] || boundaryMatch[2]);
+
+  if (!boundary) {
+    throw new Error("Missing multipart boundary.");
+  }
+
+  const boundaryBuffer = Buffer.from(`--${boundary}`);
+  const headerDelimiter = Buffer.from("\r\n\r\n");
+  const fields = {};
+  const attachment = null;
+  let cursor = bodyBuffer.indexOf(boundaryBuffer);
+
+  if (cursor === -1) {
+    throw new Error("Malformed multipart body.");
+  }
+
+  while (cursor !== -1) {
+    cursor += boundaryBuffer.length;
+
+    if (bodyBuffer[cursor] === 45 && bodyBuffer[cursor + 1] === 45) {
+      break;
+    }
+
+    if (bodyBuffer[cursor] === 13 && bodyBuffer[cursor + 1] === 10) {
+      cursor += 2;
+    }
+
+    const nextBoundary = bodyBuffer.indexOf(boundaryBuffer, cursor);
+    if (nextBoundary === -1) {
+      break;
+    }
+
+    let partEnd = nextBoundary;
+    if (bodyBuffer[partEnd - 2] === 13 && bodyBuffer[partEnd - 1] === 10) {
+      partEnd -= 2;
+    }
+
+    const part = bodyBuffer.slice(cursor, partEnd);
+    const headerEnd = part.indexOf(headerDelimiter);
+    if (headerEnd !== -1) {
+      const headerBlock = part.slice(0, headerEnd).toString("utf8");
+      const content = part.slice(headerEnd + headerDelimiter.length);
+      const headers = parseMultipartHeaders(headerBlock);
+      const disposition = headers["content-disposition"] || "";
+      const nameMatch = /name="([^"]+)"/i.exec(disposition);
+      const filenameMatch = /filename="([^"]*)"/i.exec(disposition);
+      const fieldName = nameMatch ? nameMatch[1] : "";
+
+      if (fieldName) {
+        if (filenameMatch && filenameMatch[1]) {
+          fields[fieldName] = {
+            name: filenameMatch[1],
+            type: headers["content-type"] || "application/octet-stream",
+            size: content.length,
+            content,
+          };
+        } else {
+          fields[fieldName] = content.toString("utf8");
+        }
+      }
+    }
+
+    cursor = nextBoundary;
+  }
+
+  return fields;
+}
+
+function normalizeAttachment(attachment) {
+  if (!attachment || typeof attachment !== "object") {
+    return null;
+  }
+
+  const name = normalizeOrderText(attachment.name, 180);
+  const type = normalizeOrderText(attachment.type, 120) || "application/octet-stream";
+  const rawContent = attachment.content;
+  const size = Number(attachment.size);
+
+  let buffer = null;
+  if (Buffer.isBuffer(rawContent)) {
+    buffer = rawContent;
+  } else if (typeof rawContent === "string" && rawContent.trim()) {
+    buffer = Buffer.from(rawContent.trim(), "base64");
+  }
+
+  if (!name || !buffer || buffer.length === 0 || buffer.length > MAX_ATTACHMENT_BYTES) {
+    throw new Error("Invalid attachment supplied.");
+  }
+
+  if (Number.isFinite(size) && size > 0 && size !== buffer.length) {
+    throw new Error("Attachment data is corrupted or incomplete.");
+  }
+
+  return {
+    filename: name,
+    content: buffer,
+    contentType: type,
+  };
+}
+
 async function sendOrderEmail(payload) {
   const repName = normalizeOrderText(payload.representative_name, 120);
   const orderFor = normalizeOrderText(payload.order_for, 250);
@@ -182,6 +331,8 @@ async function sendOrderEmail(payload) {
   if (!repName || !orderFor || !date || !remark || !email || !phone) {
     throw new Error("All order fields are required.");
   }
+
+  const attachment = normalizeAttachment(payload.attachment);
 
   const recipient = process.env.ORDER_TO || process.env.ENQUIRY_TO || process.env.GMAIL_USER;
   if (!recipient) {
@@ -199,7 +350,7 @@ async function sendOrderEmail(payload) {
     from: process.env.GMAIL_USER,
     to: recipient,
     subject: `New Order from ${repName}`,
-    text: `Representative: ${repName}\nOrder For: ${orderFor}\nDate: ${date}\nPhone: ${phone}\nEmail: ${email}\n\nRemark:\n${remark}`,
+    text: `Representative: ${repName}\nOrder For: ${orderFor}\nDate: ${date}\nPhone: ${phone}\nEmail: ${email}${attachment ? `\nAttachment: ${attachment.filename}` : ""}\n\nRemark:\n${remark}`,
     html: `
       <div style="font-family: Arial, sans-serif; color: #243229; line-height: 1.7;">
         <h2 style="color:#0f381c;">New Order Received</h2>
@@ -210,8 +361,14 @@ async function sendOrderEmail(payload) {
         <p><strong>Email:</strong> ${safeEmail}</p>
         <hr>
         <p><strong>Remark:</strong><br>${safeRemark}</p>
+        ${
+          attachment
+            ? `<p><strong>Attachment:</strong> ${escapeHtml(attachment.filename)}</p>`
+            : ""
+        }
       </div>
     `,
+    attachments: attachment ? [attachment] : undefined,
   });
 }
 
@@ -270,18 +427,7 @@ const server = http.createServer(async (req, res) => {
 
   if (requestUrl.pathname === "/api/chat" && req.method === "POST") {
     try {
-      const body = await new Promise((resolve, reject) => {
-        let raw = "";
-        req.on("data", (chunk) => {
-          raw += chunk;
-          if (raw.length > 1_000_000) {
-            reject(new Error("Payload too large"));
-            req.destroy();
-          }
-        });
-        req.on("end", () => resolve(raw));
-        req.on("error", reject);
-      });
+      const body = await readRequestBody(req, 1_000_000);
 
       const payload = body ? JSON.parse(body) : {};
       const messages = Array.isArray(payload.messages) ? payload.messages : [];
@@ -310,18 +456,7 @@ const server = http.createServer(async (req, res) => {
 
   if (requestUrl.pathname === "/api/enquiry" && req.method === "POST") {
     try {
-      const body = await new Promise((resolve, reject) => {
-        let raw = "";
-        req.on("data", (chunk) => {
-          raw += chunk;
-          if (raw.length > 1_000_000) {
-            reject(new Error("Payload too large"));
-            req.destroy();
-          }
-        });
-        req.on("end", () => resolve(raw));
-        req.on("error", reject);
-      });
+      const body = await readRequestBody(req, 1_000_000);
 
       const payload = body ? JSON.parse(body) : {};
       sendJson(res, 200, { success: true, message: "Enquiry sent successfully." });
@@ -337,20 +472,17 @@ const server = http.createServer(async (req, res) => {
 
   if (requestUrl.pathname === "/api/order" && req.method === "POST") {
     try {
-      const body = await new Promise((resolve, reject) => {
-        let raw = "";
-        req.on("data", (chunk) => {
-          raw += chunk;
-          if (raw.length > 1_000_000) {
-            reject(new Error("Payload too large"));
-            req.destroy();
-          }
-        });
-        req.on("end", () => resolve(raw));
-        req.on("error", reject);
-      });
+      const contentType = String(req.headers["content-type"] || "");
+      let payload = {};
 
-      const payload = body ? JSON.parse(body) : {};
+      if (contentType.includes("multipart/form-data")) {
+        const body = await readRequestBodyBuffer(req, ORDER_BODY_MAX_BYTES);
+        payload = parseMultipartFormData(body, contentType);
+      } else {
+        const body = await readRequestBody(req, ORDER_BODY_MAX_BYTES);
+        payload = body ? JSON.parse(body) : {};
+      }
+
       sendJson(res, 200, { success: true, message: "Order submitted successfully." });
       queueOrderEmail(payload);
     } catch (error) {
