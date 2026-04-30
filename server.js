@@ -166,6 +166,69 @@ function queueEnquiryEmail(payload) {
   });
 }
 
+// ---------- Order form email logic ----------
+function normalizeOrderText(value, limit = 2000) {
+  return typeof value === "string" ? value.trim().slice(0, limit) : "";
+}
+
+async function sendOrderEmail(payload) {
+  const repName = normalizeOrderText(payload.representative_name, 120);
+  const orderFor = normalizeOrderText(payload.order_for, 250);
+  const date = normalizeOrderText(payload.date, 40);
+  const remark = normalizeOrderText(payload.remark, 2000);
+  const email = normalizeOrderText(payload.email, 160);
+  const phone = normalizeOrderText(payload.phone, 40);
+
+  if (!repName || !orderFor || !date || !remark || !email || !phone) {
+    throw new Error("All order fields are required.");
+  }
+
+  const recipient = process.env.ORDER_TO || process.env.ENQUIRY_TO || process.env.GMAIL_USER;
+  if (!recipient) {
+    throw new Error("Missing mail recipient configuration.");
+  }
+
+  const safeRepName = escapeHtml(repName);
+  const safeOrderFor = escapeHtml(orderFor);
+  const safeDate = escapeHtml(date);
+  const safeRemark = escapeHtml(remark).replaceAll("\n", "<br>");
+  const safeEmail = escapeHtml(email);
+  const safePhone = escapeHtml(phone);
+
+  return mailTransporter.sendMail({
+    from: process.env.GMAIL_USER,
+    to: recipient,
+    subject: `New Order from ${repName}`,
+    text: `Representative: ${repName}\nOrder For: ${orderFor}\nDate: ${date}\nPhone: ${phone}\nEmail: ${email}\n\nRemark:\n${remark}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #243229; line-height: 1.7;">
+        <h2 style="color:#0f381c;">New Order Received</h2>
+        <p><strong>Representative:</strong> ${safeRepName}</p>
+        <p><strong>Order For:</strong> ${safeOrderFor}</p>
+        <p><strong>Date:</strong> ${safeDate}</p>
+        <p><strong>Phone:</strong> ${safePhone}</p>
+        <p><strong>Email:</strong> ${safeEmail}</p>
+        <hr>
+        <p><strong>Remark:</strong><br>${safeRemark}</p>
+      </div>
+    `,
+  });
+}
+
+function queueOrderEmail(payload) {
+  setImmediate(async () => {
+    try {
+      await sendOrderEmail(payload);
+      console.log(`[order] ${new Date().toISOString()} Order email sent`);
+    } catch (error) {
+      console.error(
+        `[order] ${new Date().toISOString()} Email failed:`,
+        error instanceof Error ? error.message : error
+      );
+    }
+  });
+}
+
 async function serveStatic(req, res) {
   const requestUrl = new URL(req.url, `http://${req.headers.host}`);
   let pathname = decodeURIComponent(requestUrl.pathname);
@@ -267,6 +330,33 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 500, {
         success: false,
         error: error instanceof Error ? error.message : "Failed to send enquiry.",
+      });
+    }
+    return;
+  }
+
+  if (requestUrl.pathname === "/api/order" && req.method === "POST") {
+    try {
+      const body = await new Promise((resolve, reject) => {
+        let raw = "";
+        req.on("data", (chunk) => {
+          raw += chunk;
+          if (raw.length > 1_000_000) {
+            reject(new Error("Payload too large"));
+            req.destroy();
+          }
+        });
+        req.on("end", () => resolve(raw));
+        req.on("error", reject);
+      });
+
+      const payload = body ? JSON.parse(body) : {};
+      sendJson(res, 200, { success: true, message: "Order submitted successfully." });
+      queueOrderEmail(payload);
+    } catch (error) {
+      sendJson(res, 500, {
+        success: false,
+        error: error instanceof Error ? error.message : "Failed to submit order.",
       });
     }
     return;
