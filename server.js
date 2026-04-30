@@ -3,6 +3,7 @@ import https from "node:https";
 import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import Busboy from "busboy";
 import dotenv from "dotenv";
 import Groq from "groq-sdk";
 import nodemailer from "nodemailer";
@@ -200,94 +201,6 @@ function normalizeOrderText(value, limit = 2000) {
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 const ORDER_BODY_MAX_BYTES = 40 * 1024 * 1024;
 
-function parseMultipartHeaders(headerBlock) {
-  const headers = {};
-  const lines = headerBlock.split("\r\n");
-
-  for (const line of lines) {
-    const separatorIndex = line.indexOf(":");
-    if (separatorIndex === -1) {
-      continue;
-    }
-
-    const key = line.slice(0, separatorIndex).trim().toLowerCase();
-    const value = line.slice(separatorIndex + 1).trim();
-    headers[key] = value;
-  }
-
-  return headers;
-}
-
-function parseMultipartFormData(bodyBuffer, contentType) {
-  const boundaryMatch = /boundary=(?:"([^"]+)"|([^;]+))/i.exec(contentType || "");
-  const boundary = boundaryMatch && (boundaryMatch[1] || boundaryMatch[2]);
-
-  if (!boundary) {
-    throw new Error("Missing multipart boundary.");
-  }
-
-  const boundaryBuffer = Buffer.from(`--${boundary}`);
-  const headerDelimiter = Buffer.from("\r\n\r\n");
-  const fields = {};
-  const attachment = null;
-  let cursor = bodyBuffer.indexOf(boundaryBuffer);
-
-  if (cursor === -1) {
-    throw new Error("Malformed multipart body.");
-  }
-
-  while (cursor !== -1) {
-    cursor += boundaryBuffer.length;
-
-    if (bodyBuffer[cursor] === 45 && bodyBuffer[cursor + 1] === 45) {
-      break;
-    }
-
-    if (bodyBuffer[cursor] === 13 && bodyBuffer[cursor + 1] === 10) {
-      cursor += 2;
-    }
-
-    const nextBoundary = bodyBuffer.indexOf(boundaryBuffer, cursor);
-    if (nextBoundary === -1) {
-      break;
-    }
-
-    let partEnd = nextBoundary;
-    if (bodyBuffer[partEnd - 2] === 13 && bodyBuffer[partEnd - 1] === 10) {
-      partEnd -= 2;
-    }
-
-    const part = bodyBuffer.slice(cursor, partEnd);
-    const headerEnd = part.indexOf(headerDelimiter);
-    if (headerEnd !== -1) {
-      const headerBlock = part.slice(0, headerEnd).toString("utf8");
-      const content = part.slice(headerEnd + headerDelimiter.length);
-      const headers = parseMultipartHeaders(headerBlock);
-      const disposition = headers["content-disposition"] || "";
-      const nameMatch = /name="([^"]+)"/i.exec(disposition);
-      const filenameMatch = /filename="([^"]*)"/i.exec(disposition);
-      const fieldName = nameMatch ? nameMatch[1] : "";
-
-      if (fieldName) {
-        if (filenameMatch && filenameMatch[1]) {
-          fields[fieldName] = {
-            name: filenameMatch[1],
-            type: headers["content-type"] || "application/octet-stream",
-            size: content.length,
-            content,
-          };
-        } else {
-          fields[fieldName] = content.toString("utf8");
-        }
-      }
-    }
-
-    cursor = nextBoundary;
-  }
-
-  return fields;
-}
-
 function normalizeAttachment(attachment) {
   if (!attachment || typeof attachment !== "object") {
     return null;
@@ -370,6 +283,71 @@ async function sendOrderEmail(payload) {
     `,
     attachments: attachment ? [attachment] : undefined,
   });
+}
+
+async function parseOrderSubmission(req) {
+  const contentType = String(req.headers["content-type"] || "");
+
+  if (contentType.includes("multipart/form-data")) {
+    return new Promise((resolve, reject) => {
+      const fields = {};
+      let attachment = null;
+      let fileSize = 0;
+
+      const busboy = Busboy({
+        headers: req.headers,
+        limits: {
+          files: 1,
+          fileSize: MAX_ATTACHMENT_BYTES,
+          fields: 20,
+        },
+      });
+
+      busboy.on("field", (name, value) => {
+        fields[name] = typeof value === "string" ? value : "";
+      });
+
+      busboy.on("file", (name, file, info) => {
+        if (name !== "attachment") {
+          file.resume();
+          return;
+        }
+
+        const chunks = [];
+        file.on("data", (chunk) => {
+          fileSize += chunk.length;
+          chunks.push(chunk);
+        });
+
+        file.on("limit", () => {
+          reject(new Error("Attachment exceeds 25 MB."));
+          file.resume();
+        });
+
+        file.on("end", () => {
+          attachment = {
+            name: info.filename || "attachment",
+            type: info.mimeType || "application/octet-stream",
+            size: fileSize,
+            content: Buffer.concat(chunks),
+          };
+        });
+      });
+
+      busboy.on("error", reject);
+      busboy.on("partsLimit", () => reject(new Error("Too many form parts.")));
+      busboy.on("filesLimit", () => reject(new Error("Only one attachment is allowed.")));
+      busboy.on("fieldsLimit", () => reject(new Error("Too many form fields.")));
+      busboy.on("finish", () => {
+        resolve({ ...fields, attachment });
+      });
+
+      req.pipe(busboy);
+    });
+  }
+
+  const body = await readRequestBody(req, ORDER_BODY_MAX_BYTES);
+  return body ? JSON.parse(body) : {};
 }
 
 function queueOrderEmail(payload) {
@@ -472,16 +450,7 @@ const server = http.createServer(async (req, res) => {
 
   if (requestUrl.pathname === "/api/order" && req.method === "POST") {
     try {
-      const contentType = String(req.headers["content-type"] || "");
-      let payload = {};
-
-      if (contentType.includes("multipart/form-data")) {
-        const body = await readRequestBodyBuffer(req, ORDER_BODY_MAX_BYTES);
-        payload = parseMultipartFormData(body, contentType);
-      } else {
-        const body = await readRequestBody(req, ORDER_BODY_MAX_BYTES);
-        payload = body ? JSON.parse(body) : {};
-      }
+      const payload = await parseOrderSubmission(req);
 
       sendJson(res, 200, { success: true, message: "Order submitted successfully." });
       queueOrderEmail(payload);
