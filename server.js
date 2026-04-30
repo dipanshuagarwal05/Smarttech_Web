@@ -19,7 +19,14 @@ const client = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 const mailTransporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  connectionTimeout: 120000,
+  greetingTimeout: 120000,
+  socketTimeout: 600000,
+  dnsTimeout: 60000,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS,
