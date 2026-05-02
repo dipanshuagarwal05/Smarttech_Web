@@ -155,21 +155,30 @@
         filter: saturate(1.05);
     }
 
-    .desktop-whatsapp-wrap {
-        margin-top: auto;
-        padding-top: 2rem;
-        padding-bottom: 0.5rem;
+    .facebook-icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1877f2, #0c63d4);
+        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255, 255, 255, 0.9);
+        transition: transform 0.2s ease, filter 0.2s ease;
+        text-decoration: none;
     }
 
-    .desktop-whatsapp {
-        width: 44px;
-        height: 44px;
+    .facebook-icon-btn svg {
+        width: 21px;
+        height: 21px;
+        fill: currentColor;
     }
 
-    @media (max-width: 992px) {
-        .desktop-whatsapp-wrap {
-            display: none;
-        }
+    .facebook-icon-btn:hover,
+    .facebook-icon-btn:focus-visible {
+        transform: translateY(-2px);
+        filter: saturate(1.05);
     }
 
     .sidebar-overlay {
@@ -217,6 +226,13 @@
         </div>
     </a>
     <div class="mobile-header-actions">
+        <a class="facebook-icon-btn" href="https://www.facebook.com/profile.php?id=61571731650827" target="_blank"
+            rel="noopener noreferrer" aria-label="Visit our Facebook page">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+        </a>
         <a class="whatsapp-icon-btn" href="https://wa.me/919221204466" target="_blank" rel="noopener noreferrer"
             aria-label="Chat on WhatsApp">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -255,15 +271,6 @@
             <li><a data-nav="enquiry" href="orderform.html">Order Form</a></li>
             <li><a data-contact="true" href="index.html">Contact</a></li>
         </ul>
-        <div class="desktop-whatsapp-wrap">
-            <a class="whatsapp-icon-btn desktop-whatsapp" href="https://wa.me/919221204466" target="_blank"
-                rel="noopener noreferrer" aria-label="Chat on WhatsApp">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path
-                        d="M20.52 3.48A11.84 11.84 0 0 0 12.09 0C5.55 0 .23 5.32.23 11.86c0 2.09.55 4.14 1.59 5.95L0 24l6.38-1.67a11.78 11.78 0 0 0 5.7 1.45h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.24-6.14-3.43-8.44zM12.1 21.78h-.01a9.83 9.83 0 0 1-5.01-1.37l-.36-.21-3.78.99 1.01-3.68-.23-.38a9.85 9.85 0 0 1-1.52-5.27c0-5.44 4.43-9.87 9.88-9.87 2.64 0 5.13 1.03 6.98 2.9a9.8 9.8 0 0 1 2.88 6.98c0 5.45-4.43 9.88-9.87 9.88zm5.41-7.4c-.3-.15-1.78-.88-2.06-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.94 1.18-.17.2-.35.23-.65.08-.3-.15-1.26-.46-2.39-1.46-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.51l-.57-.01c-.2 0-.52.08-.79.38-.27.3-1.04 1.01-1.04 2.45s1.07 2.84 1.22 3.04c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.49 1.71.63.72.23 1.37.2 1.89.12.58-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.18-1.44-.08-.12-.28-.2-.58-.35z" />
-                </svg>
-            </a>
-        </div>
     </nav>
 </header>
 
