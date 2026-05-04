@@ -14,8 +14,7 @@ from groq import Groq
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__, template_folder='.', static_folder='assets')
-app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-dashboard-secret-change-me")
-app.permanent_session_lifetime = timedelta(days=3650)
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "secretkey")
 
 BASE_DIR = Path(__file__).resolve().parent
 ORDER_FILES_DIR = BASE_DIR / "orderformfiles"
