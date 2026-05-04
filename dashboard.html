@@ -36,6 +36,7 @@
 
         main {
             padding: 2rem;
+            /* margin-left is controlled by the header partial's CSS (250px sidebar) */
         }
 
         .dashboard-shell {
@@ -549,6 +550,8 @@
             </section>
         {% endif %}
     </main>
+
+    <div hx-get="partials/aichat.html" hx-trigger="load" hx-swap="outerHTML"></div>
 
     <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
 </body>

@@ -9,7 +9,7 @@ from uuid import uuid4
 from datetime import timedelta
 
 from pathlib import Path
-from flask import Flask, abort, send_file, request, jsonify, render_template, redirect, url_for, session
+from flask import Flask, abort, send_file, request, jsonify, render_template, redirect, url_for, session, flash
 from groq import Groq
 from werkzeug.utils import secure_filename
 
@@ -320,29 +320,10 @@ def dashboard_login():
                 session["superadmin_username"] = username
             return redirect(url_for("dashboard"))
 
-        return render_template(
-            "dashboard.html",
-            admin_logged_in=False,
-            login_error="Invalid username or password.",
-            orders=[],
-            enquiries=[],
-            order_count=0,
-            enquiry_count=0,
-            latest_order=None,
-            latest_enquiry=None,
-        ), 401
+        flash("Invalid username or password.", "login_error")
+        return redirect(url_for("dashboard"))
 
-    return render_template(
-        "dashboard.html",
-        admin_logged_in=False,
-        login_error=None,
-        orders=[],
-        enquiries=[],
-        order_count=0,
-        enquiry_count=0,
-        latest_order=None,
-        latest_enquiry=None,
-    )
+    return redirect(url_for("dashboard"))
 
 
 @app.route('/dashboard/logout', methods=['POST'])
@@ -350,7 +331,9 @@ def dashboard_logout():
     session.pop("dashboard_admin", None)
     session.pop("dashboard_username", None)
     session.pop("dashboard_password", None)
-    return redirect(url_for("dashboard_login"))
+    session.pop("superadmin_access", None)
+    session.pop("superadmin_username", None)
+    return redirect(url_for("dashboard"))
 
 
 @app.route('/admin-management.html', methods=['GET'])
@@ -396,7 +379,7 @@ def admin_management_logout():
     session.pop("dashboard_admin", None)
     session.pop("dashboard_username", None)
     session.pop("dashboard_password", None)
-    return redirect(url_for("admin_management_login"))
+    return redirect(url_for("admin_management"))
 
 
 @app.route('/admin-management/users/add', methods=['POST'])
