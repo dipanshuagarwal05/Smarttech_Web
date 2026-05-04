@@ -16,7 +16,13 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__, template_folder='.', static_folder='assets')
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "secretkey")
 
+app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+
 BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = str(BASE_DIR / "smartechweb.db")
 ORDER_FILES_DIR = BASE_DIR / "orderformfiles"
 
 GROQ_CLIENT = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -64,7 +70,7 @@ def dashboard_session_is_valid():
 
 def init_db():
     ORDER_FILES_DIR.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS enquiries (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -98,7 +104,7 @@ def init_db():
     conn.close()
 
 def sqldb():
-    db = sqlite3.connect("smartechweb.db")
+    db = sqlite3.connect(DB_PATH)
     c = db.cursor()
     return db, c
 
@@ -126,7 +132,7 @@ def save_order_attachment(uploaded_file):
 
 
 def get_order_file_path(order_id):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute("SELECT id, filename FROM orders WHERE id = ? LIMIT 1", (order_id,))
@@ -144,7 +150,7 @@ def enquiry_insert(name, email, phone, message):
 
 
 def fetch_rows(table_name):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(
@@ -156,7 +162,7 @@ def fetch_rows(table_name):
 
 
 def delete_row(table_name, row_id):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(f"DELETE FROM {table_name} WHERE id = ?", (row_id,))
     conn.commit()
@@ -164,7 +170,7 @@ def delete_row(table_name, row_id):
 
 
 def fetch_users():
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(
@@ -176,7 +182,7 @@ def fetch_users():
 
 
 def get_primary_user_credentials():
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(
@@ -188,7 +194,7 @@ def get_primary_user_credentials():
 
 
 def add_user(username, password):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute(
         "INSERT INTO users (username, password) VALUES (?, ?)",
@@ -199,7 +205,7 @@ def add_user(username, password):
 
 
 def delete_user(user_id):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
     conn.commit()
@@ -220,7 +226,7 @@ def render_admin_management_page(*, login_error=None, action_error=None, action_
 
 
 def authenticate_admin(username, password):
-    conn = sqlite3.connect("smartechweb.db")
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     cursor.execute(
@@ -309,6 +315,9 @@ def dashboard_login():
             session["dashboard_admin"] = True
             session["dashboard_username"] = username
             session["dashboard_password"] = password
+            if username == ADMIN_MGMT_USERNAME:
+                session["superadmin_access"] = True
+                session["superadmin_username"] = username
             return redirect(url_for("dashboard"))
 
         return render_template(
