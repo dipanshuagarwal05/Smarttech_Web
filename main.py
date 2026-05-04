@@ -55,19 +55,24 @@ def superadmin_required(view):
 
 def dashboard_session_is_valid():
     username = session.get("dashboard_username")
-    password = session.get("dashboard_password")
 
-    if not username or not password:
+    if not username:
         session.pop("dashboard_admin", None)
         return False
 
-    if authenticate_admin(username, password):
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE username = ? LIMIT 1", (username,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user:
         session["dashboard_admin"] = True
         return True
 
     session.pop("dashboard_admin", None)
     session.pop("dashboard_username", None)
-    session.pop("dashboard_password", None)
     return False
 
 
@@ -317,7 +322,6 @@ def dashboard_login():
             session.permanent = True
             session["dashboard_admin"] = True
             session["dashboard_username"] = username
-            session["dashboard_password"] = password
             if username == ADMIN_MGMT_USERNAME:
                 session["superadmin_access"] = True
                 session["superadmin_username"] = username
@@ -333,7 +337,6 @@ def dashboard_login():
 def dashboard_logout():
     session.pop("dashboard_admin", None)
     session.pop("dashboard_username", None)
-    session.pop("dashboard_password", None)
     session.pop("superadmin_access", None)
     session.pop("superadmin_username", None)
     return redirect(url_for("dashboard"))
@@ -364,7 +367,6 @@ def admin_management_login():
             session["superadmin_username"] = username
             session["dashboard_admin"] = True
             session["dashboard_username"] = dashboard_user["username"]
-            session["dashboard_password"] = dashboard_user["password"]
             return redirect(url_for("admin_management"))
 
         return render_admin_management_page(
@@ -381,7 +383,6 @@ def admin_management_logout():
     session.pop("superadmin_username", None)
     session.pop("dashboard_admin", None)
     session.pop("dashboard_username", None)
-    session.pop("dashboard_password", None)
     return redirect(url_for("admin_management"))
 
 
