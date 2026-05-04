@@ -13,3 +13,15 @@ build/
 .DS_Store
 .idea/
 .vscode/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.bak
+*.egg-info/
+*.egg
+*.manifest
+*.db

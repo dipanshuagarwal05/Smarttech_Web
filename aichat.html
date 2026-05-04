@@ -398,10 +398,6 @@
             setBusy(true);
 
             try {
-                if (window.location.protocol === "file:") {
-                    throw new Error("Chat requires the local Node server. Run `npm start` and open http://localhost:3000/");
-                }
-
                 const response = await fetch("/api/chat", {
                     method: "POST",
                     headers: {
@@ -410,36 +406,30 @@
                     body: JSON.stringify({ messages })
                 });
 
-                const contentType = response.headers.get("content-type") || "";
                 const responseText = await response.text();
                 typing.remove();
 
-                let data = null;
-                if (contentType.includes("application/json")) {
-                    try {
-                        data = JSON.parse(responseText);
-                    } catch {
-                        throw new Error("The chat server returned invalid JSON.");
+                let reply = responseText.trim();
+
+                try {
+                    const data = JSON.parse(responseText);
+                    if (data && typeof data.reply === "string") {
+                        reply = data.reply.trim();
                     }
+                } catch {
+                    // Keep the plain text response as-is.
                 }
 
-                if (!response.ok) {
-                    if (data && data.error) {
-                        throw new Error(data.error);
-                    }
-                    throw new Error("Chat API is unavailable. Start the Node server with `npm start`.");
-                }
-
-                if (!data || typeof data.reply !== "string") {
-                    throw new Error("The chat server returned an unexpected response.");
+                if (!reply) {
+                    throw new Error("The chat server returned an empty response.");
                 }
 
                 const assistantMessage = {
                     role: "assistant",
-                    content: data.reply,
+                    content: reply,
                     time: formatTime()
                 };
-                messages.push({ role: "assistant", content: data.reply });
+                messages.push({ role: "assistant", content: reply });
                 trimChatHistory();
                 renderMessage(assistantMessage);
             } catch (error) {

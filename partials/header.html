@@ -260,6 +260,12 @@
             </a>
         </div>
         <ul>
+            {% if dashboard_link_visible %}
+            <li><a data-nav="dashboard" href="dashboard.html">Dashboard</a></li>
+            {% endif %}
+            {% if admin_management_link_visible %}
+            <li><a data-nav="admin-management" href="admin-management.html">Admin Management</a></li>
+            {% endif %}
             <li><a data-nav="home" href="index.html#home">Home</a></li>
             <li><a href="index.html#about">About Us</a></li>
             <li><a href="index.html#services">Our Services</a></li>

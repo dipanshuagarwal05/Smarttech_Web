@@ -1,3 +1,68 @@
+<style>
+    .scroll-fab-group {
+        position: fixed;
+        right: 1.2rem;
+        bottom: 5.25rem;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        pointer-events: none;
+    }
+
+    .scroll-fab {
+        pointer-events: auto;
+        width: 48px;
+        height: 48px;
+        border: 0;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #0f381c, #228b22);
+        color: #ffffff;
+        box-shadow: 0 12px 24px rgba(15, 56, 28, 0.22);
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .scroll-fab:hover {
+        transform: translateY(-2px);
+        opacity: 0.96;
+    }
+
+    .scroll-fab svg {
+        width: 22px;
+        height: 22px;
+        fill: currentColor;
+    }
+
+    @media (max-width: 640px) {
+        .scroll-fab-group {
+            right: 0.8rem;
+            bottom: 5rem;
+        }
+
+        .scroll-fab {
+            width: 44px;
+            height: 44px;
+        }
+    }
+</style>
+
+<div class="scroll-fab-group" aria-label="Page scroll controls">
+    <button class="scroll-fab" type="button" id="scrollToTopBtn" aria-label="Scroll to top" title="Scroll to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5l7 7-1.41 1.41L13 8.83V20h-2V8.83l-4.59 4.58L5 12z"></path>
+        </svg>
+    </button>
+    <button class="scroll-fab" type="button" id="scrollToBottomBtn" aria-label="Scroll to bottom" title="Scroll to bottom">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 19l-7-7 1.41-1.41L11 15.17V4h2v11.17l4.59-4.58L19 12z"></path>
+        </svg>
+    </button>
+</div>
+
 <footer>
     <div class="footer-content">
         <p><strong>Address:</strong> Ground Floor, Kailash Building, Near Bhave Tower, Thane, Maharashtra 400602</p>
@@ -9,3 +74,26 @@
     </div>
     <p class="copyright-line">&copy; 2026 SmarTech Solutions. All Rights Reserved.</p>
 </footer>
+
+<script>
+    (function () {
+        const topBtn = document.getElementById("scrollToTopBtn");
+        const bottomBtn = document.getElementById("scrollToBottomBtn");
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+        }
+
+        if (topBtn) {
+            topBtn.addEventListener("click", scrollToTop);
+        }
+
+        if (bottomBtn) {
+            bottomBtn.addEventListener("click", scrollToBottom);
+        }
+    })();
+</script>

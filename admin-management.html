@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management | SmarTech Solutions</title>
+    <meta name="description" content="Create and delete admin users for the SmarTech Solutions dashboard.">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --white: #ffffff;
+            --text-dark: #203026;
+            --text-soft: #5a6a60;
+            --bg-light: #f4faf4;
+            --surface: rgba(255, 255, 255, 0.95);
+            --border: rgba(34, 139, 34, 0.12);
+            --shadow: 0 20px 52px rgba(15, 56, 28, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(76, 187, 23, 0.16), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(15, 56, 28, 0.1), transparent 30%),
+                linear-gradient(180deg, #f9fef9 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .shell {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding-top: 4.5rem;
+        }
+
+        .hero {
+            background:
+                linear-gradient(135deg, rgba(15, 56, 28, 0.98), rgba(34, 139, 34, 0.94)),
+                radial-gradient(circle at top right, rgba(163, 228, 215, 0.24), transparent 28%);
+            color: var(--white);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 1.2rem;
+        }
+
+        .hero h1 {
+            margin: 0 0 0.4rem;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+        }
+
+        .hero p {
+            margin: 0;
+            max-width: 760px;
+            color: rgba(255, 255, 255, 0.88);
+            line-height: 1.7;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            margin: 0;
+            color: var(--green-dark);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+        }
+
+        .nav-pills {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-pills a, .nav-pills button {
+            text-decoration: none;
+            color: var(--green-dark);
+            background: rgba(34, 139, 34, 0.08);
+            border: 1px solid rgba(34, 139, 34, 0.12);
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            font-weight: 800;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .nav-pills a:hover, .nav-pills button:hover {
+            background: var(--green-main);
+            color: var(--white);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 1.2rem;
+        }
+
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 1.2rem;
+        }
+
+        .card h2 {
+            margin: 0 0 0.75rem;
+            color: var(--green-dark);
+            font-size: 1.35rem;
+        }
+
+        .muted {
+            color: var(--text-soft);
+        }
+
+        .metric {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(34, 139, 34, 0.08);
+            color: var(--green-dark);
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 0.9rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid rgba(34, 139, 34, 0.16);
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            font: inherit;
+            background: #fbfffb;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        input:focus {
+            border-color: rgba(34, 139, 34, 0.38);
+            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.08);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 999px;
+            padding: 0.85rem 1.15rem;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button.primary {
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+        }
+
+        .button.danger {
+            background: #b42318;
+            color: var(--white);
+        }
+
+        .table-wrap {
+            overflow: auto;
+            border-radius: 18px;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        thead th {
+            background: linear-gradient(180deg, #f8fcf8, #eef8ee);
+            color: var(--green-dark);
+            text-align: left;
+            font-size: 0.88rem;
+            padding: 0.95rem 1rem;
+            border-bottom: 1px solid rgba(34, 139, 34, 0.12);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 0.95rem 1rem;
+            border-bottom: 1px solid rgba(34, 139, 34, 0.08);
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: rgba(34, 139, 34, 0.03);
+        }
+
+        .alert {
+            margin-bottom: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: 16px;
+            font-weight: 700;
+        }
+
+        .alert.error {
+            background: rgba(180, 35, 24, 0.08);
+            color: #b42318;
+        }
+
+        .alert.success {
+            background: rgba(34, 139, 34, 0.08);
+            color: var(--green-dark);
+        }
+
+        .empty-state {
+            padding: 1.6rem 1rem;
+            text-align: center;
+            color: var(--text-soft);
+        }
+
+        .empty-state strong {
+            display: block;
+            color: var(--green-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                padding: 1rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        <section class="shell">
+            <div class="hero">
+                <h1>Admin Management</h1>
+                <p>Use the super-admin credentials from the environment file to add or remove dashboard admin users.</p>
+            </div>
+
+            {% if not superadmin_logged_in %}
+                <div class="card" style="max-width: 720px; margin: 0 auto;">
+                    <h2>Super Admin Login</h2>
+                    <p class="muted">This page is protected separately from the dashboard.</p>
+
+                    <form class="form-grid" method="post" action="{{ url_for('admin_management_login') }}">
+                        <div>
+                            <label for="username">Username</label>
+                            <input id="username" name="username" type="text" autocomplete="username" required>
+                        </div>
+                        <div>
+                            <label for="password">Password</label>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required>
+                        </div>
+
+                        {% if login_error %}
+                            <div class="alert error">{{ login_error }}</div>
+                        {% endif %}
+
+                        <div>
+                            <button class="button primary" type="submit">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <div class="topbar">
+                    <h2 class="title">Registered Admins</h2>
+                    <div class="nav-pills">
+                        <a href="dashboard.html">Dashboard</a>
+                        <form method="post" action="{{ url_for('admin_management_logout') }}" style="margin: 0;">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+
+                {% if action_error %}
+                    <div class="alert error">{{ action_error }}</div>
+                {% endif %}
+
+                {% if action_message %}
+                    <div class="alert success">{{ action_message }}</div>
+                {% endif %}
+
+                <div class="grid">
+                    <section class="card">
+                        <h2>Add Admin</h2>
+                        <p class="muted">Create a new dashboard user by saving a raw username and password in the database.</p>
+                        <form class="form-grid" method="post" action="{{ url_for('admin_management_add_user') }}">
+                            <div>
+                                <label for="new_username">Username</label>
+                                <input id="new_username" name="username" type="text" required>
+                            </div>
+                            <div>
+                                <label for="new_password">Password</label>
+                                <input id="new_password" name="password" type="text" required>
+                            </div>
+                            <div>
+                                <button class="button primary" type="submit">Add Admin</button>
+                            </div>
+                        </form>
+                    </section>
+
+                    <section class="card">
+                        <h2>Admin Users</h2>
+                        <p class="muted">Current dashboard users stored in the `users` table.</p>
+
+                        {% if users %}
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Username</th>
+                                            <th>Password</th>
+                                            <th>Created</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td>{{ user.id }}</td>
+                                                <td>{{ user.username }}</td>
+                                                <td>{{ user.password }}</td>
+                                                <td>{{ user.timestamp }}</td>
+                                                <td>
+                                                    <form method="post" action="{{ url_for('admin_management_delete_user', user_id=user.id) }}" onsubmit="return confirm('Delete this admin user?');" style="margin: 0;">
+                                                        <button class="button danger" type="submit">Delete</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="muted" style="margin-top: 0.9rem;">Total admins: <span class="metric">{{ user_count }}</span></p>
+                        {% else %}
+                            <div class="empty-state">
+                                <strong>No admin users found</strong>
+                                Add the first admin using the form on the left.
+                            </div>
+                        {% endif %}
+                    </section>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+</body>
+
+</html>

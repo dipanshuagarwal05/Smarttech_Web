@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SmarTech Solutions</title>
+    <meta name="description" content="Admin dashboard for order and enquiry submissions.">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <style>
+        :root {
+            --green-dark: #0f381c;
+            --green-main: #228b22;
+            --green-light: #4cbb17;
+            --white: #ffffff;
+            --text-dark: #203026;
+            --text-soft: #5a6a60;
+            --bg-light: #f4faf4;
+            --surface: rgba(255, 255, 255, 0.95);
+            --border: rgba(34, 139, 34, 0.12);
+            --shadow: 0 20px 52px rgba(15, 56, 28, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(76, 187, 23, 0.16), transparent 24%),
+                radial-gradient(circle at bottom right, rgba(15, 56, 28, 0.1), transparent 30%),
+                linear-gradient(180deg, #f9fef9 0%, var(--bg-light) 100%);
+            color: var(--text-dark);
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .dashboard-shell {
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .auth-shell {
+            max-width: 720px;
+            margin: 0 auto;
+            padding-top: 4.5rem;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+
+        .title {
+            margin: 0;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            color: var(--green-dark);
+        }
+
+        .nav-pills {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-pills a {
+            text-decoration: none;
+            color: var(--green-dark);
+            background: rgba(34, 139, 34, 0.08);
+            border: 1px solid rgba(34, 139, 34, 0.12);
+            padding: 0.7rem 1rem;
+            border-radius: 999px;
+            font-weight: 800;
+        }
+
+        .nav-pills a:hover {
+            background: var(--green-main);
+            color: var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .stat-card,
+        .section-card {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card {
+            padding: 1.1rem 1.2rem;
+            display: grid;
+            gap: 0.35rem;
+        }
+
+        .stat-label {
+            color: var(--text-soft);
+            font-size: 0.92rem;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+            font-weight: 900;
+            color: var(--green-dark);
+            letter-spacing: -0.04em;
+        }
+
+        .stat-meta {
+            color: var(--text-soft);
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .section-card {
+            padding: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .section-head h2 {
+            margin: 0;
+            color: var(--green-dark);
+            font-size: 1.35rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(34, 139, 34, 0.08);
+            color: var(--green-dark);
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        .table-wrap {
+            overflow: auto;
+            border-radius: 18px;
+            border: 1px solid rgba(34, 139, 34, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px;
+        }
+
+        thead th {
+            background: linear-gradient(180deg, #f8fcf8, #eef8ee);
+            color: var(--green-dark);
+            text-align: left;
+            font-size: 0.88rem;
+            padding: 0.95rem 1rem;
+            border-bottom: 1px solid rgba(34, 139, 34, 0.12);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 0.95rem 1rem;
+            border-bottom: 1px solid rgba(34, 139, 34, 0.08);
+            vertical-align: top;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:hover {
+            background: rgba(34, 139, 34, 0.03);
+        }
+
+        .message-cell {
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-width: 320px;
+        }
+
+        .muted {
+            color: var(--text-soft);
+        }
+
+        .filename {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(15, 56, 28, 0.08);
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 0.84rem;
+        }
+
+        .delete-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 999px;
+            padding: 0.7rem 0.95rem;
+            background: #b42318;
+            color: var(--white);
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            opacity: 0.92;
+        }
+
+        .empty-state {
+            padding: 2rem 1rem;
+            text-align: center;
+            color: var(--text-soft);
+        }
+
+        .empty-state strong {
+            display: block;
+            color: var(--green-dark);
+            margin-bottom: 0.35rem;
+        }
+
+        .summary-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.85rem;
+        }
+
+        .summary-row span {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(34, 139, 34, 0.08);
+            color: var(--green-dark);
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .login-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            padding: 1.6rem;
+        }
+
+        .login-card h1 {
+            margin: 0 0 0.45rem;
+            color: var(--green-dark);
+            font-size: clamp(1.9rem, 3vw, 2.6rem);
+            letter-spacing: -0.04em;
+        }
+
+        .login-card p {
+            margin: 0 0 1rem;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .login-form {
+            display: grid;
+            gap: 0.95rem;
+        }
+
+        .login-form label {
+            font-weight: 700;
+            color: var(--green-dark);
+            margin-bottom: 0.35rem;
+            display: block;
+        }
+
+        .login-form input {
+            width: 100%;
+            border: 1px solid rgba(34, 139, 34, 0.16);
+            border-radius: 16px;
+            padding: 0.95rem 1rem;
+            font: inherit;
+            background: #fbfffb;
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .login-form input:focus {
+            border-color: rgba(34, 139, 34, 0.38);
+            box-shadow: 0 0 0 4px rgba(34, 139, 34, 0.08);
+        }
+
+        .login-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .login-button {
+            border: 0;
+            border-radius: 999px;
+            padding: 0.9rem 1.25rem;
+            background: linear-gradient(135deg, var(--green-main), var(--green-light));
+            color: var(--white);
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .login-error {
+            color: #b42318;
+            font-weight: 700;
+            margin: 0.3rem 0 0;
+        }
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-button {
+            border: 0;
+            border-radius: 999px;
+            padding: 0.7rem 1rem;
+            background: rgba(180, 35, 24, 0.12);
+            color: #b42318;
+            font: inherit;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 720px) {
+            main {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-card {
+                padding: 1rem;
+                border-radius: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div hx-get="partials/header.html" hx-trigger="load" hx-swap="outerHTML"></div>
+
+    <main>
+        {% if admin_logged_in %}
+            <section class="dashboard-shell">
+                <div class="topbar">
+                    <h1 class="title">Dashboard</h1>
+                    <div class="nav-pills">
+                        <a href="#orders">Orders</a>
+                        <a href="#enquiries">Enquiries</a>
+                        <form class="logout-form" method="post" action="{{ url_for('dashboard_logout') }}">
+                            <button class="logout-button" type="submit">Logout</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <article class="stat-card">
+                        <div class="stat-label">Orders</div>
+                        <div class="stat-value">{{ order_count }}</div>
+                        <div class="stat-meta">Total stored order submissions.</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Enquiries</div>
+                        <div class="stat-value">{{ enquiry_count }}</div>
+                        <div class="stat-meta">Total stored enquiry submissions.</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Latest Order</div>
+                        <div class="stat-value">{% if latest_order %}#{{ latest_order.id }}{% else %}-{% endif %}</div>
+                        <div class="stat-meta">{% if latest_order %}{{ latest_order.timestamp }}{% else %}No order records yet.{% endif %}</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="stat-label">Latest Enquiry</div>
+                        <div class="stat-value">{% if latest_enquiry %}#{{ latest_enquiry.id }}{% else %}-{% endif %}</div>
+                        <div class="stat-meta">{% if latest_enquiry %}{{ latest_enquiry.timestamp }}{% else %}No enquiry records yet.{% endif %}</div>
+                    </article>
+                </div>
+
+                <section class="section-card" id="orders">
+                    <div class="section-head">
+                        <h2>Orders</h2>
+                        <span class="badge">{{ order_count }} total</span>
+                    </div>
+
+                    {% if orders %}
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Representative</th>
+                                        <th>Order For</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Date</th>
+                                        <th>Remark</th>
+                                        <th>File</th>
+                                        <th>Received At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td>{{ order.id }}</td>
+                                            <td>{{ order.representative_name }}</td>
+                                            <td>{{ order.order_for }}</td>
+                                            <td>{{ order.phone }}</td>
+                                            <td>{{ order.email }}</td>
+                                            <td>{{ order.date }}</td>
+                                            <td class="message-cell">{{ order.remark }}</td>
+                                        <td>
+                                            {% if order.filename %}
+                                                <a class="filename" href="{{ url_for('download_order_file', order_id=order.id) }}">{{ order.filename.split('/')[-1] }}</a>
+                                            {% else %}
+                                                <span class="muted">No file</span>
+                                            {% endif %}
+                                        </td>
+                                            <td>{{ order.timestamp }}</td>
+                                            <td>
+                                                <form method="post" action="{{ url_for('delete_order_route', order_id=order.id) }}" onsubmit="return confirm('Delete this order submission?');">
+                                                    <button class="delete-btn" type="submit">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <strong>No orders yet</strong>
+                            No order submissions have been stored.
+                        </div>
+                    {% endif %}
+                </section>
+
+                <section class="section-card" id="enquiries">
+                    <div class="section-head">
+                        <h2>Enquiries</h2>
+                        <span class="badge">{{ enquiry_count }} total</span>
+                    </div>
+
+                    {% if enquiries %}
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Message</th>
+                                        <th>Received At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for enquiry in enquiries %}
+                                        <tr>
+                                            <td>{{ enquiry.id }}</td>
+                                            <td>{{ enquiry.name }}</td>
+                                            <td>{{ enquiry.email }}</td>
+                                            <td>{{ enquiry.phone }}</td>
+                                            <td class="message-cell">{{ enquiry.message }}</td>
+                                            <td>{{ enquiry.timestamp }}</td>
+                                            <td>
+                                                <form method="post" action="{{ url_for('delete_enquiry_route', enquiry_id=enquiry.id) }}" onsubmit="return confirm('Delete this enquiry submission?');">
+                                                    <button class="delete-btn" type="submit">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="empty-state">
+                            <strong>No enquiries yet</strong>
+                            No enquiry submissions have been stored.
+                        </div>
+                    {% endif %}
+                </section>
+            </section>
+        {% else %}
+            <section class="auth-shell">
+                <div class="login-card">
+                    <h1>Admin Access</h1>
+                    <p>Enter your admin username and password to view the stored orders and enquiries.</p>
+
+                    <form class="login-form" method="post" action="{{ url_for('dashboard_login') }}">
+                        <div>
+                            <label for="username">Username</label>
+                            <input id="username" name="username" type="text" autocomplete="username" required>
+                        </div>
+
+                        <div>
+                            <label for="password">Password</label>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required>
+                        </div>
+
+                        {% if login_error %}
+                            <p class="login-error">{{ login_error }}</p>
+                        {% endif %}
+
+                        <div class="login-actions">
+                            <button class="login-button" type="submit">Sign In</button>
+                            <span class="muted">Protected admin dashboard</span>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+    <div hx-get="partials/footer.html" hx-trigger="load" hx-swap="outerHTML"></div>
+</body>
+
+</html>

@@ -14,13 +14,18 @@
     .floating-contact-desktop {
         display: none;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: center;
         gap: 12px;
     }
 
     @media (min-width: 993px) {
         .floating-contact-desktop {
             display: flex;
+            position: fixed;
+            top: 50%;
+            right: 18px;
+            transform: translateY(-50%);
+            z-index: 1204;
         }
     }
 
@@ -181,6 +186,10 @@
             right: 10px;
             bottom: 10px;
             left: 10px;
+        }
+
+        .floating-contact-desktop {
+            display: none;
         }
 
         .aichat-launcher {
