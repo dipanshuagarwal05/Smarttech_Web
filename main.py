@@ -12,11 +12,14 @@ from pathlib import Path
 from flask import Flask, abort, send_file, request, jsonify, render_template, redirect, url_for, session, flash
 from groq import Groq
 from werkzeug.utils import secure_filename
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__, template_folder='.', static_folder='assets')
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "secretkey")
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-app.config['SESSION_COOKIE_SECURE'] = os.getenv("FLASK_ENV") == "production"
+IS_PRODUCTION = os.getenv("FLASK_ENV") == "production"
+app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
