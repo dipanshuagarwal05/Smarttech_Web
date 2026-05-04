@@ -360,11 +360,10 @@ def admin_management_login():
         if username == ADMIN_MGMT_USERNAME and password == ADMIN_MGMT_PASSWORD:
             dashboard_user = get_primary_user_credentials()
             if dashboard_user is None:
-                dashboard_user = {
-                    "username": ADMIN_DASHBOARD_USERNAME,
-                    "password": ADMIN_DASHBOARD_PASSWORD,
-                }
-                add_user(dashboard_user["username"], dashboard_user["password"])
+                return render_admin_management_page(
+                    superadmin_logged_in=True,
+                    action_error="No dashboard admin exists yet. Add one first.",
+                ), 400
 
             session.permanent = True
             session["superadmin_access"] = True
