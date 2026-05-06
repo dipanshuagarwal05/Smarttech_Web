@@ -18,10 +18,6 @@ app = Flask(__name__, template_folder='.', static_folder='assets')
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "secretkey")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-IS_PRODUCTION = os.getenv("FLASK_ENV") == "production"
-app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=31)
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -355,6 +351,10 @@ def admin_management_login():
         password = request.form.get('password', '')
 
         if username == ADMIN_MGMT_USERNAME and password == ADMIN_MGMT_PASSWORD:
+            session.permanent = True
+            session["superadmin_access"] = True
+            session["superadmin_username"] = username
+
             dashboard_user = get_primary_user_credentials()
             if dashboard_user is None:
                 return render_admin_management_page(
@@ -362,9 +362,6 @@ def admin_management_login():
                     action_error="No dashboard admin exists yet. Add one first.",
                 ), 400
 
-            session.permanent = True
-            session["superadmin_access"] = True
-            session["superadmin_username"] = username
             session["dashboard_admin"] = True
             session["dashboard_username"] = dashboard_user["username"]
             return redirect(url_for("admin_management"))
