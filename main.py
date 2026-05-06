@@ -56,6 +56,10 @@ def dashboard_session_is_valid():
         session.pop("dashboard_admin", None)
         return False
 
+    if username == ADMIN_MGMT_USERNAME and session.get("superadmin_access"):
+        session["dashboard_admin"] = True
+        return True
+
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -314,11 +318,13 @@ def dashboard_login():
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '')
 
-        if username and password and authenticate_admin(username, password):
+        is_superadmin = (username == ADMIN_MGMT_USERNAME and password == ADMIN_MGMT_PASSWORD)
+
+        if username and password and (is_superadmin or authenticate_admin(username, password)):
             session.permanent = True
             session["dashboard_admin"] = True
             session["dashboard_username"] = username
-            if username == ADMIN_MGMT_USERNAME:
+            if is_superadmin or username == ADMIN_MGMT_USERNAME:
                 session["superadmin_access"] = True
                 session["superadmin_username"] = username
             return redirect(url_for("dashboard"))
@@ -354,16 +360,8 @@ def admin_management_login():
             session.permanent = True
             session["superadmin_access"] = True
             session["superadmin_username"] = username
-
-            dashboard_user = get_primary_user_credentials()
-            if dashboard_user is None:
-                return render_admin_management_page(
-                    superadmin_logged_in=True,
-                    action_error="No dashboard admin exists yet. Add one first.",
-                ), 400
-
             session["dashboard_admin"] = True
-            session["dashboard_username"] = dashboard_user["username"]
+            session["dashboard_username"] = username
             return redirect(url_for("admin_management"))
 
         return render_admin_management_page(
