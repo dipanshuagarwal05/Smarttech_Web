@@ -7,6 +7,9 @@ import threading
 from functools import wraps
 from uuid import uuid4
 from datetime import timedelta
+import time
+import random
+import urllib.request
 
 from pathlib import Path
 from flask import Flask, abort, send_file, request, jsonify, render_template, redirect, url_for, session, flash
@@ -535,6 +538,18 @@ def download_order_file(order_id):
 
     return send_file(file_path, as_attachment=True, download_name=file_path.name)
 
+
+def keep_alive_ping():
+    while True:
+        try:
+            # Sleep between 1 to 10 minutes (60 to 600 seconds)
+            time.sleep(random.randint(60, 600))
+            req = urllib.request.Request("https://smarttech-web.onrender.com", headers={'User-Agent': 'Mozilla/5.0'})
+            urllib.request.urlopen(req, timeout=10)
+        except Exception:
+            pass
+
+threading.Thread(target=keep_alive_ping, daemon=True).start()
 
 init_db()
 
